@@ -10,8 +10,8 @@ import pygame
 pygame.init()
 
 # Set screen size variables
-width = 500
-height = 500
+width = 800
+height = 600
 # Create the screen
 screen = pygame.display.set_mode((width, height))
 # Change the window name
