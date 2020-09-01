@@ -120,6 +120,9 @@ class Login:
                     # The player could tape the password but not the username
                     self.password_status = True
                     self.username_status = False
+                elif not self.password_rect.collidepoint(event.pos):
+                    self.password_status = False
+                    self.username_status = False
 
             # If the player could tape in username rect
             if self.username_status == True:
