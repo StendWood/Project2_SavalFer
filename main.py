@@ -4,33 +4,26 @@
 import pygame
 
 # Additional code
+from game.game import Game
+from game.login import Login
 
-
-# Pygame init
-pygame.init()
-
-# Set screen size variables
-width = 800
-height = 600
-# Create the screen
-screen = pygame.display.set_mode((width, height))
-# Change the window name
-pygame.display.set_caption("SavalFer")
-
-
-# Main loop
 def main():
     """
-        Main game loop
+        Main loop
     """
-    run = True
-    while run:
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-
+    # Create a game object
+    game = Game()
+    # Launch the login screen
+    game.login_screen()
+    while game.login_flag:
+        # Login screen refresh
+        game.login.show_login_screen()
+        # Login screen inputs
+        game.login.login_input()
+    # Game inputs
+    while game.running:
+        game.run()
 
 if __name__ == "__main__":
     main()
