@@ -73,9 +73,18 @@ class Game:
                 self.running = False
                 self.save_cfg()
                 pygame.quit()
+            # get what the player has done
+            # detect if the player release a key from the keypad
+            elif event.type == pygame.KEYDOWN:
+                self.pressed[event.key] = True
+            # detect if the key is no more used
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    self.player.jump()
+                self.pressed[event.key] = False
         
         # check if the player want to go to the right
-        if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < screen.get_width() :   
+        if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < self.screen.get_width() :   
             self.player.move_right() 
         # check if the player want to go to the left
         elif self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0: 
@@ -84,20 +93,26 @@ class Game:
         elif self.pressed.get(pygame.K_UP) and self.player.rect.y > 0:  
             self.player.move_up() 
         # check if the player want to go down
-        elif self.pressed.get(pygame.K_DOWN) and self.player.rect.y + self.player.rect.height < screen.get_height():   
+        elif self.pressed.get(pygame.K_DOWN) and self.player.rect.y + self.player.rect.height < self.screen.get_height():   
             self.player.move_down()  
         # check if the player want to jump
-        elif self.pressed.get(pygame.K_SPACE) and self.player.rect.y > 0 :
-            self.player.jump()  
+        # elif self.pressed.get(pygame.K_SPACE) and self.player.rect.y > 0 :
+        #     self.player.jump()  
 
     def update(self):
         """
             Update the rects / screen / stuff
         """
         
+        # Bg refresh
+        self.screen.blit(pygame.image.load("img/bg/map-1.png"),(0, 50))
         # show the player
-        screen.blit(self.player.image, self.player.rect)
+        self.screen.blit(self.player.image, self.player.rect)
 
+        # update the window
+        pygame.display.flip()
+
+        
 
 
     def login_screen(self):

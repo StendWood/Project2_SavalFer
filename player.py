@@ -18,7 +18,7 @@ class Player():
         self.velocity = 1                         # ! =  velocity_player
         self.jump_height = 5
         self.jump_velocity = 3
-        self.image = pygame.image.load('images/idle_01.png')
+        self.image = pygame.image.load('img/avatar/avatar.png')
         self.rect = self.image.get_rect() 
         self.rect.x = 170
         self.rect.y = 6
@@ -60,8 +60,7 @@ class Player():
         """
             the player jumps and go forward
         """
-
-        print("\nJUMP\n")
+        
         self.rect.y -= self.jump_height
         self.rect.x += self.jump_velocity
 
