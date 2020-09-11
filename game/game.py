@@ -7,6 +7,7 @@ import json
 # Additional code
 from game.config import *
 from game.login import Login
+from player import Player
 
 class Game:
     """
@@ -35,6 +36,11 @@ class Game:
         # Create the clock
         self.clock = pygame.time.Clock()
         self.running = True
+
+        # generate our player for new party
+        self.player = Player()
+        # touch pressed
+        self.pressed = {} 
 
 
     def run(self):
@@ -67,13 +73,31 @@ class Game:
                 self.running = False
                 self.save_cfg()
                 pygame.quit()
-
+        
+        # check if the player want to go to the right
+        if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < screen.get_width() :   
+            self.player.move_right() 
+        # check if the player want to go to the left
+        elif self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0: 
+            self.player.move_left()  
+        # check if the player want to go up
+        elif self.pressed.get(pygame.K_UP) and self.player.rect.y > 0:  
+            self.player.move_up() 
+        # check if the player want to go down
+        elif self.pressed.get(pygame.K_DOWN) and self.player.rect.y + self.player.rect.height < screen.get_height():   
+            self.player.move_down()  
+        # check if the player want to jump
+        elif self.pressed.get(pygame.K_SPACE) and self.player.rect.y > 0 :
+            self.player.jump()  
 
     def update(self):
         """
             Update the rects / screen / stuff
         """
         
+        # show the player
+        screen.blit(self.player.image, self.player.rect)
+
 
 
     def login_screen(self):
