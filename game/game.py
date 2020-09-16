@@ -9,6 +9,8 @@ from game.config import *
 from game.login import Login
 from game.player import Player
 from game.camera import Camera
+from game.data.map import Map
+from game.obstacles import Wall
 
 class Game:
     """
@@ -84,17 +86,26 @@ class Game:
                 self.pressed[event.key] = False
         
         # check if the player want to go to the right
-        if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < self.screen.get_width() :   
-            self.player.move_right() 
+        if (self.pressed.get(pygame.K_RIGHT) or self.pressed.get(pygame.K_d)):
+            self.player.move_right()
         # check if the player want to go to the left
-        elif self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0: 
-            self.player.move_left()  
+        elif self.pressed.get(pygame.K_LEFT)or self.pressed.get(pygame.K_q):
+            self.player.move_left()
         # check if the player want to go up
-        elif self.pressed.get(pygame.K_UP) and self.player.rect.y > 0:  
-            self.player.move_up() 
+        elif self.pressed.get(pygame.K_UP) or self.pressed.get(pygame.K_z):
+            self.player.move_up()
         # check if the player want to go down
-        elif self.pressed.get(pygame.K_DOWN) and self.player.rect.y + self.player.rect.height < self.screen.get_height():   
-            self.player.move_down()  
+        elif self.pressed.get(pygame.K_DOWN) or self.pressed.get(pygame.K_s):
+            self.player.move_down()
+        # Reset animation when idle
+        if all(not value for value in self.pressed.values()) and self.player.status not in ["idle_up", "idle_down"]:
+            # If no key is pressed and status is not idle
+            if self.player.status == "run_up":
+                self.player.change_action("idle_up")
+            elif self.player.status == "run_down":
+                self.player.change_action("idle_down")
+            elif self.player.status == "run_side":
+                self.player.change_action("idle_side")
 
 
     def draw(self):
@@ -104,13 +115,18 @@ class Game:
 
         # FPS counter
         pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        # Bg refresh
-        self.screen.blit(pygame.image.load("img/bg/map-1.png"),(0, 50))
+        # Map
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
 
         # Draw every sprites (Player and monsters)
-        # for sprite in self.all_sprites:
-        #     self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
-        self.screen.blit(self.player.image, self.camera.apply_rect(self.player.rect))
+        for sprite in self.all_sprites:
+            if self.player.flip:
+                self.screen.blit(pygame.transform.flip(sprite.image, True, False), self.camera.apply_rect(sprite.rect))
+            else:
+                self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
+
+        for wall in self.walls:
+            wall.show_wall()
 
         # update the window
         pygame.display.update()
@@ -121,6 +137,7 @@ class Game:
             Update the rects / pos / everything
         """
 
+        self.player.update()
         self.camera.update(self.player)
 
 
@@ -168,13 +185,26 @@ class Game:
         """
 
         # Load the world map
-        pass
+        self.map = Map("assets/maps/world_map/world_map.tmx")
+        # Create the map image
+        self.map_img = self.map.make_map()
+        # Create the map rect
+        self.map_rect = self.map_img.get_rect()
         # Manage the sprites
+        i = 0
         self.walls = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
         # generate our player for new party
-        self.player = Player()
-        self.all_sprites.add(self.player)
+        for tile_object in self.map.tmxdata.objects:
+            # Spawn the player
+            if tile_object.name == "player":
+                self.player = Player(tile_object.x, tile_object.y, "img/avatar/1/")
+                self.all_sprites.add(self.player)
+        # Spawn the walls
+            if tile_object.name == "wall":
+                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                exec(f"self.wall_{i} = Wall(rect, self)")
+                eval(f"self.walls.add(self.wall_{i})")
+                i += 1
         # Create the camera
-        self.camera = Camera(800, 600)
-        # self.camera = Camera(self.map.width, self.map.height)
+        self.camera = Camera(self.map.width, self.map.height)

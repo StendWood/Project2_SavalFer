@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="26">
+ <editorsettings>
+  <chunksize width="32" height="32"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../../tilesets/world_map/AllAssetsPreview.tsx"/>
+ <layer id="4" name="ground" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <objectgroup id="2" name="Spawner">
+  <object id="1" name="player" x="736" y="1552" width="16" height="16"/>
+ </objectgroup>
+</map>

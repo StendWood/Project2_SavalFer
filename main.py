@@ -7,6 +7,7 @@ import pygame
 from game.config import *
 from game.game import Game
 
+
 def main():
     """
         Main loop
