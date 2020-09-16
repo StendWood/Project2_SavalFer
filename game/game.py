@@ -7,6 +7,7 @@ import json
 # Additional code
 from game.config import *
 from game.login import Login
+from game.player import Player
 
 class Game:
     """
@@ -35,6 +36,8 @@ class Game:
         # Create the clock
         self.clock = pygame.time.Clock()
         self.running = True
+        # touch pressed
+        self.pressed = {} 
 
 
     def run(self):
@@ -52,6 +55,8 @@ class Game:
             self.event()
             # Update
             self.update()
+            # Draw
+            self.draw()
 
 
     def event(self):
@@ -67,13 +72,52 @@ class Game:
                 self.running = False
                 self.save_cfg()
                 pygame.quit()
+            # get what the player has done
+            # detect if the player release a key from the keypad
+            elif event.type == pygame.KEYDOWN:
+                self.pressed[event.key] = True
+            # detect if the key is no more used
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    self.player.jump()
+                self.pressed[event.key] = False
+        
+        # check if the player want to go to the right
+        if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < self.screen.get_width() :   
+            self.player.move_right() 
+        # check if the player want to go to the left
+        elif self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0: 
+            self.player.move_left()  
+        # check if the player want to go up
+        elif self.pressed.get(pygame.K_UP) and self.player.rect.y > 0:  
+            self.player.move_up() 
+        # check if the player want to go down
+        elif self.pressed.get(pygame.K_DOWN) and self.player.rect.y + self.player.rect.height < self.screen.get_height():   
+            self.player.move_down()  
+
+
+    def draw(self):
+        """
+            Draw the elements and refresh the screen
+        """
+
+        # FPS counter
+        pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
+        # Bg refresh
+        self.screen.blit(pygame.image.load("img/bg/map-1.png"),(0, 50))
+        # show the player
+        self.screen.blit(self.player.image, self.player.rect)
+
+        # update the window
+        pygame.display.update()
 
 
     def update(self):
         """
-            Update the rects / screen / stuff
+            Update the rects / pos / everything
         """
-        
+
+        pass
 
 
     def login_screen(self):
@@ -112,3 +156,20 @@ class Game:
             print("\nConfig saved.")
         except FileNotFoundError:
             print("\nERROR: cfg.json not found.")
+
+
+    def launch_game(self):
+        """
+            Launch a new game | Create the map, the camera, the player
+        """
+
+        # Load the world map
+        pass
+        # Manage the sprites
+        self.walls = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.Group()
+        # generate our player for new party
+        self.player = Player()
+        self.all_sprites.add(self.player)
+        # Create the camera
+        self.camera = Camera(self.map.width, self.map.height)

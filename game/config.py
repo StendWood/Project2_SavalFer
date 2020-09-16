@@ -4,7 +4,7 @@
 WIDTH = 800
 HEIGHT = 600
 
-FPS = 60
+FPS = 120
 
 # COLOR
 WHITE = (255, 255, 255)
