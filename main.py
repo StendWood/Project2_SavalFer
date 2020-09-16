@@ -27,14 +27,6 @@ def main():
         #     game.login.login_input()
         # Game inputs
         while game.running:
-            ###########################################
-            #   HORRID CODE DON'T DO THIS AT HOME     #
-            ###########################################
-            game.screen.fill(BLACK)                   #
-            game.screen.blit(pygame.image.load("img/bg/map-1.png"),(0, 50))
-            pygame.display.flip()                     #
-            ###########################################
-            ###########################################
             game.run()
 
 
