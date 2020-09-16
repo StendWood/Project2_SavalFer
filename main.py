@@ -27,9 +27,8 @@ def main():
         #     game.login.login_input()
         # Game inputs
         while game.running:
+            game.launch_game()
             game.run()
-
-
 
 if __name__ == "__main__":
     main()

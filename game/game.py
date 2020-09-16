@@ -8,6 +8,7 @@ import json
 from game.config import *
 from game.login import Login
 from game.player import Player
+from game.camera import Camera
 
 class Game:
     """
@@ -105,8 +106,11 @@ class Game:
         pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         # Bg refresh
         self.screen.blit(pygame.image.load("img/bg/map-1.png"),(0, 50))
-        # show the player
-        self.screen.blit(self.player.image, self.player.rect)
+
+        # Draw every sprites (Player and monsters)
+        # for sprite in self.all_sprites:
+        #     self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
+        self.screen.blit(self.player.image, self.camera.apply_rect(self.player.rect))
 
         # update the window
         pygame.display.update()
@@ -117,7 +121,7 @@ class Game:
             Update the rects / pos / everything
         """
 
-        pass
+        self.camera.update(self.player)
 
 
     def login_screen(self):
@@ -172,4 +176,5 @@ class Game:
         self.player = Player()
         self.all_sprites.add(self.player)
         # Create the camera
-        self.camera = Camera(self.map.width, self.map.height)
+        self.camera = Camera(800, 600)
+        # self.camera = Camera(self.map.width, self.map.height)
