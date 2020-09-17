@@ -2,6 +2,7 @@
 
 # imports
 import pygame
+from pygame.sprite import collide_rect
 
 
 class Player(pygame.sprite.Sprite):
@@ -9,26 +10,37 @@ class Player(pygame.sprite.Sprite):
         Player class
     """
 
-    def __init__(self, x: int, y: int, img: str):
+    def __init__(self, x: int, y: int, img: str, game):
         """
             Constructor | img: is the path of the avatar files
         """
 
+        # Access game
+        self.game = game
         # Init the sprite class
         pygame.sprite.Sprite.__init__(self)
+        # Stats
         self.health = 100                         # ! = health_player
         self.max_health = 100                         # ! =  max_health_player
-        self.velocity = 1                         # ! =  velocity_player
+        self.velocity = 5                        # ! =  velocity_player
         self.jump_height = 5
-        self.jump_velocity = 3
+        self.jump_velocity = 10
+
         # Images
         self.animations_frames = {}
         self.img_path = img
         self.image = pygame.image.load(f"{self.img_path}idle_down/idle_down_0.png")
+
         # Rect
         self.rect = self.image.get_rect() 
         self.rect.x = x
         self.rect.y = y
+
+        # hitbox
+        self.hitbox_offset_x = 7
+        self.hitbox_offset_y = 15
+        self.hitbox = pygame.Rect(self.rect.center[0] - self.hitbox_offset_x, self.rect.center[1] - self.hitbox_offset_y, 15, 40)
+
         # Manage sprite animation
         self.animation_database = {}
         # Idle
@@ -46,64 +58,34 @@ class Player(pygame.sprite.Sprite):
         self.flip = False
 
 
-    def move_right(self):
+    def move(self, action: str, direction: str, flip: bool =False):
         """
-            Move the player to the right
-        """
-
-        # Change player action
-        self.change_action("run_side")
-        self.flip = False
-        # Move the rect
-        self.rect.x += self.velocity
-
-
-    def move_left(self):
-        """
-            Move the player to the left
+            Manage the player movmeents and collisions
         """
 
         # Change player action
-        self.change_action("run_side")
-        self.flip = True
-        # Move the rect
-        self.rect.x -= self.velocity
-
-
-    def move_up(self):
-        """
-            Move the player up
-        """
-
-        # Change player action
-        self.change_action("run_up")
-        self.flip = False
-        # Move the rect
-        self.rect.y -= self.velocity
-    
-
-    def move_down(self):
-        """
-            Move the player down
-        """
-
-        # Change player action
-        self.change_action("run_down")
-        self.flip = False
-        # Move the rect
-        self.rect.y += self.velocity
-
-
-    def jump(self):
-        """
-            the player jumps and go forward
-        """
-
-        # Change player action
-        # self.change_action("jump")
-        # Move the rect
-        self.rect.y -= self.jump_height
-        self.rect.x += self.jump_velocity
+        self.change_action(action)
+        self.flip = flip
+        # Right
+        if direction == "right":
+            self.hitbox.x += self.velocity
+            if not self.collision_checker() and self.hitbox.x < self.game.map.width - self.hitbox.w:
+                self.rect.x += self.velocity
+        #Left
+        if direction == "left":
+            self.hitbox.x -= self.velocity
+            if not self.collision_checker() and self.hitbox.x > 0:
+                self.rect.x -= self.velocity
+        # Down
+        if direction == "down":
+            self.hitbox.y += self.velocity
+            if not self.collision_checker() and self.hitbox.y < self.game.map.height - self.hitbox.h:
+                self.rect.y += self.velocity
+        # Up
+        if direction == "up":
+            self.hitbox.y -= self.velocity
+            if not self.collision_checker() and self.hitbox.y > 0:
+                self.rect.y -= self.velocity
 
 
     def update(self):
@@ -121,6 +103,10 @@ class Player(pygame.sprite.Sprite):
         # Find the frame under the current status and get the specific image id for the actual frame
         img_id = self.animation_database[self.status][self.frame]
         self.image = self.animations_frames[img_id]
+
+        # Update the hitbox
+        self.hitbox.x = self.rect.center[0] - self.hitbox_offset_x
+        self.hitbox.y = self.rect.center[1] - self.hitbox_offset_y
 
 
     def load_animation(self, path: str, frame_durations: list):
@@ -158,3 +144,13 @@ class Player(pygame.sprite.Sprite):
         if self.status != new_value:
             self.status = new_value
             self.frame = 0
+
+
+    def collision_checker(self):
+        """
+            Check collision between any obstacles and any sprites
+        """
+
+        for wall in self.game.walls:
+            if self.hitbox.colliderect(wall.rect):
+                return True

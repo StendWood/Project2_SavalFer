@@ -22,4 +22,8 @@ class Wall(pygame.sprite.Sprite):
 
 
     def show_wall(self):
+        """
+            Debug show rect
+        """
+
         pygame.draw.rect(self.game.screen, (255, 0, 0), self.game.camera.apply_rect(self.rect), 2)

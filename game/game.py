@@ -85,18 +85,24 @@ class Game:
                     self.player.jump()
                 self.pressed[event.key] = False
         
+        # Manage movements inputs
         # check if the player want to go to the right
         if (self.pressed.get(pygame.K_RIGHT) or self.pressed.get(pygame.K_d)):
-            self.player.move_right()
+            # Check for collisions and move the player
+            self.player.move("run_side", "right")
         # check if the player want to go to the left
-        elif self.pressed.get(pygame.K_LEFT)or self.pressed.get(pygame.K_q):
-            self.player.move_left()
+        if self.pressed.get(pygame.K_LEFT)or self.pressed.get(pygame.K_q):
+            # Check for collisions and move the player
+            self.player.move("run_side", "left", True)
         # check if the player want to go up
-        elif self.pressed.get(pygame.K_UP) or self.pressed.get(pygame.K_z):
-            self.player.move_up()
+        if self.pressed.get(pygame.K_UP) or self.pressed.get(pygame.K_z):
+            # Check for collisions and move the player
+            self.player.move("run_up", "up")
         # check if the player want to go down
-        elif self.pressed.get(pygame.K_DOWN) or self.pressed.get(pygame.K_s):
-            self.player.move_down()
+        if self.pressed.get(pygame.K_DOWN) or self.pressed.get(pygame.K_s):
+            # Check for collisions and move the player
+            self.player.move("run_down", "down")
+
         # Reset animation when idle
         if all(not value for value in self.pressed.values()) and self.player.status not in ["idle_up", "idle_down"]:
             # If no key is pressed and status is not idle
@@ -124,9 +130,17 @@ class Game:
                 self.screen.blit(pygame.transform.flip(sprite.image, True, False), self.camera.apply_rect(sprite.rect))
             else:
                 self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
-
+        # Map foreground
+        self.screen.blit(self.map_foreground_img, self.camera.apply_rect(self.map_rect))
+        # DEBUG
+        # Obstacles
+        # Show walls
         for wall in self.walls:
             wall.show_wall()
+        # HITBOXES
+        # Show player hitbox
+        # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.rect), 2)
+        pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
 
         # update the window
         pygame.display.update()
@@ -186,8 +200,10 @@ class Game:
 
         # Load the world map
         self.map = Map("assets/maps/world_map/world_map.tmx")
+        self.map_foreground = Map("assets/maps/world_map/world_map_foreground.tmx")
         # Create the map image
         self.map_img = self.map.make_map()
+        self.map_foreground_img = self.map_foreground.make_map()
         # Create the map rect
         self.map_rect = self.map_img.get_rect()
         # Manage the sprites
@@ -198,7 +214,7 @@ class Game:
         for tile_object in self.map.tmxdata.objects:
             # Spawn the player
             if tile_object.name == "player":
-                self.player = Player(tile_object.x, tile_object.y, "img/avatar/1/")
+                self.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self)
                 self.all_sprites.add(self.player)
         # Spawn the walls
             if tile_object.name == "wall":
