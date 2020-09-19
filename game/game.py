@@ -135,12 +135,12 @@ class Game:
         # DEBUG
         # Obstacles
         # Show walls
-        for wall in self.walls:
-            wall.show_wall()
+        # for wall in self.walls:
+        #     wall.show_wall()
         # HITBOXES
         # Show player hitbox
         # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.rect), 2)
-        pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
+        # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
 
         # update the window
         pygame.display.update()
