@@ -57,6 +57,9 @@ class Player(pygame.sprite.Sprite):
         # Manage the flip status
         self.flip = False
 
+        # Manage world position
+        self.current_map = "worldmap"
+
 
     def move(self, action: str, direction: str, flip: bool =False):
         """
@@ -69,7 +72,7 @@ class Player(pygame.sprite.Sprite):
         # Right
         if direction == "right":
             self.hitbox.x += self.velocity
-            if not self.collision_checker() and self.hitbox.x < self.game.map.width - self.hitbox.w:
+            if not self.collision_checker() and self.hitbox.x < self.game.maps["worldmap"]["rect"].width - self.hitbox.w:
                 self.rect.x += self.velocity
         #Left
         if direction == "left":
@@ -79,7 +82,7 @@ class Player(pygame.sprite.Sprite):
         # Down
         if direction == "down":
             self.hitbox.y += self.velocity
-            if not self.collision_checker() and self.hitbox.y < self.game.map.height - self.hitbox.h:
+            if not self.collision_checker() and self.hitbox.y < self.game.maps["worldmap"]["rect"].height - self.hitbox.h:
                 self.rect.y += self.velocity
         # Up
         if direction == "up":

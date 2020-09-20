@@ -58,3 +58,8 @@ DB_PREFIX = "Projet_2"
 # 2
 # Username = Beta_Test2
 # Password = Test_2022!
+
+# GAME
+
+# Warper
+WARPER_FONT="assets/fonts/CompassPro.ttf"

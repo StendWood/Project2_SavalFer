@@ -912,7 +912,7 @@
   <object id="98" name="wall" x="3136" y="384" width="64" height="64"/>
   <object id="99" name="wall" x="3072" y="416" width="64" height="64"/>
   <object id="101" name="water_supply" x="1856" y="128" width="64" height="64"/>
-  <object id="102" name="moutain_village_warper" x="736" y="160" width="64" height="32"/>
+  <object id="102" name="EdWorld_warper" x="736" y="160" width="64" height="32"/>
   <object id="105" name="wall" x="1216" y="576" width="64" height="64"/>
   <object id="106" name="wall" x="1152" y="512" width="192" height="64"/>
   <object id="107" name="wall" x="1408" y="512" width="128" height="64"/>

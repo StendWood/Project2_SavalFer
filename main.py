@@ -24,7 +24,7 @@ def main():
         # while game.login_flag:
         #     # Login screen refresh
         #     game.login.show_login_screen()
-        #     # Login screen inputs
+        #     # Login screen inputs 
         #     game.login.login_input()
         # Game inputs
         while game.running:

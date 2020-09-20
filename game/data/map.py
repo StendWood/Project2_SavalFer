@@ -52,3 +52,24 @@ class Map:
         # Render the map on the temp_surface
         self.render(temp_surface)
         return temp_surface
+
+
+    @staticmethod
+    def map_loader(game):
+        """
+            Load every map of the game
+        """
+
+        # Give access to game
+        game = game
+# Load the maps
+    # WORLDMAP
+        game.maps["worldmap"]["map"] = Map("assets/maps/world_map/world_map.tmx")
+        game.maps["worldmap"]["foreground"] = Map("assets/maps/world_map/world_map_foreground.tmx")
+# Create the maps image
+    # WORLDMAP
+        game.maps["worldmap"]["img"] = game.maps["worldmap"]["map"].make_map()
+        game.maps["worldmap"]["fg_img"] = game.maps["worldmap"]["foreground"].make_map()
+# Create the maps rect
+    # WORLDMAP
+        game.maps["worldmap"]["rect"] = game.maps["worldmap"]["img"].get_rect()
