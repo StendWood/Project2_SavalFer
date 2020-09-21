@@ -3,6 +3,7 @@
 # Imports
 import pygame
 import json
+import time
 
 from pygame.constants import KEYUP
 
@@ -36,7 +37,7 @@ class Game:
         self.login_field_title_font = pygame.font.SysFont(LOGIN_FONT, 30)
         self.validate_button_font = pygame.font.SysFont(VALIDATE_FONT, 25)
         self.login_error_font = pygame.font.SysFont(ERROR_FONT, 15)
-        self.warper_font = pygame.font.Font(WARPER_FONT, 22)
+        self.warper_font = pygame.font.Font(WARPER_FONT, 20)
 
         # Create the screen
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -56,35 +57,38 @@ class Game:
             "worldmap" :
                 {
                     # Map instance
-                    "map" : "",
+                    "map" : None,
                     # Map foreground instance
-                    "foreground" : "",
+                    "foreground" : None,
                     # Map image
-                    "img" : "",
+                    "img" : None,
                     # Map foreground image
-                    "fg_img" : "",
+                    "fg_img" : None,
                     # Map Rect
-                    "rect" : "",
+                    "rect" : None,
+                    # Loading BG
+                    "loading" : None,
                 },
             "EdWorld" :
                 {
                     # Map instance
-                    "map" : "",
+                    "map" : None,
                     # Map foreground instance
-                    "foreground" : "",
+                    "foreground" : None,
                     # Map image
-                    "img" : "",
+                    "img" : None,
                     # Map foreground image
-                    "fg_img" : "",
+                    "fg_img" : None,
                     # Map Rect
-                    "rect" : "",
+                    "rect" : None,
+                    # Loading BG
+                    "loading" : None,
                 },
             
         }
         # Flag management
         self.warper_popup_flag = False
         self.current_warper = None
-        # self.worldmap_flag = False
 
 
     def run(self):
@@ -105,6 +109,8 @@ class Game:
             if not self.warper_popup_flag:
                 # Popup is not active
                 if self.player.current_map == "worldmap":
+                    self.worldmap_event()
+                elif self.player.current_map == "EdWorld":
                     self.worldmap_event()
             elif self.warper_popup_flag:
                 # Popup is active
@@ -195,14 +201,15 @@ class Game:
             else:
                 self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
         # Map foreground
-        self.screen.blit(self.maps[self.player.current_map]["fg_img"], 
-                        self.camera.apply_rect(self.maps[self.player.current_map]["rect"]))
+        if self.maps[self.player.current_map]["fg_img"] != None:
+            self.screen.blit(self.maps[self.player.current_map]["fg_img"], 
+                            self.camera.apply_rect(self.maps[self.player.current_map]["rect"]))
 
         if self.warper_popup_flag:
             # Show the popup background
             self.screen.blit(self.warper_popup_img, (250, 450))
             # Blit the text
-            self.screen.blit(self.warper_font.render("Do you want to enter ?", True, BLACK), (295, 460))
+            self.screen.blit(self.warper_font.render(f"Do you want to enter {self.current_warper}?", True, BLACK), (275, 460))
             # Show the options
             # Yes
             self.screen.blit(self.warper_font.render("Yes : Press F", True, BLACK), (340, 490))
@@ -239,6 +246,8 @@ class Game:
                 if event.key == pygame.K_f:
                     self.player.current_map = self.current_warper
                     self.warper_popup_flag = False
+                    self.maps[self.player.current_map]["map"].transition(self.player.current_map)
+                    time.sleep(2)
                 elif event.key == pygame.K_x:
                     self.warper_popup_flag = False
 
@@ -315,31 +324,14 @@ class Game:
         """
 
         # Load the Maps
-        Map.map_loader(self)
+        Map.loader(self)
         # Manage the sprites
         # Create the sprites groups
         self.walls = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
         self.warpers = pygame.sprite.Group()
-        # generate our player for new party
-        for tile_object in self.maps["worldmap"]["map"].tmxdata.objects:
-            # Spawn the player
-            if tile_object.name == "player":
-                self.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self)
-                self.all_sprites.add(self.player)
-            # Spawn the walls
-            if tile_object.name == "wall":
-                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
-                self.walls.add(Wall(rect, self))
-            # Spawn the warpers
-            if "warper" in tile_object.name:
-                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
-                # Create a temp warper
-                temp_warper = Warper(rect, self)
-                # Add the name
-                setattr(temp_warper, "name", tile_object.name.split("_")[0])
-                # Save the warper in the sprite group
-                self.warpers.add(temp_warper)
+        # Generate the player / walls  / warpers
+        self.maps["worldmap"]["map"].create_obstacles_n_warpers("worldmap", True, False)
 
         #########
         # DEBUG #

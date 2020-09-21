@@ -26,8 +26,11 @@ class Warper(pygame.sprite.Sprite):
             Check if the warper rect is touching the player rect => Show a prompt to let the player enter a new map
         """
 
+        # Check for collision
         if self.rect.colliderect(self.game.player.rect):
+            # Set warper collision to True
             self.game.warper_popup_flag = True
+            # Set the current warper
             self.game.current_warper = self.name
 
 
