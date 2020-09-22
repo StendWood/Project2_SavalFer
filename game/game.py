@@ -87,7 +87,6 @@ class Game:
                     # Loading BG
                     "loading" : None,
                 },
-            
         }
 
         # Flag management
@@ -212,7 +211,7 @@ class Game:
             else:
                 self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
         # Map foreground
-        if self.maps[self.player.current_map]["fg_img"] != None:
+        if self.maps[self.player.current_map]["fg_img"] is not None:
             self.screen.blit(self.maps[self.player.current_map]["fg_img"], 
                             self.camera.apply_rect(self.maps[self.player.current_map]["rect"]))
 
@@ -239,16 +238,16 @@ class Game:
             # No
             self.screen.blit(self.warper_font.render("No : Press X", True, BLACK), (340, 520))
 
-        #########
-        # DEBUG #
-        #########
-        # Obstacles
-        # Show walls
-        for wall in self.walls:
-            wall.show_wall()
-        # HITBOXES
-        # Show player hitbox
-        pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
+        # #########
+        # # DEBUG #
+        # #########
+        # # Obstacles
+        # # Show walls
+        # for wall in self.walls:
+        #     wall.show_wall()
+        # # HITBOXES
+        # # Show player hitbox
+        # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
 
         # Update the window
         pygame.display.update()

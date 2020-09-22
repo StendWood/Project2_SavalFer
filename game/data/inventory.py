@@ -26,9 +26,11 @@ class Inventory:
         self.items = []
 
         # Tooltip
+        self.tooltip_img = pygame.image.load("img/inventory/tooltip.png")
         self.tooltip_x = 200
         self.tooltip_y = 75
         self.tooltip_surface = pygame.Surface((self.tooltip_x, self.tooltip_y), SRCALPHA)
+        self.tooltip_surface.blit(self.tooltip_img, (0, 0))
 
     def get_player_object(self):
         """
@@ -80,9 +82,17 @@ class Inventory:
         # Check every item for collision
         for item in self.items:
             if item.image.get_rect(x=item.rect.x, y=item.rect.y).collidepoint(pygame.mouse.get_pos()):
-                # Blit the surface at the mouse collide point
-                self.tooltip_surface.blit(self.game.inventory_font.render(item.tooltip, True, (0, 0, 0)), (10, 10))
+                # 
+                for info in item.tooltip:
+                    self.tooltip_surface.blit(
+                        self.game.inventory_font.render(
+                        info.capitalize(), True, (0, 0, 0)),
+                        (10, 20*item.tooltip.index(info) + 5)
+                    )
                 self.game.screen.blit(
                     self.tooltip_surface,
                     (pygame.mouse.get_pos()[0],
                     pygame.mouse.get_pos()[1] - self.tooltip_y,))
+            else:
+                # Clear the tooltip surface from any previous text
+                self.tooltip_surface.blit(self.tooltip_img, (0, 0))
