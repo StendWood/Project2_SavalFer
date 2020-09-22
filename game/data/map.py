@@ -58,7 +58,7 @@ class Map:
         return temp_surface
 
 
-    def create_obstacles_n_warpers(self, map_name, create_player: bool=False, move_player: bool=True):
+    def create_obstacles_n_warpers(self, map_name, create_player: bool=False, move_player: bool=True, old_pos: bool=False):
         # Generate the player / walls  / warpers
         for tile_object in self.game.maps[map_name]["map"].tmxdata.objects:
             # Spawn the player
@@ -66,24 +66,32 @@ class Map:
                 if create_player:
                     self.game.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self.game)
                     self.game.all_sprites.add(self.game.player)
-                    print("Player created.")
+                    # print("Player created.")
                 elif move_player:
-                    self.game.player.rect.x, self.game.player.rect.y = tile_object.x, tile_object.y
-                    print("Player moved.")
+                    # Move the player
+                    if not old_pos:
+                        self.game.player.rect.x, self.game.player.rect.y = tile_object.x, tile_object.y
+                        # print("Player spawned.")
+                    else:
+                        self.game.player.rect.x, self.game.player.rect.y = self.game.player.old_pos[0], self.game.player.old_pos[1]
+                        # print("Player moved.")
             # Spawn the walls
             if tile_object.name == "wall":
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                 self.game.walls.add(Wall(rect, self.game))
             # Spawn the warpers
-            if "warper" in tile_object.name:
-                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
-                # Create a temp warpers
-                temp_warper = Warper(rect, self.game)
-                # Add the name
-                setattr(temp_warper, "name", tile_object.name.split("_")[0])
-                # Save the warper in the sprite group
-                self.game.warpers.add(temp_warper)
-                print("Warper created.")
+            try:
+                if "warper" in tile_object.name:
+                    rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                    # Create a temp warpers
+                    temp_warper = Warper(rect, self.game)
+                    # Add the name
+                    setattr(temp_warper, "name", tile_object.name.split("_")[0])
+                    # Save the warper in the sprite group
+                    self.game.warpers.add(temp_warper)
+                    # print("Warper created.")
+            except TypeError as e:
+                print(e)
 
 
     def transition(self, map_name):
@@ -98,7 +106,10 @@ class Map:
         self.game.walls.empty()
         self.game.warpers.empty()
         # Create the new map obstacles, warpers and move the player
-        self.create_obstacles_n_warpers(map_name)
+        if self.game.player.current_map != "worldmap":
+            self.create_obstacles_n_warpers(map_name)
+        else:
+            self.create_obstacles_n_warpers(map_name, old_pos=True)
 
 
     @staticmethod

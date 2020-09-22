@@ -1,8 +1,11 @@
 # coding: utf-8
 
 # imports
+from game.data.inventory import Inventory
 import pygame
-from pygame.sprite import collide_rect
+
+# Additionnal code
+from game.data.inventory import Inventory
 
 
 class Player(pygame.sprite.Sprite):
@@ -19,10 +22,17 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         # Init the sprite class
         pygame.sprite.Sprite.__init__(self)
+
+        # Data
+        self.id = 1
+
+        # Inventory
+        self.inventory = Inventory(game, self.id)
+        self.inventory.get_player_object()
         # Stats
-        self.health = 100                         # ! = health_player
-        self.max_health = 100                         # ! =  max_health_player
-        self.velocity = 5                        # ! =  velocity_player
+        self.health = 100
+        self.max_health = 100
+        self.velocity = 5
         self.jump_height = 5
         self.jump_velocity = 10
 
@@ -157,3 +167,8 @@ class Player(pygame.sprite.Sprite):
         for wall in self.game.walls:
             if self.hitbox.colliderect(wall.rect):
                 return True
+
+
+    def save_pos(self):
+        self.old_pos = (self.rect.x, self.rect.y)
+        print(self.old_pos)

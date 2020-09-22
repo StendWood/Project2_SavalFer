@@ -32,11 +32,3 @@ class Warper(pygame.sprite.Sprite):
             self.game.warper_popup_flag = True
             # Set the current warper
             self.game.current_warper = self.name
-
-
-    def teleport_prompt(self):
-        """
-            Manage the teleport prompt graphics and blit
-        """
-
-        # self.game.screen.blit(self.game.warper_popup_img, )

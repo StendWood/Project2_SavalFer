@@ -15,13 +15,12 @@ class Database:
         Database hub
     """
 
-    def __init__(self, login):
+    def __init__(self, login=None):
         self.host = HOST
         self.database = DATABASE
         self.user = USER
         self.password = PASSWORD
         self.login = login
-
 
     def connection(self):
         """
@@ -58,6 +57,24 @@ class Database:
         print(f"\nConnection to {HOST} closed.")
         self.conn.close()
 
+
+    def global_query(self, query):
+        # Create the connection
+        self.connection()
+        # Create the cursor
+        self.manage_cursor(1)
+        # Execute the Query
+        self.cur.execute(query)
+        # Fetch the results
+        query_result = self.cur.fetchall()
+        # Commit the insert to the db
+        if "insert" in query:
+            self.conn.commit()
+        # Close the cursor
+        self.manage_cursor()
+        # Close connection
+        self.conn.close()
+        return query_result
 
     def insert_query(self, table_name: str, rows_name: str, data_to_insert: str):
         """

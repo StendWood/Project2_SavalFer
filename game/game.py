@@ -1,6 +1,7 @@
 # coding: utf-8
 
 # Imports
+from game.data.database import Database
 import pygame
 import json
 import time
@@ -26,6 +27,8 @@ class Game:
         # Init the config
         self.cfg = {}
         self.load_cfg_error = False
+        # Init the database
+        self.db = Database()
         # Pygame init
         pygame.init()
         # Sound init
@@ -88,6 +91,7 @@ class Game:
         }
         # Flag management
         self.warper_popup_flag = False
+        self.inventory_flag = False
         self.current_warper = None
 
 
@@ -145,6 +149,12 @@ class Game:
                     # Check for any teleport to enter
                     for warper in self.warpers:
                         warper.show_teleport_prompt()
+                # I
+                elif event.key == pygame.K_i:
+                    if self.inventory_flag:
+                        self.inventory_flag = False
+                    else:
+                        self.inventory_flag = True
                 # Reset key bool to False
                 self.pressed[event.key] = False
 
@@ -227,9 +237,28 @@ class Game:
         # Show player hitbox
         pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
 
+        # INVENTORY
+        # Show the player inventory
+        if self.inventory_flag:
+            self.screen.blit(self.inventory_bg, (50, 50))
+            inventory_rect = pygame.Rect((50, 50), (self.inventory_bg.get_width(), self.inventory_bg.get_height()))
+            i = 0
+            offset_x = 75
+            offset_y = 100
+            for item in self.player.inventory.items:
+                self.screen.blit(
+                    item.image, 
+                    (inventory_rect.x + offset_x, inventory_rect.y + offset_y)
+                )
+                i += 1
+                offset_x+= 55
+                if i == 10:
+                    offset_x = 75
+                    offset_y += 50
+                    i = 0
+
         # Update the window
         pygame.display.update()
-
 
     # POPUP
     # Warper
@@ -244,12 +273,23 @@ class Game:
             self.quit_game(event)
             if event.type == KEYUP:
                 if event.key == pygame.K_f:
+                    # Save the old player pos
+                    if self.player.current_map == "worldmap":
+                        self.player.save_pos()
+                    # Change the current map var
                     self.player.current_map = self.current_warper
+                    # Reset the current warper
+                    self.current_warper = None
+                    # Set the warper popup to False
                     self.warper_popup_flag = False
+                    # Load the new map objects
                     self.maps[self.player.current_map]["map"].transition(self.player.current_map)
-                    time.sleep(2)
+                    # Wait
+                    time.sleep(1)
                 elif event.key == pygame.K_x:
+                    # Reset the flag and var
                     self.warper_popup_flag = False
+                    self.current_warper = None
 
 
     def update(self):
@@ -303,6 +343,8 @@ class Game:
         # Image preload
         # Warper
         self.warper_popup_img = pygame.image.load("img/popup/warper/warper_img.png").convert_alpha()
+        # Inventory
+        self.inventory_bg = pygame.image.load("img/inventory/bg.png").convert_alpha()
 
 
     def quit_game(self, event):
@@ -339,8 +381,8 @@ class Game:
         # print(self.walls)
         # print(self.all_sprites)
         # print(self.warpers)
-        for warper in self.warpers:
-            print(warper.name)
+        # for warper in self.warpers:
+        #     print(warper.name)
 
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
