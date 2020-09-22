@@ -2,6 +2,7 @@
 
 # Imports
 import pygame
+from pygame.constants import SRCALPHA
 import pytmx
 
 # Additional codes
@@ -16,13 +17,18 @@ class Inventory:
     def __init__(self, game, player_id):
         # give access to game
         self.game = game
-
+        self.inventory_bg = pygame.image.load("img/inventory/bg.png").convert_alpha()
         self.player_id = player_id
         # Inventory stats
         self.max_items = 80
 
         # Player item list
         self.items = []
+
+        # Tooltip
+        self.tooltip_x = 200
+        self.tooltip_y = 75
+        self.tooltip_surface = pygame.Surface((self.tooltip_x, self.tooltip_y), SRCALPHA)
 
     def get_player_object(self):
         """
@@ -43,3 +49,40 @@ class Inventory:
             self.items.append(
                 Item(item[0], item[1], item[2], item[3])
                 )
+        
+        self.place_items_in_inventory()
+
+    def place_items_in_inventory(self):
+        """
+            Generate the items positions in the player inventory
+        """
+
+        inventory_rect = pygame.Rect((50, 50), (self.inventory_bg.get_width(), self.inventory_bg.get_height()))
+        i = 0
+        offset_x = 75
+        offset_y = 100
+        # Blit the items into the inventory page
+        for item in self.items:
+            item.rect.x = inventory_rect.x + offset_x
+            item.rect.y = inventory_rect.y + offset_y
+            i += 1
+            offset_x+= 55
+            if i == 10:
+                offset_x = 75
+                offset_y += 50
+                i = 0
+
+    def item_mouseover(self):
+        """
+            Show inventory item tooltip on mouseover
+        """
+
+        # Check every item for collision
+        for item in self.items:
+            if item.image.get_rect(x=item.rect.x, y=item.rect.y).collidepoint(pygame.mouse.get_pos()):
+                # Blit the surface at the mouse collide point
+                self.tooltip_surface.blit(self.game.inventory_font.render(item.tooltip, True, (0, 0, 0)), (10, 10))
+                self.game.screen.blit(
+                    self.tooltip_surface,
+                    (pygame.mouse.get_pos()[0],
+                    pygame.mouse.get_pos()[1] - self.tooltip_y,))

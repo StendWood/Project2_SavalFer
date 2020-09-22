@@ -23,6 +23,10 @@ class Item:
         self.type = item_type
         # Load the image
         self.image = pygame.image.load(image_path).convert_alpha()
+        # Rect
+        self.rect = self.image.get_rect()
+        # Tooltip
+        self.tooltip = f"Yes"
 
     def __str__(self):
         """

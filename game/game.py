@@ -41,10 +41,10 @@ class Game:
         self.validate_button_font = pygame.font.SysFont(VALIDATE_FONT, 25)
         self.login_error_font = pygame.font.SysFont(ERROR_FONT, 15)
         self.warper_font = pygame.font.Font(WARPER_FONT, 20)
+        self.inventory_font = pygame.font.Font(WARPER_FONT, 18)
 
         # Create the screen
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
         # Change the window name
         pygame.display.set_caption("SavalFer")
 
@@ -89,6 +89,7 @@ class Game:
                 },
             
         }
+
         # Flag management
         self.warper_popup_flag = False
         self.inventory_flag = False
@@ -215,6 +216,18 @@ class Game:
             self.screen.blit(self.maps[self.player.current_map]["fg_img"], 
                             self.camera.apply_rect(self.maps[self.player.current_map]["rect"]))
 
+        # INVENTORY
+        # Show the player inventory
+        if self.inventory_flag:
+            # Blit the inventory page background
+            self.screen.blit(self.player.inventory.inventory_bg, (50, 50))
+            # # Blit the items into the inventory page
+            for item in self.player.inventory.items:
+                self.screen.blit(item.image, item.rect)
+        # Item tooltip on mouseover if inventory is open
+        if self.inventory_flag:
+            self.player.inventory.item_mouseover()
+        # Warper popup for teleport
         if self.warper_popup_flag:
             # Show the popup background
             self.screen.blit(self.warper_popup_img, (250, 450))
@@ -236,26 +249,6 @@ class Game:
         # HITBOXES
         # Show player hitbox
         pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
-
-        # INVENTORY
-        # Show the player inventory
-        if self.inventory_flag:
-            self.screen.blit(self.inventory_bg, (50, 50))
-            inventory_rect = pygame.Rect((50, 50), (self.inventory_bg.get_width(), self.inventory_bg.get_height()))
-            i = 0
-            offset_x = 75
-            offset_y = 100
-            for item in self.player.inventory.items:
-                self.screen.blit(
-                    item.image, 
-                    (inventory_rect.x + offset_x, inventory_rect.y + offset_y)
-                )
-                i += 1
-                offset_x+= 55
-                if i == 10:
-                    offset_x = 75
-                    offset_y += 50
-                    i = 0
 
         # Update the window
         pygame.display.update()
@@ -343,8 +336,6 @@ class Game:
         # Image preload
         # Warper
         self.warper_popup_img = pygame.image.load("img/popup/warper/warper_img.png").convert_alpha()
-        # Inventory
-        self.inventory_bg = pygame.image.load("img/inventory/bg.png").convert_alpha()
 
 
     def quit_game(self, event):
