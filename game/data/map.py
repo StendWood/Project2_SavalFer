@@ -126,6 +126,8 @@ class Map:
         game.maps["worldmap"]["foreground"] = Map("assets/maps/world_map/world_map_foreground.tmx", game)
     # EDWORLD
         game.maps["EdWorld"]["map"] = Map("assets/maps/EdWorld/edworld.tmx", game)
+    # ! Pick_food
+        game.maps["pick_food"]["map"] = Map("assets/maps/pick_food/pick_food.tmx",game)
 # Create the maps image
     # WORLDMAP
         game.maps["worldmap"]["img"] = game.maps["worldmap"]["map"].make()
@@ -133,14 +135,20 @@ class Map:
     # EDWORLD
         game.maps["EdWorld"]["img"] = game.maps["EdWorld"]["map"].make()
         # game.maps["EdWorld"]["fg_img"] = game.maps["EdWorld"]["foreground"].make()
+    # !  Pick_food
+        game.maps["pick_food"]["img"] = game.maps["pick_food"]["map"].make()
 # Create the maps rect
     # WORLDMAP
         game.maps["worldmap"]["rect"] = game.maps["worldmap"]["img"].get_rect()
     # EDWORLD
         game.maps["EdWorld"]["rect"] = game.maps["EdWorld"]["img"].get_rect()
+    # !  Pick_food
+        game.maps["pick_food"]["rect"] = game.maps["pick_food"]["img"].get_rect()
 # Load the maps loading background
     # WORLDMAP
         game.maps["worldmap"]["loading"] = pygame.image.load("img/login/login_bg.jpg")
     # EDWORLD
         game.maps["EdWorld"]["loading"] = pygame.image.load("img/loading/EdWorld/Edworld.png")
+    # !  Pick_food
+        game.maps["pick_food"]["loading"] = pygame.image.load("img/loading/pick_food/pick_food.png")
         
