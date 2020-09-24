@@ -30,6 +30,7 @@ class Player(pygame.sprite.Sprite, Sprites):
         self.inventory = Inventory(game, self.id)
         self.inventory.get_player_object()
         # Stats
+        self.hydratation = 100
         self.velocity = 5
 
         # Images

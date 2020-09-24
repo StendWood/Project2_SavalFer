@@ -18,7 +18,7 @@ class Sprites:
     @classmethod
     def load_animation(cls, path: str, frame_durations: list, frame : int, animations_frames : dict):
         """
-            Calculate the images needed to animate the player.
+            Calculate the images needed to animate the sprite.
             path is the folder where the images are.
             frame_durations is a list of how many frames each images show. 
                 Ex: [7, 7, 40] => meaning 7s , 7s and 40s
@@ -46,7 +46,7 @@ class Sprites:
     @classmethod
     def change_action(cls, status, new_status, frame):
             """
-                Manage frames and status changes on player actions
+                Manage frames and status changes on sprite actions
             """
 
             if status != new_status:
@@ -63,17 +63,6 @@ class Sprites:
         for wall in walls:
             if hitbox.colliderect(wall.rect):
                 return True
-
-    @classmethod
-    def show_text_popup(cls, player, game):
-        """
-            Check if the warper rect is touching the player rect => Show a prompt to let the player enter a new map
-        """
-
-        # Check for collision
-        if player.rect.colliderect(player.rect):
-            # Set warper collision to True
-            game.pnj_popup_flag = True
 
     @classmethod
     def debug_show_rect(cls, screen, camera, rect):

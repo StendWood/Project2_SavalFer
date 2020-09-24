@@ -10,6 +10,7 @@ from game.player import Player
 from game.obstacles import Wall
 from game.warper import Warper
 from game.pnj import Pnj
+from game.water_source import Water_source
 
 
 class Map:
@@ -67,15 +68,12 @@ class Map:
                 if create_player:
                     self.game.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self.game)
                     self.game.all_sprites.add(self.game.player)
-                    # print("Player created.")
                 elif move_player:
                     # Move the player
                     if not old_pos:
                         self.game.player.rect.x, self.game.player.rect.y = tile_object.x, tile_object.y
-                        # print("Player spawned.")
                     else:
                         self.game.player.rect.x, self.game.player.rect.y = self.game.player.old_pos[0], self.game.player.old_pos[1]
-                        # print("Player moved.")
             # Spawn the walls
             if tile_object.name == "wall":
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
@@ -91,7 +89,6 @@ class Map:
                     setattr(temp_warper, "name", tile_object.name.split("_")[0])
                     # Save the warper in the sprite group
                     self.game.warpers.add(temp_warper)
-                    # print("Warper created.")
             except TypeError as e:
                 print(e)
             # Spawn the PNJ
@@ -100,10 +97,12 @@ class Map:
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                 # Extract the attributes values
                 attrib_values = tile_object.name.split("_")
-                # Create a temp warpers
-                current_pnj = Pnj(attrib_values[0], attrib_values[1], rect, self.game)
-                # Save the warper in the sprite group
-                self.game.pnj.add(current_pnj)
+                # Create and save the pnj in the Pnj sprite group
+                self.game.pnj.add(Pnj(attrib_values[0], attrib_values[1], rect, self.game))
+            # Spawn water supplies
+            if "water" in tile_object.name:
+                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                self.game.water_sources.add(Water_source(rect, self.game))
 
 
     def transition(self, map_name):

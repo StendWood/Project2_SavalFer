@@ -62,4 +62,7 @@ DB_PREFIX = "Projet_2"
 # GAME
 
 # Warper
-WARPER_FONT="assets/fonts/CompassPro.ttf"
+WARPER_FONT = "assets/fonts/CompassPro.ttf"
+
+# Actions
+SHOW_ACTIONS_FONT = "assets/fonts/EquipmentPro.ttf"

@@ -14,11 +14,12 @@ class Pnj(pygame.sprite.Sprite, Sprites):
         Manage Sprites actions and animations
     """
 
+    # Max 35 strokes
     data = {
         "oldman" : ["Welcome adventurer !", "Stay awhile and listen...",
                     "This farm is known to have the best soil.", "Give it a try !"],
         "farmer" : ["Welcome !", "All this wood for nothing...",
-                    "You can cut down a tree if you have the right tool.", "And you can cut a log to craft tools."],
+                    "You can cut down a tree if you have the right tool.", "You can cut a log to craft tools."],
         "chicken" : ["Cot Cot Cot !"],
         "rooster" : ["Cocoricoooooooo !"],
         "dog" : ["Woof Woof !", "*The do is asleep...*"]
@@ -37,7 +38,9 @@ class Pnj(pygame.sprite.Sprite, Sprites):
         # Set the name
         self.name = name
         # Set the current text
-        self.text_number = 0
+        self.text_number = -1
+        # Check if vendor of not
+        self.is_vendor = False
         if can_move == "true":
             self.can_move = True
             self.velocity = 1
@@ -139,8 +142,17 @@ class Pnj(pygame.sprite.Sprite, Sprites):
             Manage what text is shown when the player interact with the pnj
         """
 
-        if self.rect.colliderect(self.game.player.rect):
-            if self.text_number > len(self.data[self.name]):
-                self.text_number = 0
-            self.game.pnj_popup_flag = True
+        # Force showing the first dialog text
+        if self.text_number == -1:
+            self.text_number = 0
+        # Raise the flag to show the popup
+        self.game.pnj_popup_flag = True
+        # Choose a random dialog text
+        self.text_number = random.randint(0, len(self.data[self.name]))
+        try:
+            # Return that dialog text to show
+            return self.data[self.name][self.text_number]
+        except IndexError:
+            # Show the default starter dialog text if out of range
+            self.text_number = 0
             return self.data[self.name][self.text_number]
