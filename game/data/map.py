@@ -9,7 +9,7 @@ from game.config import *
 from game.player import Player
 from game.obstacles import Wall
 from game.warper import Warper
-from game.sprites import Sprites
+from game.pnj import Pnj
 
 
 class Map:
@@ -101,7 +101,7 @@ class Map:
                 # Extract the attributes values
                 attrib_values = tile_object.name.split("_")
                 # Create a temp warpers
-                current_pnj = Sprites(attrib_values[0], attrib_values[1], rect, self.game)
+                current_pnj = Pnj(attrib_values[0], attrib_values[1], rect, self.game)
                 # Save the warper in the sprite group
                 self.game.pnj.add(current_pnj)
 

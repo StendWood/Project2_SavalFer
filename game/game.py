@@ -106,8 +106,10 @@ class Game:
 
         # Flag management
         self.warper_popup_flag = False
+        self.pnj_popup_flag = False
         self.inventory_flag = False
         self.current_warper = None
+        self.current_pnj_text = None
 
 
     def run(self):
@@ -125,13 +127,13 @@ class Game:
             # Clock the FPS
             self.clock.tick(FPS)
             # Manage inputs depending on the map
-            if not self.warper_popup_flag:
+            if not self.warper_popup_flag and not self.pnj_popup_flag:
                 # Popup is not active
                 if self.player.current_map in ["worldmap","EdWorld", "GardenLand"]:
                     self.worldmap_event()
-            elif self.warper_popup_flag:
+            elif self.warper_popup_flag or self.pnj_popup_flag:
                 # Popup is active
-                self.warper_popup_event()
+                self.popup_event()
             # Update
             self.update()
             # Draw
@@ -162,6 +164,8 @@ class Game:
                     # Check for any teleport to enter
                     for warper in self.warpers:
                         warper.show_teleport_prompt()
+                    for pnj in self.pnj:
+                        self.current_pnj_text = pnj.talk_to()
                 # I
                 elif event.key == pygame.K_i:
                     if self.inventory_flag:
@@ -193,11 +197,11 @@ class Game:
         if all(not value for value in self.pressed.values()) and self.player.status not in ["idle_up", "idle_down"]:
             # If no key is pressed and status is not idle
             if self.player.status == "run_up":
-                self.player.change_action("idle_up")
+                self.player.frame, self.player.status = self.player.change_action(self.player.status, "idle_up", self.player.frame)
             elif self.player.status == "run_down":
-                self.player.change_action("idle_down")
+                self.player.frame, self.player.status = self.player.change_action(self.player.status, "idle_down", self.player.frame)
             elif self.player.status == "run_side":
-                self.player.change_action("idle_side")
+                self.player.frame, self.player.status = self.player.change_action(self.player.status, "idle_side", self.player.frame)
 
 
     def draw(self):
@@ -258,28 +262,37 @@ class Game:
             self.screen.blit(self.warper_font.render("Yes : Press F", True, BLACK), (340, 490))
             # No
             self.screen.blit(self.warper_font.render("No : Press X", True, BLACK), (340, 520))
+        # Popup for pnj
+        elif self.pnj_popup_flag:
+            # Show the popup background
+            self.screen.blit(self.warper_popup_img, (250, 450))
+            # Blit the text
+            self.screen.blit(self.warper_font.render(f"Do you want to enter {self.current_warper}?", True, BLACK), (275, 460))
+            # Show the options
+            # Yes
+            self.screen.blit(self.warper_font.render("Yes : Press F", True, BLACK), (340, 490))
+            # No
+            self.screen.blit(self.warper_font.render("No : Press X", True, BLACK), (340, 520))
 
         # #########
         # # DEBUG #
         # #########
         # # Obstacles
         # # Show walls
-        # for wall in self.walls:
-        #     wall.debug_show_wall()
-        # for pnj in self.pnj:
-        #     pnj.debug_show_rect()
+        for wall in self.walls:
+            wall.debug_show_wall()
+        for pnj in self.pnj:
+            pnj.debug_show_rect(self.screen, self.camera, pnj.rect)
         # # HITBOXES
         # # Show player hitbox
-        # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
-        # for pnj in self.pnj:
-        #     pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(pnj.hitbox), 2)
+        pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
 
         # Update the window
         pygame.display.update()
 
     # POPUP
     # Warper
-    def warper_popup_event(self):
+    def popup_event(self):
         """
             Manage the inputs during the warper popup
         """
@@ -310,8 +323,12 @@ class Game:
                     time.sleep(1)
                 elif event.key == pygame.K_x:
                     # Reset the flag and var
-                    self.warper_popup_flag = False
-                    self.current_warper = None
+                    if self.warper_popup_flag:
+                        self.warper_popup_flag = False
+                        self.current_warper = None
+                    elif self.pnj_popup_flag:
+                        self.pnj_popup_flag = False
+                        self.current_pnj_text = None
 
 
     def update(self):
