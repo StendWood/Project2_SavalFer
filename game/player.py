@@ -47,9 +47,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
 
         # hitbox
-        self.hitbox_offset_x = 7
-        self.hitbox_offset_y = 15
-        self.hitbox = pygame.Rect(self.rect.center[0] - self.hitbox_offset_x, self.rect.center[1] - self.hitbox_offset_y, 15, 40)
+        self.hitbox_offset_x = 10
+        self.hitbox_offset_y = 10
+        self.hitbox = pygame.Rect(self.rect.center[0] - self.hitbox_offset_x, self.rect.center[1] - self.hitbox_offset_y, 20, 20)
 
         # Manage sprite animation
         self.animation_database = {}
@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
         # Right
         if direction == "right":
             self.hitbox.x += self.velocity
-            if not self.collision_checker() and self.hitbox.x < self.game.maps["worldmap"]["rect"].width - self.hitbox.w:
+            if not self.collision_checker() and self.hitbox.x < self.game.maps[self.current_map]["rect"].width - self.hitbox.w:
                 self.rect.x += self.velocity
         #Left
         if direction == "left":
@@ -92,7 +92,7 @@ class Player(pygame.sprite.Sprite):
         # Down
         if direction == "down":
             self.hitbox.y += self.velocity
-            if not self.collision_checker() and self.hitbox.y < self.game.maps["worldmap"]["rect"].height - self.hitbox.h:
+            if not self.collision_checker() and self.hitbox.y < self.game.maps[self.current_map]["rect"].height - self.hitbox.h:
                 self.rect.y += self.velocity
         # Up
         if direction == "up":
@@ -120,7 +120,6 @@ class Player(pygame.sprite.Sprite):
         # Update the hitbox
         self.hitbox.x = self.rect.center[0] - self.hitbox_offset_x
         self.hitbox.y = self.rect.center[1] - self.hitbox_offset_y
-
 
     def load_animation(self, path: str, frame_durations: list):
         """

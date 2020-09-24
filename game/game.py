@@ -87,6 +87,21 @@ class Game:
                     # Loading BG
                     "loading" : None,
                 },
+            "GardenLand" :
+                {
+                    # Map instance
+                    "map" : None,
+                    # Map foreground instance
+                    "foreground" : None,
+                    # Map image
+                    "img" : None,
+                    # Map foreground image
+                    "fg_img" : None,
+                    # Map Rect
+                    "rect" : None,
+                    # Loading BG
+                    "loading" : None,
+                },
         }
 
         # Flag management
@@ -112,9 +127,7 @@ class Game:
             # Manage inputs depending on the map
             if not self.warper_popup_flag:
                 # Popup is not active
-                if self.player.current_map == "worldmap":
-                    self.worldmap_event()
-                elif self.player.current_map == "EdWorld":
+                if self.player.current_map in ["worldmap","EdWorld", "GardenLand"]:
                     self.worldmap_event()
             elif self.warper_popup_flag:
                 # Popup is active
@@ -210,6 +223,14 @@ class Game:
                                 self.camera.apply_rect(sprite.rect))
             else:
                 self.screen.blit(sprite.image, self.camera.apply_rect(sprite.rect))
+        # Pnj
+        for pnj in self.pnj:
+            if pnj.can_move:
+                if pnj.flip:
+                    self.screen.blit(pygame.transform.flip(pnj.image, True, False), 
+                                    self.camera.apply_rect(pnj.rect))
+                else:
+                    self.screen.blit(pnj.image, self.camera.apply_rect(pnj.rect))
         # Map foreground
         if self.maps[self.player.current_map]["fg_img"] is not None:
             self.screen.blit(self.maps[self.player.current_map]["fg_img"], 
@@ -244,10 +265,14 @@ class Game:
         # # Obstacles
         # # Show walls
         # for wall in self.walls:
-        #     wall.show_wall()
+        #     wall.debug_show_wall()
+        # for pnj in self.pnj:
+        #     pnj.debug_show_rect()
         # # HITBOXES
         # # Show player hitbox
         # pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(self.player.hitbox), 2)
+        # for pnj in self.pnj:
+        #     pygame.draw.rect(self.screen, (255, 0, 0), self.camera.apply_rect(pnj.hitbox), 2)
 
         # Update the window
         pygame.display.update()
@@ -276,6 +301,11 @@ class Game:
                     self.warper_popup_flag = False
                     # Load the new map objects
                     self.maps[self.player.current_map]["map"].transition(self.player.current_map)
+                    # Change the camera
+                    if self.camera.width != self.maps[self.player.current_map]["map"].width:
+                        self.camera.width = self.maps[self.player.current_map]["map"].width
+                    if self.camera.height != self.maps[self.player.current_map]["map"].height:
+                        self.camera.height = self.maps[self.player.current_map]["map"].height
                     # Wait
                     time.sleep(1)
                 elif event.key == pygame.K_x:
@@ -290,6 +320,7 @@ class Game:
         """
 
         self.player.update()
+        self.pnj.update()
         self.camera.update(self.player)
 
 
@@ -362,6 +393,7 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
         self.warpers = pygame.sprite.Group()
+        self.pnj = pygame.sprite.Group()
         # Generate the player / walls  / warpers
         self.maps["worldmap"]["map"].create_obstacles_n_warpers("worldmap", True, False)
 
@@ -377,6 +409,3 @@ class Game:
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
         self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"]["rect"].height)
-
-        # Set the worldmap flag to true
-        # self.worldmap_flag = True

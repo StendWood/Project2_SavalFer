@@ -9,6 +9,7 @@ from game.config import *
 from game.player import Player
 from game.obstacles import Wall
 from game.warper import Warper
+from game.sprites import Sprites
 
 
 class Map:
@@ -82,6 +83,7 @@ class Map:
             # Spawn the warpers
             try:
                 if "warper" in tile_object.name:
+                    # Create the rect
                     rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                     # Create a temp warpers
                     temp_warper = Warper(rect, self.game)
@@ -92,6 +94,16 @@ class Map:
                     # print("Warper created.")
             except TypeError as e:
                 print(e)
+            # Spawn the PNJ
+            if "pnj" in tile_object.name:
+                # Create the rect
+                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                # Extract the attributes values
+                attrib_values = tile_object.name.split("_")
+                # Create a temp warpers
+                current_pnj = Sprites(attrib_values[0], attrib_values[1], rect, self.game)
+                # Save the warper in the sprite group
+                self.game.pnj.add(current_pnj)
 
 
     def transition(self, map_name):
@@ -120,27 +132,39 @@ class Map:
 
         # Give access to game
         game = game
-# Load the maps
-    # EdWorld
+        # Load the maps
+        # WorldMap
         game.maps["worldmap"]["map"] = Map("assets/maps/world_map/world_map.tmx", game)
         game.maps["worldmap"]["foreground"] = Map("assets/maps/world_map/world_map_foreground.tmx", game)
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["map"] = Map("assets/maps/EdWorld/edworld.tmx", game)
-# Create the maps image
-    # WORLDMAP
+        # GardenLand
+        game.maps["GardenLand"]["map"] = Map("assets/maps/GardenLand/gardenland.tmx", game)
+        game.maps["GardenLand"]["foreground"] = Map("assets/maps/GardenLand/gardenland_foreground.tmx", game)
+
+        # Create the maps image
+        # WORLDMAP
         game.maps["worldmap"]["img"] = game.maps["worldmap"]["map"].make()
         game.maps["worldmap"]["fg_img"] = game.maps["worldmap"]["foreground"].make()
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["img"] = game.maps["EdWorld"]["map"].make()
         # game.maps["EdWorld"]["fg_img"] = game.maps["EdWorld"]["foreground"].make()
-# Create the maps rect
-    # WORLDMAP
+        # GardenLand
+        game.maps["GardenLand"]["img"] = game.maps["GardenLand"]["map"].make()
+        game.maps["GardenLand"]["fg_img"] = game.maps["GardenLand"]["foreground"].make()
+
+        # Create the maps rect
+        # WORLDMAP
         game.maps["worldmap"]["rect"] = game.maps["worldmap"]["img"].get_rect()
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["rect"] = game.maps["EdWorld"]["img"].get_rect()
-# Load the maps loading background
-    # WORLDMAP
+        # GardenLand
+        game.maps["GardenLand"]["rect"] = game.maps["GardenLand"]["img"].get_rect()
+
+        # Load the maps loading background
+        # WORLDMAP
         game.maps["worldmap"]["loading"] = pygame.image.load("img/login/login_bg.jpg")
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["loading"] = pygame.image.load("img/loading/EdWorld/Edworld.png")
-        
+        # GardenLand
+        game.maps["GardenLand"]["loading"] = pygame.image.load("img/loading/GardenLand.png")
