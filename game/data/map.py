@@ -28,7 +28,6 @@ class Map:
         # Save those data
         self.tmxdata = tm
 
-
     def render(self, surface: pygame.Surface):
         """
             Take a surface and draw the tilemap on them
@@ -48,7 +47,6 @@ class Map:
                         surface.blit(tile, (x * self.tmxdata.tilewidth, 
                                             y * self.tmxdata.tileheight))
 
-
     def make(self):
         """
             Create a surface and call the render method
@@ -59,8 +57,7 @@ class Map:
         self.render(temp_surface)
         return temp_surface
 
-
-    def create_obstacles_n_warpers(self, map_name, create_player: bool=False, move_player: bool=True, old_pos: bool=False):
+    def create_map_objects(self, map_name, create_player: bool = False, move_player: bool = True, old_pos: bool = False):
         # Generate the player / walls  / warpers
         for tile_object in self.game.maps[map_name]["map"].tmxdata.objects:
             # Spawn the player
@@ -104,7 +101,6 @@ class Map:
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                 self.game.water_sources.add(Water_source(rect, self.game))
 
-
     def transition(self, map_name):
         """
             Manage the transition screen during the map load
@@ -118,10 +114,9 @@ class Map:
         self.game.warpers.empty()
         # Create the new map obstacles, warpers and move the player
         if self.game.player.current_map != "worldmap":
-            self.create_obstacles_n_warpers(map_name)
+            self.create_map_objects(map_name)
         else:
-            self.create_obstacles_n_warpers(map_name, old_pos=True)
-
+            self.create_map_objects(map_name, old_pos=True)
 
     @staticmethod
     def loader(game):

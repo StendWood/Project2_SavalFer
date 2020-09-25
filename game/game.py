@@ -17,6 +17,7 @@ from game.camera import Camera
 from game.data.map import Map
 from game.obstacles import Wall
 from game.warper import Warper
+from game.views.gui import Gui
 
 
 class Game:
@@ -53,6 +54,7 @@ class Game:
         # Create the clock
         self.clock = pygame.time.Clock()
         self.running = True
+        self.decay_timestamp = None
 
         # Key pressed
         self.pressed = {} 
@@ -149,10 +151,9 @@ class Game:
             # Draw
             self.draw()
 
-    # WORLDMAP
     def worldmap_event(self):
         """
-            Listen and process inputs
+            Listen and process normal inputs
         """
 
         # Process inputs
@@ -284,6 +285,10 @@ class Game:
         # Actions popup
         self.show_actions()
 
+        # GUI
+        for gauge_data in self.player.status_gauge.items():
+            Gui.show_gui(gauge_data[0], gauge_data[1], self)
+
         # #########
         # # DEBUG #
         # #########
@@ -302,7 +307,7 @@ class Game:
 
     def popup_event(self):
         """
-            Manage the inputs during the warper popup
+            Manage the inputs during the a popup
         """
 
         # Process inputs
@@ -332,7 +337,7 @@ class Game:
                         time.sleep(1)
                     elif self.water_popup_flag:
                         self.show_messages_queue.append(Water_source.refill(self))
-                        self.warper_popup_flag = False
+                        self.water_popup_flag = False
                 elif event.key == pygame.K_x:
                     # Reset the flag and var
                     if self.warper_popup_flag:
@@ -391,6 +396,9 @@ class Game:
         """
 
         self.player.update()
+        self.player.status_decay(HYDRATION_DECAY_TIMER, "hydration")
+        self.player.status_decay(SATIETY_DECAY_TIMER, "satiety")
+        # self.player.status_decay(ENERGY_DECAY_TIMER, "energy")
         self.pnj.update()
         self.camera.update(self.player)
 
@@ -437,6 +445,10 @@ class Game:
         self.pnj_popup_img = pygame.image.load("img/popup/pnj/pnj_img.png").convert_alpha()
         # Actions
         self.show_actions_img = pygame.image.load("img/popup/actions/actions_img.png").convert_alpha()
+        # GUI
+        Gui.load_gui_image("health", Gui.health_gui_path)
+        Gui.load_gui_image("hydration", Gui.hydration_gui_path)
+        Gui.load_gui_image("satiety", Gui.satiety_gui_path)
 
     def quit_game(self, event):
         """
@@ -465,7 +477,7 @@ class Game:
         self.pnj = pygame.sprite.Group()
         self.water_sources = pygame.sprite.Group()
         # Generate the player / walls  / warpers
-        self.maps["worldmap"]["map"].create_obstacles_n_warpers("worldmap", True, False)
+        self.maps["worldmap"]["map"].create_map_objects("worldmap", True, False)
 
         #########
         # DEBUG #
@@ -479,3 +491,6 @@ class Game:
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
         self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"]["rect"].height)
+
+        # Time_stamp
+        self.decay_timestamp = pygame.time.get_ticks()

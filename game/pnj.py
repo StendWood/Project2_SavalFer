@@ -22,7 +22,7 @@ class Pnj(pygame.sprite.Sprite, Sprites):
                     "You can cut down a tree if you have the right tool.", "You can cut a log to craft tools."],
         "chicken" : ["Cot Cot Cot !"],
         "rooster" : ["Cocoricoooooooo !"],
-        "dog" : ["Woof Woof !", "*The do is asleep...*"]
+        "dog" : ["Woof Woof !", "*The do is asleep...*"],
     }
 
     def __init__(self, name, can_move, rect, game):
@@ -62,7 +62,10 @@ class Pnj(pygame.sprite.Sprite, Sprites):
                 f"{self.img_path}run", [13, 13], self.frame, self.animations_frames)
             self.flip = False
             # Movements
-            self.is_moving = False
+            if random.randint(0, 1) == 1:
+                self.is_moving = True
+            else:
+                self.is_moving = False
             self.movements = ["left", "right", "up", "down"]
             self.direction = random.choice(self.movements)
             self.last_movements_timestamp = pygame.time.get_ticks()
@@ -93,7 +96,7 @@ class Pnj(pygame.sprite.Sprite, Sprites):
         """
 
         # Pnj can move
-        if not self.is_moving and pygame.time.get_ticks() - self.last_movements_timestamp >= random.randrange(3000, 10000, 1000):
+        if not self.is_moving and pygame.time.get_ticks() - self.last_movements_timestamp >= random.randrange(1000, 3000, 1000):
             # Set pnj movements to moving
             self.is_moving = True
             self.frame, self.status = self.change_action(self.status, "run", self.frame)

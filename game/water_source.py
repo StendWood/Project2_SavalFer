@@ -23,12 +23,12 @@ class Water_source(pygame.sprite.Sprite):
     @staticmethod
     def drink(game):
         """
-            Let the player drink and set the hydratation lvl to 100
+            Let the player drink and set the hydration lvl to 100
         """
 
-        # Set player hydratation to the max
-        if game.player.hydratation < 100:
-            game.player.hydratation = 100
+        # Set player hydration to the max
+        for i in range(len(game.player.status_gauge["hydration"])):
+            game.player.status_gauge["hydration"][i] = 20
         return "You feel refreshed"
 
     @staticmethod

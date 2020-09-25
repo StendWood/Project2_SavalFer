@@ -4,6 +4,7 @@
 import pygame
 
 # Additionnal code
+from game.config import *
 from game.data.inventory import Inventory
 from game.parents.sprites import Sprites
 
@@ -30,7 +31,11 @@ class Player(pygame.sprite.Sprite, Sprites):
         self.inventory = Inventory(game, self.id)
         self.inventory.get_player_object()
         # Stats
-        self.hydratation = 100
+        self.status_gauge = {
+            "health" : [20, 20, 20, 20, 20],
+            "hydration" : [20, 20, 20, 20, 20],
+            "satiety" : [20, 20, 20, 20, 20],
+        }
         self.velocity = 5
 
         # Images
@@ -73,13 +78,12 @@ class Player(pygame.sprite.Sprite, Sprites):
         # Manage world position
         self.current_map = "worldmap"
 
-
     def move(self, new_status: str, direction: str, flip: bool =False):
         """
             Manage the player movements and collisions
         """
 
-        # Change player action
+        # Change player frame and status depending on the new status
         self.frame, self.status = self.change_action(self.status, new_status, self.frame)
         self.flip = flip
         # Right
@@ -104,7 +108,6 @@ class Player(pygame.sprite.Sprite, Sprites):
             self.hitbox.y -= self.velocity
             if not self.collision_checker(self.game.walls, self.hitbox) and self.hitbox.y > 0:
                 self.rect.y -= self.velocity
-
 
     def update(self):
         """
@@ -133,3 +136,19 @@ class Player(pygame.sprite.Sprite, Sprites):
 
         self.old_pos = (self.rect.x, self.rect.y)
         print(self.old_pos)
+
+    def status_decay(self, timer, status):
+        """
+            Manage satiety, hydration and health decay
+        """
+
+        # Compare curretn time and last time
+        dt = pygame.time.get_ticks() - self.game.decay_timestamp
+        # Check if the decay timer is passed
+        if dt >= timer:
+            # 
+            for i in range(len(self.game.player.status_gauge[status]) - 1, 0, -1):
+                if self.game.player.status_gauge[status][i] != 0:
+                    self.game.player.status_gauge[status][i] -= 1
+                    self.game.decay_timestamp = pygame.time.get_ticks()
+                    break
