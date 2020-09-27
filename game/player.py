@@ -36,6 +36,8 @@ class Player(pygame.sprite.Sprite, Sprites):
             "hydration" : [20, 20, 20, 20, 20],
             "satiety" : [20, 20, 20, 20, 20],
         }
+        self.hydration_decay_timestamp = pygame.time.get_ticks()
+        self.satiety_decay_timestamp = pygame.time.get_ticks()
         self.velocity = 5
 
         # Images
@@ -129,6 +131,9 @@ class Player(pygame.sprite.Sprite, Sprites):
         self.hitbox.x = self.rect.center[0] - self.hitbox_offset_x
         self.hitbox.y = self.rect.center[1] - self.hitbox_offset_y
 
+        self.status_decay(HYDRATION_DECAY_TIMER, "hydration", self.hydration_decay_timestamp)
+        self.status_decay(SATIETY_DECAY_TIMER, "satiety", self.satiety_decay_timestamp)
+
     def save_pos(self):
         """
             Save the player before teleport position to use it when the player teleport back to the worldmap
@@ -137,18 +142,20 @@ class Player(pygame.sprite.Sprite, Sprites):
         self.old_pos = (self.rect.x, self.rect.y)
         print(self.old_pos)
 
-    def status_decay(self, timer, status):
+    def status_decay(self, timer, status, timestamp):
         """
             Manage satiety, hydration and health decay
         """
 
         # Compare curretn time and last time
-        dt = pygame.time.get_ticks() - self.game.decay_timestamp
+        dt = pygame.time.get_ticks() - timestamp
         # Check if the decay timer is passed
         if dt >= timer:
-            # 
             for i in range(len(self.game.player.status_gauge[status]) - 1, 0, -1):
                 if self.game.player.status_gauge[status][i] != 0:
                     self.game.player.status_gauge[status][i] -= 1
-                    self.game.decay_timestamp = pygame.time.get_ticks()
+                    if status == "hydration":
+                        self.hydration_decay_timestamp = pygame.time.get_ticks()
+                    else:
+                        self.satiety_decay_timestamp = pygame.time.get_ticks()
                     break

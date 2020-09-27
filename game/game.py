@@ -54,7 +54,6 @@ class Game:
         # Create the clock
         self.clock = pygame.time.Clock()
         self.running = True
-        self.decay_timestamp = None
 
         # Key pressed
         self.pressed = {} 
@@ -286,8 +285,8 @@ class Game:
         self.show_actions()
 
         # GUI
-        for gauge_data in self.player.status_gauge.items():
-            Gui.show_gui(gauge_data[0], gauge_data[1], self)
+        for gauge in self.player.status_gauge.items():
+            Gui.show_gui(gauge[0], gauge[1], self)
 
         # #########
         # # DEBUG #
@@ -396,9 +395,6 @@ class Game:
         """
 
         self.player.update()
-        self.player.status_decay(HYDRATION_DECAY_TIMER, "hydration")
-        self.player.status_decay(SATIETY_DECAY_TIMER, "satiety")
-        # self.player.status_decay(ENERGY_DECAY_TIMER, "energy")
         self.pnj.update()
         self.camera.update(self.player)
 
@@ -491,6 +487,3 @@ class Game:
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
         self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"]["rect"].height)
-
-        # Time_stamp
-        self.decay_timestamp = pygame.time.get_ticks()
