@@ -149,7 +149,7 @@ The Player class wich manage every aspect of the player (animations, stats, inve
 **Follow every steps, if any is missing you expose the programm to bugs and whatnot.**
 1. Create your map using Tiled (*.tmx file*)
 
-    Make your sure you have an object named *player* and named *worldmap_warper*, to respectively place the player when the map change and to be able to port back to the worldmap.
+    __Make your sure you have objects named *player* and *worldmap_warper*, to respectively place the player when the map change and to port back to the worldmap.__
 
 2. Save every new tilesets in (*.tsx file + .png file*):
 
