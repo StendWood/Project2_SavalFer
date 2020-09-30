@@ -50,8 +50,8 @@ class Pnj(pygame.sprite.Sprite, Sprites):
         if self.can_move:
             # Images
             self.animations_frames = {}
-            self.img_path = f"img/pnj/{self.name}/"
-            self.image = pygame.image.load(f"img/pnj/{self.name}/idle/idle_0.png")
+            self.img_path = f"assets/img/pnj/{self.name}/"
+            self.image = pygame.image.load(f"assets/img/pnj/{self.name}/idle/idle_0.png")
             # Animation status
             self.status = "idle"
             # self.frame = 0

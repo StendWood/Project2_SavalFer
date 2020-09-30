@@ -34,26 +34,23 @@ class Gui:
             cls.gui_images[status].append(pygame.image.load(f"{img_path}{i}.png").convert_alpha())
 
     @classmethod
-    def show_gui(cls, player_gauge_name: str, player_gauge_values: list, game):
+    def show_gui(cls, game):
         """
             Show the hydration, satiety and health bar depending on their current level
         """
 
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
-        # RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY RECURSIVITY
         # Set the base x-coordinate and y-coodinate
         x = 10
         y = 10
-        for img_collection in cls.gui_images.values():
+        for gauge in game.player.status_gauge.items():
             # Check every status vial
-            for stats_vial in player_gauge_values:
+            for stats_vial in gauge[1]:
                 # Calculate the current % for each vial
-                game.screen.blit(img_collection[stats_vial//5], (x, y))
+                game.screen.blit(cls.gui_images[gauge[0]][stats_vial//5], (x, y))
                 # Increment x-coordinate
-                x += 25
+                if gauge[0] in ["health", "satiety"]:
+                    x += 30
+                else:
+                    x += 20
             x += 75
 

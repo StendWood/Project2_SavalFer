@@ -17,7 +17,7 @@ class Inventory:
     def __init__(self, game, player_id):
         # give access to game
         self.game = game
-        self.inventory_bg = pygame.image.load("img/inventory/bg.png").convert_alpha()
+        self.inventory_bg = pygame.image.load("assets/img/inventory/bg.png").convert_alpha()
         self.player_id = player_id
         # Inventory stats
         self.max_items = 80
@@ -26,7 +26,7 @@ class Inventory:
         self.items = []
 
         # Tooltip
-        self.tooltip_img = pygame.image.load("img/inventory/tooltip.png")
+        self.tooltip_img = pygame.image.load("assets/img/inventory/tooltip.png")
         self.tooltip_x = 200
         self.tooltip_y = 75
         self.tooltip_surface = pygame.Surface((self.tooltip_x, self.tooltip_y), SRCALPHA)

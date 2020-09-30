@@ -63,7 +63,7 @@ class Map:
             # Spawn the player
             if tile_object.name == "player":
                 if create_player:
-                    self.game.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self.game)
+                    self.game.player = Player(tile_object.x, tile_object.y, "assets/img/avatar/1/", self.game)
                     self.game.all_sprites.add(self.game.player)
                 elif move_player:
                     # Move the player
@@ -112,6 +112,7 @@ class Map:
         # Remove the last map obstacles ans warpers
         self.game.walls.empty()
         self.game.warpers.empty()
+        self.game.pnj.empty()
         # Create the new map obstacles, warpers and move the player
         if self.game.player.current_map != "worldmap":
             self.create_map_objects(map_name)
@@ -157,8 +158,8 @@ class Map:
 
         # Load the maps loading background
         # WORLDMAP
-        game.maps["worldmap"]["loading"] = pygame.image.load("img/login/login_bg.jpg")
+        game.maps["worldmap"]["loading"] = pygame.image.load("assets/img/login/login_bg.jpg")
         # EDWORLD
-        game.maps["EdWorld"]["loading"] = pygame.image.load("img/loading/EdWorld/Edworld.png")
+        game.maps["EdWorld"]["loading"] = pygame.image.load("assets/img/loading/EdWorld/Edworld.png")
         # GardenLand
-        game.maps["GardenLand"]["loading"] = pygame.image.load("img/loading/GardenLand.png")
+        game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")

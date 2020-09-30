@@ -16,17 +16,17 @@ class Login:
         # Init game
         self.game = game
         # Load the background image
-        self.bg_image = pygame.image.load("img/login/login_bg.jpg").convert()
+        self.bg_image = pygame.image.load("assets/img/login/login_bg.jpg").convert()
         self.game.screen.blit(self.bg_image, LOGIN_BG_POS)
         # Load the connexion fields
-        self.fields_bg_image = pygame.transform.scale(pygame.image.load("img/login/login_field_bg.png").convert_alpha(), (425, 400))
+        self.fields_bg_image = pygame.transform.scale(pygame.image.load("assets/img/login/login_field_bg.png").convert_alpha(), (425, 400))
         # Load fields image
         # Standard
-        self.username_image = pygame.transform.scale(pygame.image.load("img/login/field_off.png").convert_alpha(), (210, 50))
-        self.password_image = pygame.transform.scale(pygame.image.load("img/login/field_off.png").convert_alpha(), (250, 50))
+        self.username_image = pygame.transform.scale(pygame.image.load("assets/img/login/field_off.png").convert_alpha(), (210, 50))
+        self.password_image = pygame.transform.scale(pygame.image.load("assets/img/login/field_off.png").convert_alpha(), (250, 50))
         # Glowing
-        self.username_image_on = pygame.transform.scale(pygame.image.load("img/login/field_on.png").convert_alpha(), (210, 50))
-        self.password_image_on = pygame.transform.scale(pygame.image.load("img/login/field_on.png").convert_alpha(), (250, 50))
+        self.username_image_on = pygame.transform.scale(pygame.image.load("assets/img/login/field_on.png").convert_alpha(), (210, 50))
+        self.password_image_on = pygame.transform.scale(pygame.image.load("assets/img/login/field_on.png").convert_alpha(), (250, 50))
 
         # Username variables
         if self.game.cfg["save_username"]:
@@ -52,23 +52,23 @@ class Login:
 
         # Save username tickboxes
         self.save_username_text =  self.game.login_error_font.render(SAVE_USERNAME_TEXT, True, BLACK)
-        self.save_username_button_off = pygame.transform.scale(pygame.image.load("img/login/save_username_off.png").convert_alpha(), (30, 30))
-        self.save_username_button_off_hover = pygame.transform.scale(pygame.image.load("img/login/save_username_off_hover.png").convert_alpha(), (30, 30))
-        self.save_username_button_on = pygame.transform.scale(pygame.image.load("img/login/save_username_on.png").convert_alpha(), (30, 30))
-        self.save_username_button_on_hover = pygame.transform.scale(pygame.image.load("img/login/save_username_on_hover.png").convert_alpha(), (30, 30))
+        self.save_username_button_off = pygame.transform.scale(pygame.image.load("assets/img/login/save_username_off.png").convert_alpha(), (30, 30))
+        self.save_username_button_off_hover = pygame.transform.scale(pygame.image.load("assets/img/login/save_username_off_hover.png").convert_alpha(), (30, 30))
+        self.save_username_button_on = pygame.transform.scale(pygame.image.load("assets/img/login/save_username_on.png").convert_alpha(), (30, 30))
+        self.save_username_button_on_hover = pygame.transform.scale(pygame.image.load("assets/img/login/save_username_on_hover.png").convert_alpha(), (30, 30))
         self.save_username_hover = False
 
         # Validate button
-        self.validate_button_off = pygame.transform.scale(pygame.image.load("img/login/validate_button_off.png").convert_alpha(), (200,100))
-        self.validate_button_on = pygame.transform.scale(pygame.image.load("img/login/validate_button_on.png").convert_alpha(), (200,100))
+        self.validate_button_off = pygame.transform.scale(pygame.image.load("assets/img/login/validate_button_off.png").convert_alpha(), (200,100))
+        self.validate_button_on = pygame.transform.scale(pygame.image.load("assets/img/login/validate_button_on.png").convert_alpha(), (200,100))
         # Validation button mouse hover status
         self.validate_hover = False
         # Validate button text
         self.validate_button_text = self.game.username_font.render(VALIDATE_TEXT, True, WHITE)
 
         # Error images
-        self.error_bg = pygame.image.load("img/login/error_bg.png").convert_alpha()
-        self.error_button = pygame.image.load("img/login/error_button.png").convert_alpha()
+        self.error_bg = pygame.image.load("assets/img/login/error_bg.png").convert_alpha()
+        self.error_button = pygame.image.load("assets/img/login/error_button.png").convert_alpha()
         self.error_text = self.game.login_error_font.render(ERROR_TEXT, True, RED)
 
         # Create a db object
@@ -77,7 +77,7 @@ class Login:
         self.login_error = False
 
         # Launch sound
-        pygame.mixer.music.load('sounds/cheerful _orchestral.ogg')
+        pygame.mixer.music.load('assets/sounds/cheerful _orchestral.ogg')
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.1)
 

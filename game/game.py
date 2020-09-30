@@ -285,8 +285,7 @@ class Game:
         self.show_actions()
 
         # GUI
-        for gauge in self.player.status_gauge.items():
-            Gui.show_gui(gauge[0], gauge[1], self)
+        Gui.show_gui(self)
 
         # #########
         # # DEBUG #
@@ -436,11 +435,11 @@ class Game:
     def image_preloader(self):
         # Image preload
         # Warper
-        self.warper_popup_img = pygame.image.load("img/popup/warper/warper_img.png").convert_alpha()
+        self.warper_popup_img = pygame.image.load("assets/img/popup/warper/warper_img.png").convert_alpha()
         # Popup
-        self.pnj_popup_img = pygame.image.load("img/popup/pnj/pnj_img.png").convert_alpha()
+        self.pnj_popup_img = pygame.image.load("assets/img/popup/pnj/pnj_img.png").convert_alpha()
         # Actions
-        self.show_actions_img = pygame.image.load("img/popup/actions/actions_img.png").convert_alpha()
+        self.show_actions_img = pygame.image.load("assets/img/popup/actions/actions_img.png").convert_alpha()
         # GUI
         Gui.load_gui_image("health", Gui.health_gui_path)
         Gui.load_gui_image("hydration", Gui.hydration_gui_path)
