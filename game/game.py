@@ -105,6 +105,20 @@ class Game:
                     # Loading BG
                     "loading" : None,
                 },
+            "pick_food":
+                {# Map instance
+                    "map" : None,
+                    # Map foreground instance
+                    "foreground" : None,
+                    # Map image
+                    "img" : None,
+                    # Map foreground image
+                    "fg_img" : None,
+                    # Map Rect
+                    "rect" : None,
+                    # Loading BG
+                    "loading" : None,
+                },
         }
 
         # Flag management
