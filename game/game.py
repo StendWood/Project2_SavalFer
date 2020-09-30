@@ -105,7 +105,7 @@ class Game:
                     # Loading BG
                     "loading" : None,
                 },
-            "pick_food":
+            "HarvestLand":
                 {# Map instance
                     "map" : None,
                     # Map foreground instance
@@ -154,7 +154,7 @@ class Game:
             # Manage inputs depending on the map
             if not self.warper_popup_flag and not self.pnj_popup_flag and not self.water_popup_flag:
                 # Popup is not active
-                if self.player.current_map in ["worldmap","EdWorld", "GardenLand"]:
+                if self.player.current_map in ["worldmap","EdWorld", "GardenLand", "HarvestLand"]:
                     self.worldmap_event()
             elif self.warper_popup_flag or self.pnj_popup_flag or self.water_popup_flag:
                 # Popup is active

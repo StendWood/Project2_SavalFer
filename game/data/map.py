@@ -136,8 +136,8 @@ class Map:
         # GardenLand
         game.maps["GardenLand"]["map"] = Map("assets/maps/GardenLand/gardenland.tmx", game)
         game.maps["GardenLand"]["foreground"] = Map("assets/maps/GardenLand/gardenland_foreground.tmx", game)
-        # ! Pick_food
-        game.maps["pick_food"]["map"] = Map("assets/maps/pick_food/pick_food.tmx",game)
+        # HarvestLand
+        game.maps["HarvestLand"]["map"] = Map("assets/maps/HarvestLand/HarvestLand.tmx",game)
         
         # Create the maps image
         # WORLDMAP
@@ -149,9 +149,9 @@ class Map:
         # GardenLand
         game.maps["GardenLand"]["img"] = game.maps["GardenLand"]["map"].make()
         game.maps["GardenLand"]["fg_img"] = game.maps["GardenLand"]["foreground"].make()
-        # !  Pick_food
-        game.maps["pick_food"]["img"] = game.maps["pick_food"]["map"].make()
-        
+        # HarvestLand
+        game.maps["HarvestLand"]["img"] = game.maps["HarvestLand"]["map"].make()
+
         # Create the maps rect
         # WORLDMAP
         game.maps["worldmap"]["rect"] = game.maps["worldmap"]["img"].get_rect()
@@ -159,9 +159,9 @@ class Map:
         game.maps["EdWorld"]["rect"] = game.maps["EdWorld"]["img"].get_rect()
         # GardenLand
         game.maps["GardenLand"]["rect"] = game.maps["GardenLand"]["img"].get_rect()
-        # !  Pick_food
-        game.maps["pick_food"]["rect"] = game.maps["pick_food"]["img"].get_rect()
-        
+        # HarvestLand
+        game.maps["HarvestLand"]["rect"] = game.maps["HarvestLand"]["img"].get_rect()
+
         # Load the maps loading background
         # WORLDMAP
         game.maps["worldmap"]["loading"] = pygame.image.load("assets/img/login/login_bg.jpg")
@@ -169,6 +169,6 @@ class Map:
         game.maps["EdWorld"]["loading"] = pygame.image.load("assets/img/loading/EdWorld/Edworld.png")
         # GardenLand
         game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")
-        # !  Pick_food
-        game.maps["pick_food"]["loading"] = pygame.image.load("img/loading/pick_food/pick_food.png")
+        # HarvestLand
+        game.maps["HarvestLand"]["loading"] = pygame.image.load("assets/img/loading/HarvestLand.png")
         

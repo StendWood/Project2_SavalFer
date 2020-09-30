@@ -21,18 +21,27 @@ class Database:
         self.user = USER
         self.password = PASSWORD
         self.login = login
+        self.database_2 = DATABASE_2
+        self.password_2 = PASSWORD_2
 
     def connection(self):
         """
             Create a connection to the database
         """
-
-        self.conn = psycopg2.connect(
-                        host=self.host,
-                        database=self.database,
-                        user=self.user,
-                        password=self.password
-                        )
+        try:
+            self.conn = psycopg2.connect(
+                            host=self.host,
+                            database=self.database,
+                            user=self.user,
+                            password=self.password
+                            )
+        except:
+            self.conn = psycopg2.connect(
+                            host=self.host,
+                            database=self.database_2,
+                            user=self.user,
+                            password=self.password_2
+                            )
 
 
     def manage_cursor(self, flag=0):

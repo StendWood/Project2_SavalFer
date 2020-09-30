@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="17" nextobjectid="1">
- <tileset firstgid="1" source="[A]WaterFall_pipo.tsx"/>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="44">
+ <tileset firstgid="1" source="../../tilesets/harvestland/[A]WaterFall_pipo.tsx"/>
  <tileset firstgid="577" name="[Base]BaseChip_pipo" tilewidth="32" tileheight="32" tilecount="1064" columns="8">
-  <image source="[Base]BaseChip_pipo.png" width="256" height="4256"/>
+  <image source="../../tilesets/harvestland/[Base]BaseChip_pipo.png" width="256" height="4256"/>
  </tileset>
- <tileset firstgid="1641" source="[A]Grass_pipo.tsx"/>
- <tileset firstgid="2169" source="[A]Water_pipo.tsx"/>
- <tileset firstgid="5241" source="[A]Flower_pipo.tsx"/>
- <tileset firstgid="5337" source="carrot_cabbage_strawberry_onion_corn_apple_orange_egg.tsx"/>
- <tileset firstgid="5373" source="carrot_cabbage_strawberry_onion_corn_apple_orange_egg_10.tsx"/>
+ <tileset firstgid="1641" source="../../tilesets/harvestland/[A]Grass_pipo.tsx"/>
+ <tileset firstgid="2169" source="../../tilesets/harvestland/[A]Water_pipo.tsx"/>
+ <tileset firstgid="5241" source="../../tilesets/harvestland/[A]Flower_pipo.tsx"/>
  <layer id="5" name="ground" width="60" height="60">
   <data encoding="csv">
 577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,577,1943,1944,577,577,577,577,577,577,577,577,577,577,577,1710,1718,582,582,582,1717,1711,1711,1711,1711,1718,582,582,582,582,582,582,582,
@@ -777,4 +775,48 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,628,0,620,0,0,626,617,0,593,594,0,585,586,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="17" name="spawner">
+  <object id="1" name="player" x="299" y="433"/>
+  <object id="2" name="wall" x="44" y="303" width="164" height="4"/>
+  <object id="3" name="wall" x="229" y="12" width="16" height="204"/>
+  <object id="4" name="wall" x="331" y="173" width="164" height="4"/>
+  <object id="5" name="wall" x="331" y="173" width="164" height="4"/>
+  <object id="6" name="wall" x="484" y="9" width="16" height="204"/>
+  <object id="7" name="wall" x="549" y="12" width="16" height="204"/>
+  <object id="8" name="wall" x="681" y="8" width="16" height="245"/>
+  <object id="9" name="wall" x="37" y="5" width="16" height="295"/>
+  <object id="10" name="wall" x="39" y="366.5" width="16" height="203"/>
+  <object id="11" name="wall" x="170" y="364.5" width="16" height="109"/>
+  <object id="12" name="wall" x="170" y="518.5" width="16" height="19"/>
+  <object id="13" name="wall" x="520" y="39.5" width="16" height="19"/>
+  <object id="14" name="wall" x="618" y="323.5" width="16" height="19"/>
+  <object id="15" name="wall" x="586" y="362.5" width="16" height="19"/>
+  <object id="16" name="wall" x="295" y="584.5" width="16" height="19"/>
+  <object id="17" name="wall" x="390" y="619.5" width="16" height="19"/>
+  <object id="18" name="wall" x="140" y="556.5" width="49" height="47"/>
+  <object id="19" name="wall" x="52" y="551.5" width="90" height="19"/>
+  <object id="20" name="wall" x="45" y="354.5" width="122" height="19"/>
+  <object id="21" name="wall" x="51" y="5.5" width="443" height="19"/>
+  <object id="22" name="wall" x="557" y="10.5" width="122" height="19"/>
+  <object id="23" name="wall" x="356" y="300.5" width="53" height="80"/>
+  <object id="24" name="wall" x="2" y="586.5" width="55" height="19"/>
+  <object id="25" name="wall" x="15" y="294.5" width="16" height="53"/>
+  <object id="27" name="wall" x="145" y="645.5" width="59" height="19"/>
+  <object id="28" name="wall" x="200" y="600.5" width="16" height="161"/>
+  <object id="29" name="wall" x="263" y="606.5" width="16" height="143"/>
+  <object id="30" name="worldmap_warper" x="230" y="605.5" width="16" height="19"/>
+  <object id="31" name="wall" x="287" y="648.5" width="120" height="19"/>
+  <object id="32" name="wall" x="427" y="612.5" width="86" height="19"/>
+  <object id="33" name="wall" x="516" y="575.5" width="58" height="19"/>
+  <object id="34" name="wall" x="62" y="614.5" width="85" height="19"/>
+  <object id="35" name="wall" x="590" y="548.5" width="16" height="19"/>
+  <object id="36" name="wall" x="621" y="526.5" width="16" height="38"/>
+  <object id="37" name="wall" x="652" y="490.5" width="16" height="50"/>
+  <object id="38" name="wall" x="682" y="424.5" width="16" height="81"/>
+  <object id="39" name="wall" x="706" y="392.5" width="48" height="19"/>
+  <object id="40" name="wall" x="748" y="289.5" width="16" height="105"/>
+  <object id="41" name="wall" x="781" y="201.5" width="16" height="114"/>
+  <object id="42" name="wall" x="812" y="113.5" width="16" height="104"/>
+  <object id="43" name="wall" x="836" y="6.5" width="16" height="123"/>
+ </objectgroup>
 </map>
