@@ -4,18 +4,19 @@ This is our Projet 2 from "*Developpeur Web et Web mobile*" with ViaFormation
 
 ## Technologies
 
-- Python
-- PostgreSQL
-- Tiled
+- [Python](https://www.python.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Tiled](https://www.mapeditor.org/)
 
 ## Modules
 
 Modules used in the entire project.
 
 ![alt text](https://www.pygame.org/images/logo_lofi.png)
-- Pytmx
-- Psycopg2
-- Hashlib
+- [Pygame](https://www.pygame.org/news)
+- [Pytmx](https://pytmx.readthedocs.io/en/latest/)
+- [Psycopg2](https://pypi.org/project/psycopg2/)
+- [Hashlib](https://docs.python.org/3/library/hashlib.html)
 
 ## Usage
 
@@ -81,7 +82,7 @@ Manage the maps (loading, changing...)
     # Create another Map instance for the foreground (will be blited after the player)
     game.maps["worldmap"]["foreground"] = Map("assets/maps/world_map/world_map_foreground.tmx", game)
 
-    # Create the map surface using the .make_map() method
+    # Create the map surface using the .make() method
     game.maps["worldmap"]["img"] = game.maps["worldmap"]["map"].make()
         # The .make() method call the .render() method, wich take a surface and draw on it,
         # by unpacking the .tmx file from the Map instance we can draw every layer and create the visual.
@@ -143,6 +144,45 @@ The Player class wich manage every aspect of the player (animations, stats, inve
 
 1. 
 
+***
+## How to add your Map
+**Follow every steps, if any is missing you expose the programm to bugs and whatnot.**
+1. Create your map using Tiled (*.tmx file*)
+2. Save every new tilesets in (*.tsx file + .png file*):
 
+      *assets/tilesets/__map_name__*
+
+3. Save your .tmx map file in :
+
+   *assets/maps/__map_name__*
+
+4. Add your map to the map dict in game and in the *@staticmethod* .loader()
+    ```python
+    # Load the map .tmx file
+    game.maps[Your_Map_Name]["map"] = Map("assets/maps/Your_Map_Name/Your_Map_Name.tmx", game)
+
+    # Load the map foreground .tmx file
+    game.maps[Your_Map_Name]]["foreground"] = Map("assets/maps/YYour_Map_Name]/Your_Map_Name]_foreground.tmx", game)
+
+    # Create your map and map foreground surface (img)
+    game.maps[Your_Map_Name]["img"] = game.maps[Your_Map_Name]["map"].make()
+    game.maps[Your_Map_Name]["fg_img"] = game.maps[Your_Map_Name]["foreground"].make()
+
+    # Create a pygame Rect from the map surface (img)
+    game.maps[Your_Map_Name]["rect"] = game.maps[Your_Map_Name]["img"].get_rect()
+
+    # Load the loading screen image for that map
+    game.maps[Your_Map_Name]["loading"] = pygame.image.load("assets/img/loading/Your_Map_Name.png")
+    ```
+
+5. Create your map warper in the *worldmap.tmx* spawner layer using Tiled
+
+   Your object name in the *spawner* layer needs to have your map name (**respect the casing !**) : 
+
+    *__MapName_warper__*
+
+6. Build a decor around your warper
+
+***
 ## License
 [GNU General Public License v3.0](https://raw.githubusercontent.com/StendWood/Project2_SavalFer/master/LICENSE)
