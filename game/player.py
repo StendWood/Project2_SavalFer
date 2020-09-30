@@ -1,14 +1,15 @@
 # coding: utf-8
 
 # imports
-from game.data.inventory import Inventory
 import pygame
 
 # Additionnal code
+from game.config import *
 from game.data.inventory import Inventory
+from game.parents.sprites import Sprites
 
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite, Sprites):
     """
         Player class
     """
@@ -30,11 +31,14 @@ class Player(pygame.sprite.Sprite):
         self.inventory = Inventory(game, self.id)
         self.inventory.get_player_object()
         # Stats
-        self.health = 100
-        self.max_health = 100
+        self.status_gauge = {
+            "health" : [20, 20, 20, 20, 20],
+            "hydration" : [20, 20, 20, 20, 20],
+            "satiety" : [20, 20, 20, 20, 20],
+        }
+        self.hydration_decay_timestamp = pygame.time.get_ticks()
+        self.satiety_decay_timestamp = pygame.time.get_ticks()
         self.velocity = 5
-        self.jump_height = 5
-        self.jump_velocity = 10
 
         # Images
         self.animations_frames = {}
@@ -47,59 +51,65 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
 
         # hitbox
-        self.hitbox_offset_x = 7
-        self.hitbox_offset_y = 15
-        self.hitbox = pygame.Rect(self.rect.center[0] - self.hitbox_offset_x, self.rect.center[1] - self.hitbox_offset_y, 15, 40)
+        self.hitbox_offset_x = 10
+        self.hitbox_offset_y = 10
+        self.hitbox = pygame.Rect(self.rect.center[0] - self.hitbox_offset_x, self.rect.center[1] - self.hitbox_offset_y, 20, 20)
 
         # Manage sprite animation
         self.animation_database = {}
-        # Idle
-        self.animation_database["idle_down"] = self.load_animation(f"{self.img_path}idle_down", [120])
-        self.animation_database["idle_up"] = self.load_animation(f"{self.img_path}idle_up", [120])
-        self.animation_database["idle_side"] = self.load_animation(f"{self.img_path}idle_side", [120])
-        # Press Z or UP
-        self.animation_database["run_up"] = self.load_animation(f"{self.img_path}run_up", [13, 13, 13, 13, 13, 13, 13, 13, 13])
-        self.animation_database["run_down"] = self.load_animation(f"{self.img_path}run_down", [13, 13, 13, 13, 13, 13, 13, 13, 13])
-        self.animation_database["run_side"] = self.load_animation(f"{self.img_path}run_side", [13, 13, 13, 13, 13, 13, 13, 13, 13])
         # Animation status
         self.status = "idle_down"
         self.frame = 0
+        # Idle
+        self.animation_database["idle_down"] = self.load_animation(
+            f"{self.img_path}idle_down", [120], self.frame, self.animations_frames)
+        self.animation_database["idle_up"] = self.load_animation(
+            f"{self.img_path}idle_up", [120], self.frame, self.animations_frames)
+        self.animation_database["idle_side"] = self.load_animation(
+            f"{self.img_path}idle_side", [120], self.frame, self.animations_frames)
+        # Press Z or UP
+        self.animation_database["run_up"] = self.load_animation(
+            f"{self.img_path}run_up", [13, 13, 13, 13, 13, 13, 13, 13, 13], self.frame, self.animations_frames)
+        self.animation_database["run_down"] = self.load_animation(
+            f"{self.img_path}run_down", [13, 13, 13, 13, 13, 13, 13, 13, 13], self.frame, self.animations_frames)
+        self.animation_database["run_side"] = self.load_animation(
+            f"{self.img_path}run_side", [13, 13, 13, 13, 13, 13, 13, 13, 13], self.frame, self.animations_frames)
         # Manage the flip status
         self.flip = False
 
         # Manage world position
         self.current_map = "worldmap"
 
-
-    def move(self, action: str, direction: str, flip: bool =False):
+    def move(self, new_status: str, direction: str, flip: bool =False):
         """
-            Manage the player movmeents and collisions
+            Manage the player movements and collisions
         """
 
-        # Change player action
-        self.change_action(action)
+        # Change player frame and status depending on the new status
+        self.frame, self.status = self.change_action(self.status, new_status, self.frame)
         self.flip = flip
         # Right
         if direction == "right":
             self.hitbox.x += self.velocity
-            if not self.collision_checker() and self.hitbox.x < self.game.maps["worldmap"]["rect"].width - self.hitbox.w:
+            if not self.collision_checker(self.game.walls, self.hitbox) and \
+                self.hitbox.x < self.game.maps[self.current_map]["rect"].width - self.hitbox.w:
                 self.rect.x += self.velocity
         #Left
         if direction == "left":
             self.hitbox.x -= self.velocity
-            if not self.collision_checker() and self.hitbox.x > 0:
+            if not self.collision_checker(self.game.walls, self.hitbox) and self.hitbox.x > 0:
                 self.rect.x -= self.velocity
         # Down
         if direction == "down":
             self.hitbox.y += self.velocity
-            if not self.collision_checker() and self.hitbox.y < self.game.maps["worldmap"]["rect"].height - self.hitbox.h:
+            if not self.collision_checker(self.game.walls, self.hitbox) and \
+                self.hitbox.y < self.game.maps[self.current_map]["rect"].height - self.hitbox.h:
                 self.rect.y += self.velocity
         # Up
         if direction == "up":
             self.hitbox.y -= self.velocity
-            if not self.collision_checker() and self.hitbox.y > 0:
+            if not self.collision_checker(self.game.walls, self.hitbox) and self.hitbox.y > 0:
                 self.rect.y -= self.velocity
-
 
     def update(self):
         """
@@ -121,54 +131,31 @@ class Player(pygame.sprite.Sprite):
         self.hitbox.x = self.rect.center[0] - self.hitbox_offset_x
         self.hitbox.y = self.rect.center[1] - self.hitbox_offset_y
 
-
-    def load_animation(self, path: str, frame_durations: list):
-        """
-            Calculate the images needed to animate the player.
-            path is the folder where the images are.
-            frame_durations is a list of how many frames each images show. 
-                Ex: [7, 7, 40] => meaning 7s , 7s and 40s
-        """
-
-        # Save the animation name
-        animation_name = path.split("/")[-1]
-        # Save each frame time
-        animation_frame_data = []
-        n = 0
-        for frame in frame_durations:
-            # Check each frames
-            animation_frame_id = animation_name + "_" + str(n)
-            # Get the image location
-            img_loc = path + "/" + animation_frame_id + ".png"
-            # Get the image and convert
-            animation_image = pygame.image.load(img_loc).convert_alpha()
-            self.animations_frames[animation_frame_id] = animation_image.copy()
-            for i in range(frame):
-                animation_frame_data.append(animation_frame_id)
-            n += 1
-
-        return animation_frame_data
-
-
-    def change_action(self, new_value):
-        """
-            Manage frames and status changes on player actions
-        """
-        if self.status != new_value:
-            self.status = new_value
-            self.frame = 0
-
-
-    def collision_checker(self):
-        """
-            Check collision between any obstacles and any sprites
-        """
-
-        for wall in self.game.walls:
-            if self.hitbox.colliderect(wall.rect):
-                return True
-
+        self.status_decay(HYDRATION_DECAY_TIMER, "hydration", self.hydration_decay_timestamp)
+        self.status_decay(SATIETY_DECAY_TIMER, "satiety", self.satiety_decay_timestamp)
 
     def save_pos(self):
+        """
+            Save the player before teleport position to use it when the player teleport back to the worldmap
+        """
+
         self.old_pos = (self.rect.x, self.rect.y)
         print(self.old_pos)
+
+    def status_decay(self, timer, status, timestamp):
+        """
+            Manage satiety, hydration and health decay
+        """
+
+        # Compare curretn time and last time
+        dt = pygame.time.get_ticks() - timestamp
+        # Check if the decay timer is passed
+        if dt >= timer:
+            for i in range(len(self.game.player.status_gauge[status]) - 1, 0, -1):
+                if self.game.player.status_gauge[status][i] != 0:
+                    self.game.player.status_gauge[status][i] -= 1
+                    if status == "hydration":
+                        self.hydration_decay_timestamp = pygame.time.get_ticks()
+                    else:
+                        self.satiety_decay_timestamp = pygame.time.get_ticks()
+                    break

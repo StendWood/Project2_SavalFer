@@ -9,6 +9,8 @@ from game.config import *
 from game.player import Player
 from game.obstacles import Wall
 from game.warper import Warper
+from game.pnj import Pnj
+from game.water_source import Water_source
 
 
 class Map:
@@ -25,7 +27,6 @@ class Map:
         self.height = tm.height * tm.tileheight
         # Save those data
         self.tmxdata = tm
-
 
     def render(self, surface: pygame.Surface):
         """
@@ -46,7 +47,6 @@ class Map:
                         surface.blit(tile, (x * self.tmxdata.tilewidth, 
                                             y * self.tmxdata.tileheight))
 
-
     def make(self):
         """
             Create a surface and call the render method
@@ -57,24 +57,20 @@ class Map:
         self.render(temp_surface)
         return temp_surface
 
-
-    def create_obstacles_n_warpers(self, map_name, create_player: bool=False, move_player: bool=True, old_pos: bool=False):
+    def create_map_objects(self, map_name, create_player: bool = False, move_player: bool = True, old_pos: bool = False):
         # Generate the player / walls  / warpers
         for tile_object in self.game.maps[map_name]["map"].tmxdata.objects:
             # Spawn the player
             if tile_object.name == "player":
                 if create_player:
-                    self.game.player = Player(tile_object.x, tile_object.y, "img/avatar/1/", self.game)
+                    self.game.player = Player(tile_object.x, tile_object.y, "assets/img/avatar/1/", self.game)
                     self.game.all_sprites.add(self.game.player)
-                    # print("Player created.")
                 elif move_player:
                     # Move the player
                     if not old_pos:
                         self.game.player.rect.x, self.game.player.rect.y = tile_object.x, tile_object.y
-                        # print("Player spawned.")
                     else:
                         self.game.player.rect.x, self.game.player.rect.y = self.game.player.old_pos[0], self.game.player.old_pos[1]
-                        # print("Player moved.")
             # Spawn the walls
             if tile_object.name == "wall":
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
@@ -82,6 +78,7 @@ class Map:
             # Spawn the warpers
             try:
                 if "warper" in tile_object.name:
+                    # Create the rect
                     rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                     # Create a temp warpers
                     temp_warper = Warper(rect, self.game)
@@ -89,10 +86,20 @@ class Map:
                     setattr(temp_warper, "name", tile_object.name.split("_")[0])
                     # Save the warper in the sprite group
                     self.game.warpers.add(temp_warper)
-                    # print("Warper created.")
             except TypeError as e:
                 print(e)
-
+            # Spawn the PNJ
+            if "pnj" in tile_object.name:
+                # Create the rect
+                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                # Extract the attributes values
+                attrib_values = tile_object.name.split("_")
+                # Create and save the pnj in the Pnj sprite group
+                self.game.pnj.add(Pnj(attrib_values[0], attrib_values[1], rect, self.game))
+            # Spawn water supplies
+            if "water" in tile_object.name:
+                rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                self.game.water_sources.add(Water_source(rect, self.game))
 
     def transition(self, map_name):
         """
@@ -105,12 +112,12 @@ class Map:
         # Remove the last map obstacles ans warpers
         self.game.walls.empty()
         self.game.warpers.empty()
+        self.game.pnj.empty()
         # Create the new map obstacles, warpers and move the player
         if self.game.player.current_map != "worldmap":
-            self.create_obstacles_n_warpers(map_name)
+            self.create_map_objects(map_name)
         else:
-            self.create_obstacles_n_warpers(map_name, old_pos=True)
-
+            self.create_map_objects(map_name, old_pos=True)
 
     @staticmethod
     def loader(game):
@@ -120,35 +127,48 @@ class Map:
 
         # Give access to game
         game = game
-# Load the maps
-    # EdWorld
+        # Load the maps
+        # WorldMap
         game.maps["worldmap"]["map"] = Map("assets/maps/world_map/world_map.tmx", game)
         game.maps["worldmap"]["foreground"] = Map("assets/maps/world_map/world_map_foreground.tmx", game)
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["map"] = Map("assets/maps/EdWorld/edworld.tmx", game)
-    # ! Pick_food
+        # GardenLand
+        game.maps["GardenLand"]["map"] = Map("assets/maps/GardenLand/gardenland.tmx", game)
+        game.maps["GardenLand"]["foreground"] = Map("assets/maps/GardenLand/gardenland_foreground.tmx", game)
+        # ! Pick_food
         game.maps["pick_food"]["map"] = Map("assets/maps/pick_food/pick_food.tmx",game)
-# Create the maps image
-    # WORLDMAP
+        
+        # Create the maps image
+        # WORLDMAP
         game.maps["worldmap"]["img"] = game.maps["worldmap"]["map"].make()
         game.maps["worldmap"]["fg_img"] = game.maps["worldmap"]["foreground"].make()
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["img"] = game.maps["EdWorld"]["map"].make()
         # game.maps["EdWorld"]["fg_img"] = game.maps["EdWorld"]["foreground"].make()
-    # !  Pick_food
+        # GardenLand
+        game.maps["GardenLand"]["img"] = game.maps["GardenLand"]["map"].make()
+        game.maps["GardenLand"]["fg_img"] = game.maps["GardenLand"]["foreground"].make()
+        # !  Pick_food
         game.maps["pick_food"]["img"] = game.maps["pick_food"]["map"].make()
-# Create the maps rect
-    # WORLDMAP
+        
+        # Create the maps rect
+        # WORLDMAP
         game.maps["worldmap"]["rect"] = game.maps["worldmap"]["img"].get_rect()
-    # EDWORLD
+        # EDWORLD
         game.maps["EdWorld"]["rect"] = game.maps["EdWorld"]["img"].get_rect()
-    # !  Pick_food
+        # GardenLand
+        game.maps["GardenLand"]["rect"] = game.maps["GardenLand"]["img"].get_rect()
+        # !  Pick_food
         game.maps["pick_food"]["rect"] = game.maps["pick_food"]["img"].get_rect()
-# Load the maps loading background
-    # WORLDMAP
-        game.maps["worldmap"]["loading"] = pygame.image.load("img/login/login_bg.jpg")
-    # EDWORLD
-        game.maps["EdWorld"]["loading"] = pygame.image.load("img/loading/EdWorld/Edworld.png")
-    # !  Pick_food
+        
+        # Load the maps loading background
+        # WORLDMAP
+        game.maps["worldmap"]["loading"] = pygame.image.load("assets/img/login/login_bg.jpg")
+        # EDWORLD
+        game.maps["EdWorld"]["loading"] = pygame.image.load("assets/img/loading/EdWorld/Edworld.png")
+        # GardenLand
+        game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")
+        # !  Pick_food
         game.maps["pick_food"]["loading"] = pygame.image.load("img/loading/pick_food/pick_food.png")
         

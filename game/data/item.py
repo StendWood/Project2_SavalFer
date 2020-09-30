@@ -26,7 +26,10 @@ class Item:
         # Rect
         self.rect = self.image.get_rect()
         # Tooltip
-        self.tooltip = f"Yes"
+        if self.attack != 0:
+            self.tooltip = [f"{self.name}", f"Attack: {self.attack}", f"Type: {self.type}"]
+        else:
+            self.tooltip = [f"{self.name}", f"Type: {self.type}"]
 
     def __str__(self):
         """

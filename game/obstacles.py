@@ -20,8 +20,7 @@ class Wall(pygame.sprite.Sprite):
         # Set the rect
         self.rect = rect
 
-
-    def show_wall(self):
+    def debug_show_wall(self):
         """
             Debug show rect
         """

@@ -62,4 +62,13 @@ DB_PREFIX = "Projet_2"
 # GAME
 
 # Warper
-WARPER_FONT="assets/fonts/CompassPro.ttf"
+WARPER_FONT = "assets/fonts/CompassPro.ttf"
+
+# Actions
+SHOW_ACTIONS_FONT = "assets/fonts/EquipmentPro.ttf"
+
+# DECAY TIMER
+# 60000
+HYDRATION_DECAY_TIMER = 1000
+SATIETY_DECAY_TIMER = 2000
+ENERGY_DECAY_TIMER = 3000

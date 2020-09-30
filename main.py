@@ -17,9 +17,9 @@ def main():
     game = Game()
     # Load the config
     game.load_cfg()
-    # Manage cfg loading errors
+    # Manage cfg loading errorsq
     if not game.load_cfg_error:
-        # Launch the login screen
+        # # Launch the login screen
         # game.login_screen()
         # while game.login_flag:
         #     # Login screen refresh
