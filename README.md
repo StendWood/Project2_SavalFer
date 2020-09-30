@@ -1,6 +1,6 @@
 # Project 2 : SavalFer
 
-This is our Projet 2 from "Developpeur Web et Web mobile" with ViaFormation
+This is our Projet 2 from "*Developpeur Web et Web mobile*" with ViaFormation
 
 ## Technologies
 
@@ -26,16 +26,16 @@ Explain how the game works and how to use every class to modify or add new maps,
 The basic main loop, manage the login and the game call.
 
 1. Init the game class
-2. Load the config file (.py for now, JSON later)
+2. Load the config file (**.py for now, JSON later**)
 3. Launch the login loop
-4. Check for a username/password match in the database. (The password is hashed using pbkdf2_hmac with 100000 iterations)
+4. Check for a username/password match in the database. (**The password is hashed using pbkdf2_hmac with 100000 iterations**)
 5. Launch the pygame loop after a successfull login
 
-
+***
 ### Game
 Manage every aspect of the game, game loop, player, obstacles, pnjs, warpers...
 
-1. Load the maps (.tmx files)
+1. Load the maps (**.tmx files**)
 2. Create the sprites groups for each interactive classes (warpers, pnj, wall...)
 3. Populate every sprite groups with class instance
 
@@ -50,7 +50,7 @@ self.maps["worldmap"]["map"].create_map_objects("worldmap", True, False)
 # it let's you use the position of the player on the worldmap before a teleport.
 ```
 
-4. Create the camera using the current map Rect (width and height is changed after every map load to match the current map size.)
+4. Create the camera using the current map **Rect** (**width** and **height** is changed **after every map load** to match the current map size.)
 
 ```python
 #                                         |ACCESS THE RECT OF THE MAP
@@ -58,7 +58,7 @@ self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"][
 #                                                 |GET THE MAP RECT WIDTH              |GET THE MAP RECT HEIGHT
 ```
 
-5. The main game loop .run()
+5. The main game loop *__.run()__*
 
   ```
    - Set the FPS using the Clock object from pygame
@@ -66,10 +66,10 @@ self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"][
    - Update the game display (player position, sprite animations...) 
    - Draw on the display surface using .draw() method
   ```
-
+***
 ### Map
 Manage the maps (loading, changing...)
-1. The game starts by calling the @staticmethod Map.loader()
+1. The game starts by calling the *@staticmethod* *__Map.loader()__*
 
     ```python
     # Add to the Game.maps dict every map (here example is with the worldmap
@@ -93,7 +93,7 @@ Manage the maps (loading, changing...)
     game.maps["worldmap"]["loading"] = pygame.image.load("assets/img/login/login_bg.jpg")
     ```
 
-2. The map change is operated by the .transition() method.
+2. The map change is operated by the *__.transition()__* method.
 
     ```python
     # Blit the loading screen using the "loading" key
@@ -111,10 +111,13 @@ Manage the maps (loading, changing...)
             # Wich correspond to his position on the worldmap before the teleport.
             self.create_map_objects(map_name, old_pos=True)
     ```
+***
 ### Sprites
-The Sprites class is a parent class to player and pnj.
+The Sprites class is a parent class to player and pnj. **(Not te be confused with the pygame.sprite.Sprite class)**
 
-1. load_animation() : return a list of the different sprites used to animate depending on a list of durations, an image path.
+1. *__Sprites.load_animation()__* :
+
+    Return a list of the different sprites used to animate depending on a list of durations, an image path.
     ```python
     # Save the returned list to the "run_up" dict key
     self.animation_database["run_up"] = self.load_animation(
@@ -122,12 +125,19 @@ The Sprites class is a parent class to player and pnj.
             f"{self.img_path}run_up", [13, 13, 13, 13, 13, 13, 13, 13, 13], self.frame, self.animations_frames)
     #        |IMG PATH
     ```
-2. change_action() : Change the current frame to 0 and change the action attributes if the new action is different from the current action.
+2. *__Sprites.change_action()__* :
 
-3. collision_checker() : check if the sprite is in collision with a any wall.
+    Change the current frame to 0 and change the action attributes if the new action is different from the current action.
 
-4. debug_show_rect() : show a red box around the sprite. (Debug purpose only)
+3. *__Sprites.collision_checker()__* :
 
+    Check if the sprite is in collision with a any wall.
+
+4. *__Sprites.debug_show_rect()__* :
+
+    show a red box around the sprite. (Debug purpose only)
+
+***
 ### Player
 The Player class wich manage every aspect of the player (animations, stats, inventory...).
 
