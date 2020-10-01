@@ -142,14 +142,36 @@ The Sprites class is a parent class to player and pnj. **(Not te be confused wit
 ### Player
 The Player class wich manage every aspect of the player (animations, stats, inventory...).
 
-1. 
+***
+### Obtacles
+
+#### Wall
+
+The wall class is used to block the player, just add an object named *wall* in your object layer in Tiled.
+
+***
+### Inventory
+Manage the items of an entity (player, chest, vendor...)
+
+1. *__Inventory.get_player_object()__* :
+
+    Ask the __database__ the item list of an entity. Create an *item* instance for each items. Can be used for any entity where you need to store items.
+
+2. *__Inventory.place_items_in_inventory()__* :
+
+    Place the items in the inventory to be shown. (Can be the player inventory or any vendor)
+
+3. *__Inventory.item_mouseover()__* :
+
+    Show the item tooltip on mouseover.
+
 
 ***
 ## How to add your Map
 **Follow every steps, if any is missing you expose the programm to bugs and whatnot.**
 1. Create your map using Tiled (*.tmx file*)
 
-    __Make your sure you have objects named *player* and *worldmap_warper*, to respectively place the player when the map change and to port back to the worldmap.__
+    __Make your sure you have objects named *player* and *worldmap_warper*, to respectively place the player when the map change and to port back to the worldmap when you leave the level.__
 
 2. Save every new tilesets in (*.tsx file + .png file*):
 
