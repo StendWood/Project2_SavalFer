@@ -59,7 +59,7 @@ self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"][
 #                                                 |GET THE MAP RECT WIDTH              |GET THE MAP RECT HEIGHT
 ```
 
-5. The main game loop *__.run()__*
+5. The main game loop *__Game.run()__*
 
   ```
    - Set the FPS using the Clock object from pygame
@@ -94,7 +94,7 @@ Manage the maps (loading, changing...)
     game.maps["worldmap"]["loading"] = pygame.image.load("assets/img/login/login_bg.jpg")
     ```
 
-2. The map change is operated by the *__.transition()__* method.
+2. The map change is operated by the *__Map.transition()__* method.
 
     ```python
     # Blit the loading screen using the "loading" key
