@@ -165,6 +165,36 @@ Manage the items of an entity (player, chest, vendor...)
 
     Show the item tooltip on mouseover.
 
+***
+### Database
+Manage the connection to the database, queries, password checker and password hashing.
+
+1. *__Dtabase.connection()__* :
+
+    Connect tot the postgreSQL database using pyscopg2 module. Use **host, database, user, password** from **config.py**.
+    
+2. *__Database.manage_cursor(flag)__* :
+
+    Create or close a cursor depending on the flag. **flag = 1** : create the cursor | **flag = 0** : close the cursor.
+    
+3. *__Database.close_conn()__* :
+
+    Close the database connection.
+    
+4. *__Database.global_query(query)__* :
+
+    Take a query and execute it. If the query as *__insert__*, commit the changes.
+    (Use *__Dtabase.connection()__*, *__Database.manage_cursor(flag)__* and *__Database.close_conn()__*)
+    
+5. *__Database.password_checker(username, password)__* :
+
+    Take a username and a password, hash the password and compare it to the hashed password saved in the database for that username.
+    (All step of the connection is managed inside)
+    
+X. *__Database.random_hashing(input_data)__* and *__Database.hashing(pwd, salt)__* :
+
+    Can be used to hash a password. The *.random_hashing()* generate a salt and hash the inputed password.
+    The *.hashing(pwd, salt) takes a password and a salt and hash it.
 
 ***
 ## How to add your Map
