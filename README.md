@@ -33,9 +33,10 @@ The basic main loop, manage the login and the game call.
 5. Launch the pygame loop after a successfull login
 
 ***
-### Game
+### Game()
 Manage every aspect of the game, game loop, player, obstacles, pnjs, warpers...
 
+#### The Game loop
 1. Load the maps (**.tmx files**)
 2. Create the sprites groups for each interactive classes (warpers, pnj, wall...)
 3. Populate every sprite groups with class instance
@@ -67,8 +68,52 @@ self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"][
    - Update the game display (player position, sprite animations...) 
    - Draw on the display surface using .draw() method
   ```
+  
+#### The Game methods
+Initialize pygame including mixer & font, create the display (screen), create the clock (to manage FPS).
+
+1. *__Game.worldmap_event()__* :
+
+    Manage the player's inputs when he is moving on a map.
+    
+2. *__Game.draw()__* :
+
+    Manage the order in wich every screen layer is drawn. (map, map foregroundplayer, pnj, inventory, popup, message box, etc...)
+    
+3. *__Game.popup_event()__* :
+
+    Manage the player's inputs when a popup is raised. *F* to accept, *X* to close.
+    
+4. *__Game.show_popup(flag, img, text, img_position, txt_position, give_access)__* :
+
+    Show a popup with a text depending on a flag. Can be used with any text, any image or any flag.
+    
+5. *__Game.show_actions()__* :
+
+    Show the message in the message queue. Each message is shown on the screen and deleted every 3sec. Works for system/server messages.
+    
+6. *__Game.update()__* :
+
+    Call the update methods of every changing objects. (player, pnj, camera,...)
+    
+7. *__Game.login_screen()__* :
+
+    Show the login screen.
+    
+8. *__Game.load_cfg(), Game.save_cfg()__* :
+
+    Manage the save and load of the config from a JSON file.
+    
+9. *__Game.quit_game()__*:
+
+    General function to quit the pygame loop and close the pygame window.
+    
+10. *__Game.launch_game()__* :
+
+    Load the maps, create the sprites groups, load the worldmap as the first map and create the camera.
+  
 ***
-### Map
+### Map()
 Manage the maps (loading, changing...)
 1. The game starts by calling the *@staticmethod* *__Map.loader()__*
 
@@ -113,7 +158,7 @@ Manage the maps (loading, changing...)
             self.create_map_objects(map_name, old_pos=True)
     ```
 ***
-### Sprites
+### Sprites()
 The Sprites class is a parent class to player and pnj. **(Not te be confused with the pygame.sprite.Sprite class)**
 
 1. *__Sprites.load_animation()__* :
@@ -139,18 +184,18 @@ The Sprites class is a parent class to player and pnj. **(Not te be confused wit
     show a red box around the sprite. (Debug purpose only)
 
 ***
-### Player
+### Player(pygame.sprite.Sprite, Sprites)
 The Player class wich manage every aspect of the player (animations, stats, inventory...).
 
 ***
 ### Obtacles
 
-#### Wall
+#### Wall(pygame.sprite.Sprite)
 
 The wall class is used to block the player, just add an object named *wall* in your object layer in Tiled.
 
 ***
-### Inventory
+### Inventory()
 Manage the items of an entity (player, chest, vendor...)
 
 1. *__Inventory.get_player_object()__* :
@@ -166,7 +211,7 @@ Manage the items of an entity (player, chest, vendor...)
     Show the item tooltip on mouseover.
 
 ***
-### Database
+### Database()
 Manage the connection to the database, queries, password checker and password hashing.
 
 1. *__Dtabase.connection()__* :
@@ -191,10 +236,37 @@ Manage the connection to the database, queries, password checker and password ha
     Take a username and a password, hash the password and compare it to the hashed password saved in the database for that username.
     (All step of the connection is managed inside)
     
-X. *__Database.random_hashing(input_data)__* and *__Database.hashing(pwd, salt)__* :
+6. *__Database.random_hashing(input_data)__* and *__Database.hashing(pwd, salt)__* :
 
     Can be used to hash a password. The *.random_hashing()* generate a salt and hash the inputed password.
     The *.hashing(pwd, salt) takes a password and a salt and hash it.
+
+***
+### Pnj(pygame.sprite.Sprite, Sprites)
+Manage every non playable entity in the game. (vendor, peons, animals...)
+
+1. **data Dict** :
+
+    The data dict lets you store the pnj phrases. You can store *n* lines per pnj.
+    You need to name the key like the object you created in the object layer of your *.tmx* map file.
+    
+2. *__Pnj.update()__* :
+
+    Manage the rect update of the pnj if he can move (The value of can_move is the second value in the object name. __Ex: rooster_*true*_pnj__)
+    Also manage the animation frames.
+    
+3. *__Pnj.random_movements()__* :
+
+    Randomly move the pnj in a random direction depending on a random time (idle 1 to 3sec, moving 1 to 5sec).
+    
+4. *__Pnj.move()__* :
+
+    Move function for the Pnj, is called by the *random_movements()* method. Check for collision between the pnj hitbox and the walls.
+    
+5. *__Pnj.talk_to()__* :
+
+    When the player *rect* is colliding with the pnj *rect* and the player press __E__, cycle through the data dict and choose a line to show using the *__Game.show_popup()__*.
+    Can be used to ask if the player wants to access a vendor, etc...
 
 ***
 ## How to add your Map
