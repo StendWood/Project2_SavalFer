@@ -170,5 +170,5 @@ class Map:
         # GardenLand
         game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")
         # !  Pick_food
-        game.maps["pick_food"]["loading"] = pygame.image.load("assets/img/loading/pick_food/pick_food.png")
+        # game.maps["pick_food"]["loading"] = pygame.image.load("assets/img/loading/pick_food/pick_food.png")
         

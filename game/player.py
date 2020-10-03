@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite, Sprites):
         pygame.sprite.Sprite.__init__(self)
 
         # Data
-        self.id = 1
+        self.id = self.game.current_player_id
 
         # Inventory
         self.inventory = Inventory(game, self.id)

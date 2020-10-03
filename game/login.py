@@ -72,7 +72,7 @@ class Login:
         self.error_text = self.game.login_error_font.render(ERROR_TEXT, True, RED)
 
         # Create a db object
-        self.db = Database(self)
+        self.db = Database(self.game, self)
         # Init the login error flag
         self.login_error = False
 

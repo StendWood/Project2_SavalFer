@@ -1,8 +1,6 @@
 # coding: utf-8
 
 # Imports
-from game.water_source import Water_source
-from game.data.database import Database
 import pygame
 import json
 import time
@@ -18,6 +16,9 @@ from game.data.map import Map
 from game.obstacles import Wall
 from game.warper import Warper
 from game.views.gui import Gui
+from game.server.network import Network
+from game.water_source import Water_source
+from game.data.database import Database
 
 
 class Game:
@@ -30,7 +31,9 @@ class Game:
         self.cfg = {}
         self.load_cfg_error = False
         # Init the database
-        self.db = Database()
+        self.db = Database(self)
+        # Network
+        self.n = Network()
         # Pygame init
         pygame.init()
         # Sound init
@@ -120,6 +123,8 @@ class Game:
                     "loading" : None,
                 },
         }
+
+        self.current_player_id = None
 
         # Flag management
         # Warper intereactions

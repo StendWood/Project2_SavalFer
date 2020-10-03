@@ -15,12 +15,14 @@ class Database:
         Database hub
     """
 
-    def __init__(self, login=None):
+    def __init__(self, game, login=None):
+        self.game = game
         self.host = HOST
         self.database = DATABASE
         self.user = USER
         self.password = PASSWORD
         self.login = login
+        self.current_player_id = -1
 
     def connection(self):
         """
@@ -116,8 +118,6 @@ class Database:
             self.cur.execute(query)
             # Get back credentials from the DB
             credentials = self.cur.fetchone()
-            # Cursor closed
-            self.manage_cursor()
             # Transform DB password and DB salt back to bytes
             db_pwd = bytes(credentials[0])
             db_salt = bytes(credentials[1])
@@ -125,6 +125,9 @@ class Database:
             pwd_to_check = self.hashing(password, db_salt)
             # Check if both password are a match
             if pwd_to_check == db_pwd:
+                # Get player ID
+                self.game.current_player_id = self.get_current_player_id(username)
+                print(self.game.current_player_id)
                 # Set login flag to false to launch the game
                 self.login.game.login_flag = False
                 # Save the username if necessary
@@ -135,6 +138,8 @@ class Database:
                 # Delete the login object to free memory
                 del(self.login)
             else:
+                # Cursor closed
+                self.manage_cursor()
                 # Set error to true to show the error popup
                 self.login.login_error = True
 
@@ -151,6 +156,18 @@ class Database:
             if self.conn is not None:
                 self.close_conn()
 
+    def get_current_player_id(self, username):
+        # Get the player ID
+        query = f"""
+                    SELECT u.user_id FROM "{DB_PREFIX}".user u
+                    INNER JOIN "{DB_PREFIX}".login l ON u.user_id = l.fk_user_id
+                    WHERE username = '{username}';
+                """
+        self.cur.execute(query)
+        self.current_player_id = self.cur.fetchone()
+        # Cursor closed
+        self.manage_cursor()
+        return self.current_player_id[0]
 
 ###########
 # HASHING #
