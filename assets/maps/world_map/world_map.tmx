@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="149">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="150">
  <tileset firstgid="1" source="../../tilesets/world_map/beach_tileset.tsx"/>
  <tileset firstgid="937" source="../../tilesets/world_map/tf_atlantis_tiles.tsx"/>
  <tileset firstgid="2127" source="../../tilesets/world_map/pipo-map001.tsx"/>
@@ -1052,7 +1052,7 @@
   <object id="136" name="wall" x="1568" y="1024" width="64" height="32"/>
   <object id="137" name="wall" x="1664" y="1024" width="64" height="32"/>
   <object id="138" name="GardenLand_sign" x="1839" y="882" width="35" height="33"/>
-  <object id="139" name="HarvestLand_warper" x="544.667" y="706" width="30" height="125"/>
+  <object id="139" name="HarvestLand_warper" x="512.667" y="706" width="62" height="125"/>
   <object id="140" name="wall" x="514" y="511" width="29.6667" height="218"/>
   <object id="141" name="wall" x="387.667" y="810.333" width="142.333" height="110.333"/>
   <object id="142" name="wall" x="264.667" y="776.333" width="124" height="110.333"/>
