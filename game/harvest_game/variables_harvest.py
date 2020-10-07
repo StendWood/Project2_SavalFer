@@ -1,9 +1,25 @@
 #coding: utf-8
 
+import TEST
+from touch_function import Touch_function
+
+# additional code:
+# from touch_function import Touch_function
+
 running = True
 
 players = []
 pressed = {}
-visible_pumpkin = False
+# visible_pumpkin = False
 link = ""
 seeds = []
+touch_key = ()
+touch_id =""
+nb_seed =""
+
+
+touch_functions = {
+    "K_SPACE" : Touch_function.get_visible,
+    "" : ""
+}
+

@@ -4,7 +4,10 @@
 import pygame
 import pytmx
 
+from seed import Seed
 
+# additional code:
+# from touch_function import Touch_function
 import variables_harvest as var
 from connect_db import Database
 
@@ -54,35 +57,60 @@ class Pygame_util():
         pygame.display.flip()
 
     @staticmethod
-    def get_event(current_vegetable):
+    def get_event():   #! seed.id   à ajouter et remplacer 4 !
         for event in pygame.event.get(): 
         # check if the event is " close the window"
             if event.type == pygame.QUIT:
                 var.running = False
                 # ! remettre les données comme au début #############################
                 db = Database()
+                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
+                print()
+                print(f'pumpkin visible de la bdd avant remise à zéro : {pumpkin_visible}')
+                print()
                 # update the database with visible is False
                 db.execute_query("UPDATE seed SET visible = False WHERE id = 4")
-                # update the variable to False
-                var.visible_pumpkin = False
-                # check if all is back
-                # in DB
+                # check if info "False" is back in DB
                 pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
-                # print()
-                # print(f'pumpkin visible de la bdd après remise à zéro : {pumpkin_visible}')
-                # print()
+                print()
+                print(f'pumpkin visible de la bdd après remise à zéro : {pumpkin_visible}')
+                print()
                 # ! à supprimer ######################################################
                 pygame.quit()  
                 print("\nLa fenêtre est fermée !\n")
+                # check if info "False" is back in DB
+                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
+                db.close()
+                print()
+                print(f'pumpkin visible de la bdd après quitter : {pumpkin_visible}')
+                print()
+                var.touch_key =()
+                return 
+
             if event.type == pygame.KEYDOWN:
                 var.pressed[event.key] = True
-                # 
+                # if space was pressed
                 if event.key == pygame.K_SPACE:
-                    exec(f'var.{current_vegetable} = True')
+                    print("\n space was pressed!\n")
+                    print(f'event.key ::{event.key}')
+                    var.nb_seed = input("Numéro de la graine :")
+                    return (f'K_SPACE')
+
+            
+
+                    # # seed is visible
+                    # for seed in var.seeds:
+                    #     if seed.id == 4:
+                    #         seed.visible = True
+                    #         print(f'seed id :: {seed.id}')
+
+                    # exec(f'var.{current_vegetable} = True')
 
                     # print()
                     # print(f" après avoir appuyer sur espace :: {var.visible_pumpkin}")
                     # print()
+            var.touch_key =()
+            return 
 
 
 

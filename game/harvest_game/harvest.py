@@ -11,6 +11,8 @@ from seed import Seed
 from pygame_utilities import Pygame_util
 from map_tiled import Map_tiled
 from player_harvest import Player_harvest
+from touch_function import Touch_function
+
 
 import psycopg2
 
@@ -35,11 +37,11 @@ def main_harvest(running=True):
         var.seeds.append(Seed(item))
 
     # ** debug *************
-        # for seed in var.seeds:
-        #     if seed.id == 4   :
-        #         print()
-        #         print(seed)
-        # print()
+    for seed in var.seeds:
+        if seed.id == 4   :
+            print()
+            print(seed.visible)
+    print()
     # ********************** 
 
 
@@ -63,46 +65,75 @@ def main_harvest(running=True):
     Pygame_util.update_window()
 
     ## get what the player does
-    Pygame_util.get_event("visible_pumpkin")
+    print()
+    print(f' var.touch_key au début :: {var.touch_key}')
+
+    var.touch_key = Pygame_util.get_event()
+    
+    # var.touch_key = "K_SPACE"
+    # ! print()
+    print(f" le nom de la touche :: {var.touch_key}")
+    print(f" le numéro de la graine :: {var.nb_seed}")
+    print()
+    
+    # {var.touch_functions[key](var.nb_seed) for key in var.touch_functions if key == var.touch_key}
+    #* ci_dessus compréhension de dico = ci-dessous
+    for key in var.touch_functions:
+        print(f" la clé en cours :: {key}")
+        if key == var.touch_key :
+            var.touch_functions[key](4)
+
+    #* ############################################
+    
+    # for seed in var.seeds:
+    #     if seed.id == 4   :
+            #seed.
+    # (var.touch_functions.value for key in var.touch_functions if key == touch_key)
+    # print(f' visible ou pas :: {visible}')
+    print()
+    print("A C T I O N")
+    print()
     # print()
     # print(f" var.visible_pumpkin :: {var.visible_pumpkin}")
     # print()
     
     #! pumpkin = db.execute_query(f""" SELECT link FROM seed WHERE id=4""")
     ## update the database if visible now and print the pumpkin if it is visible
-    if var.visible_pumpkin:
-        # update the database with new attribut
-        db.execute_query("UPDATE seed SET visible = True WHERE id = 4")
-        # update the collection
-        for seed in var.seeds:
-            if seed.id == 4:
-                seed.visible = var.visible_pumpkin
-        #? debug ####################
+    for seed in var.seeds:
+        if seed.visible == True :
+            # update the database with new attribut
+            db.execute_query(f"UPDATE seed SET visible = True WHERE id = {seed.id}")
+            var.link = seed.link
+            # # update the collection ! à suppr si je modifie directement la collection
+            # for seed in var.seeds:
+            #     if seed.id == 4:
+            #         seed.visible = var.visible_pumpkin
+            #? debug ####################
+            # for seed in var.seeds:
+            #     if seed.id == 4:
+            #         print()
+            #         print(f'visible dans la collection :: {seed.visible}')
+            #         print()
+            # pumpkin_visible = db.execute_query(f"SELECT seed.visible FROM seed WHERE id = 4", True)
+            # print()
+            # print(f'pumpkin visible de la bdd : {pumpkin_visible}')
+            # print()
+            #? ############################## 
+        
+
         # for seed in var.seeds:
         #     if seed.id == 4:
-        #         print()
-        #         print(f'visible dans la collection :: {seed.visible}')
-        #         print()
-        # pumpkin_visible = db.execute_query(f"SELECT seed.visible FROM seed WHERE id = 4", True)
-        # print()
-        # print(f'pumpkin visible de la bdd : {pumpkin_visible}')
-        # print()
-        #? ############################## 
-        
+        #         var.link = seed.link
 
-        for seed in var.seeds:
-            if seed.id == 4:
-                var.link = seed.link
+            # show a pumpkin on screen
+            # import pumpkin image
+            pumpkin = Pygame_util.import_image(var.link)
+            
+            # show pumpkin on a specific place on screen
+            Pygame_util.show_image(window_game, pumpkin, 70, 30 )
 
-        # show a pumpkin on screen
-        # import pumpkin image
-        pumpkin = Pygame_util.import_image(var.link)
-        
-        # show pumpkin on a specific place on screen
-        Pygame_util.show_image(window_game, pumpkin, 70, 30 )
-
-        ## update the window with the pumpkin
-        Pygame_util.update_window()
+            ## update the window with the pumpkin
+            Pygame_util.update_window()
                 
 
 
@@ -112,7 +143,7 @@ if __name__ == "__main__":
     while var.running:
         main_harvest()
 
-
+ 
 
 
         # #? debug update database for pumpkin ####################
