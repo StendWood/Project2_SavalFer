@@ -1,9 +1,5 @@
 # coding: utf-8
 
-import pygame
-import variables_harvest as var
-
-
 class User_player():
     """
         manages the player class

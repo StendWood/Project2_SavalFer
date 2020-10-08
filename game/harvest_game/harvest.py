@@ -1,21 +1,23 @@
 # coding: utf-8
 
+# # modules
+    # graphism
 import pygame
 import pytmx
-
-import variables_harvest as var
-
-# import
-from connect_db import Database
-from seed import Seed
-from pygame_utilities import Pygame_util
-from map_tiled import Map_tiled
-from player_harvest import User_player
-from touch_function import Touch_function
-
-
+    # database
 import psycopg2
 
+# # additional code
+    # utilities
+from database_utilities import Database
+from pygame_utilities import Pygame_util
+    # functions for player actions
+from touch_function import Touch_function
+    # classes from database
+from seed import Seed
+from player_harvest import User_player
+    # global variables
+import variables_harvest as var
 
 
 def main_harvest(running=True):

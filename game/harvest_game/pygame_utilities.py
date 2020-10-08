@@ -9,7 +9,7 @@ from seed import Seed
 # additional code:
 # from touch_function import Touch_function
 import variables_harvest as var
-from connect_db import Database
+from database_utilities import Database
 from map_tiled import Map_tiled
 
 

@@ -19,5 +19,5 @@ class Touch_function():
         for seed in var.seeds:
             if seed.id == id_object:
                 seed.visible = True
-                print(f'seed name :: {seed.name} - visible :: {seed.visible}')
+                #! print(f'seed name :: {seed.name} - visible :: {seed.visible}')
 
