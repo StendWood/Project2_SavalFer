@@ -1,9 +1,7 @@
+# coding: utf-8
 
 import pygame
 import pytmx
-
-
-from pygame_utilities import Pygame_util
 
 
 class Map_tiled():

@@ -10,6 +10,7 @@ from seed import Seed
 # from touch_function import Touch_function
 import variables_harvest as var
 from connect_db import Database
+from map_tiled import Map_tiled
 
 
 # FPS = 60    # to define how many frames we update per second
@@ -32,32 +33,32 @@ class Pygame_util():
 
         return window_screen
 
-    @staticmethod
-    def import_image(image_link):
-        """
-            imports an image
-        """
-    
-        imported_image = pygame.image.load(image_link)
-        return imported_image
-
 
     @staticmethod
-    def show_image(screen: pygame.Surface, image, image_place_width = 0, image_place_height = 0 ):
+    def manage_image(screen: pygame.Surface, image_link, image_place_width = 0, image_place_height = 0, tiled = False):
         """
-            shows an image on a specific place on window
+            imports, shows and updates the screen with an image depending on if it is .tmx or another extension file
         """
-        screen.blit(image, (image_place_width, image_place_height))
 
-    @staticmethod
-    def update_window():
-        """
-            updates the window
-        """
+        #* check if the extension is .tmx
+        # if tiled is True means .tmx so use this fonction
+        if tiled:
+            # so use this fonction
+            Map_tiled.render(screen, image_link)
+        # if another extension
+        else:
+            # load the image in pygame
+            imported_image = pygame.image.load(image_link)
+            # show the image on a specific place on window
+            screen.blit(imported_image, (image_place_width, image_place_height))
+
+        # update the window
         pygame.display.flip()
 
+
+
     @staticmethod
-    def get_event():   #! seed.id   à ajouter et remplacer 4 !
+    def get_event():
         for event in pygame.event.get(): 
         # check if the event is " close the window"
             if event.type == pygame.QUIT:
@@ -90,10 +91,10 @@ class Pygame_util():
                 var.pressed[event.key] = True
                 # if space was pressed
                 if event.key == pygame.K_SPACE:
-                    print("\n space was pressed!\n")
-                    print(f'event.key ::{event.key}')
-                    # var.nb_seed = input("Numéro de la graine :")
-                    return f'K_SPACE', 4
+                    # ask the player the seed id
+                    var.nb_seed = int(input("Numéro de la graine :"))
+                    # return the name of the key and the seed id
+                    return 'K_SPACE', var.nb_seed
 
             
 
