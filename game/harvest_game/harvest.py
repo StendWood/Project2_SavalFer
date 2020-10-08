@@ -69,19 +69,20 @@ def main_harvest(running=True):
     print(f' var.touch_key au début :: {var.touch_key}')
 
     var.touch_key = Pygame_util.get_event()
-    
+    # nb_seed = 4
     # var.touch_key = "K_SPACE"
     # ! print()
     print(f" le nom de la touche :: {var.touch_key}")
-    print(f" le numéro de la graine :: {var.nb_seed}")
+    # print(f" le numéro de la graine :: {nb_seed}")
     print()
     
-    # {var.touch_functions[key](var.nb_seed) for key in var.touch_functions if key == var.touch_key}
+    if var.touch_key != None :
+        {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
     #* ci_dessus compréhension de dico = ci-dessous
-    for key in var.touch_functions:
-        print(f" la clé en cours :: {key}")
-        if key == var.touch_key :
-            var.touch_functions[key](4)
+        # for key in var.touch_functions:
+        #     print(f" la clé en cours :: {key}")
+        #     if key == var.touch_key[0] :
+        #         var.touch_functions[key](var.touch_key[1])
 
     #* ############################################
     

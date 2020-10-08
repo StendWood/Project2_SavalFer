@@ -84,7 +84,6 @@ class Pygame_util():
                 print()
                 print(f'pumpkin visible de la bdd après quitter : {pumpkin_visible}')
                 print()
-                var.touch_key =()
                 return 
 
             if event.type == pygame.KEYDOWN:
@@ -93,8 +92,8 @@ class Pygame_util():
                 if event.key == pygame.K_SPACE:
                     print("\n space was pressed!\n")
                     print(f'event.key ::{event.key}')
-                    var.nb_seed = input("Numéro de la graine :")
-                    return (f'K_SPACE')
+                    # var.nb_seed = input("Numéro de la graine :")
+                    return f'K_SPACE', 4
 
             
 
@@ -109,7 +108,6 @@ class Pygame_util():
                     # print()
                     # print(f" après avoir appuyer sur espace :: {var.visible_pumpkin}")
                     # print()
-            var.touch_key =()
             return 
 
 
