@@ -1,5 +1,8 @@
 # coding: utf-8
 
+# additional code
+import variables_harvest as var
+
 class User_player():
     """
         manages the player class
@@ -28,6 +31,29 @@ class User_player():
         self.y = properties_player[7] 
         # check if the seed image has to be show on screen
         self.visible = properties_player[8] 
+        # the previous position x, at start is x
+        self.previousx = self.x
+        # the previous position y, at start is y
+        self.previousy = self.y
+
+
+    def move_up(self, id, y_item):
+        """
+            moves higher the item on screen
+        """
+
+        for player in var.players :
+            if id == self.id:
+                print("\n le joueur monte\n")
+                # save the previous position of the item
+                # self.previousy = y_item
+                # print(f'Ancienne position de y = celle fournie:: {y_item}')
+                # # the item moves hight dependant on his velocity
+                self.y = y_item - self.velocity
+                print(f'\nNouvelle position y du joueur :: {self.y}')
+                # show the item with the new position i player is visible
+
+
 
 
     def __str__(self):
@@ -37,18 +63,7 @@ class User_player():
 
         return f"N°{self.id} :: {self.name} - visible :: {self.visible}"
 
-    # def get_rect(self, image_link):
-    #     """
-    #         get he position of the player with a rect
-    #     """
-    
-    #     self.rect = self.image_link.get_rect()
-        
-    #     x = self.rect.x
-    #     y = self.rect.y
 
 
 # if __name__ == "__main__":
-#     var.players = Player_harvest('alien', 'assets/img/avatar/alien/alien purple.png', 100, 100)
-#     print(var.players)
-#     print(var.players.x)
+#     pass

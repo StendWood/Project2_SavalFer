@@ -2,6 +2,7 @@
 
 # additional code
 from touch_function import Touch_function
+from player_harvest import User_player
 
 # check if the game is finish (False if so)
 running = True
@@ -17,7 +18,7 @@ seeds = []
 touch_functions = {
     # if space key is touch, show the specified image on screen
     "K_SPACE" : Touch_function.get_visible,
-    "" : ""
+    "K_UP" : User_player.move_up
 }
 
 # which seed is planted (= seed.id)

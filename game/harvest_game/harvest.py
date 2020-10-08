@@ -32,35 +32,37 @@ def main_harvest(running=True):
     # gets the seeds from the database
     seeds_db = db.execute_query(f"SELECT * FROM seed", True)
     # save the datas in seeds collection
-    for seed in seeds_db:
-        var.seeds.append(Seed(seed))
+    var.seeds = [Seed(seed) for seed in seeds_db]
     
     # ** instantiate class Player
     # gets the players from the database
     players_db = db.execute_query(f"SELECT * FROM userplayer", True)
     # save the datas in players collection
-    for player in players_db:
-        var.players.append(User_player(player))
+    var.players = [User_player(player) for player in players_db]
 
 
     # ** launch the game user interface 
     ## generate the window of the game
     window_game = Pygame_util.generate_window("Name", var.window_game_choosen["width_x"], var.window_game_choosen["height_y"])
 
-    ## load tiled map 
+    ## show tiled map 
     Pygame_util.manage_image(window_game,'assets/maps/HarvestLand/HarvestLand.tmx', tiled = True)
 
-    ## import player image
+    ## show player image
     for player in var.players :
         if player.visible:
             Pygame_util.manage_image(window_game, player.link, player.x, player.y) 
 
-    # ** get what the player does
+    # ** get what the player wants to do
+    # get which touch he pressed
     var.touch_key = Pygame_util.get_event()
-    # checks if the player has done something
+    # check if the player has done something
     if var.touch_key != None :
-        # if yes, do what the player want
-        {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
+        # if yes, do what the player want before checking if the second value of the tuple is empty
+        if var.touch_key[1] != "":
+            {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
+        else:
+            {var.touch_functions[key](player, 1, player.y) for key in var.touch_functions if key == var.touch_key[0]}
 
     #? ci_dessus compréhension de dico = ci-dessous
         # for key in var.touch_functions:
@@ -69,7 +71,7 @@ def main_harvest(running=True):
         #         var.touch_functions[key](var.touch_key[1])
     #? ############################################
     
-    ## update the database if visible now and print the pumpkin if it is visible
+    ## update the database with what is visible now and show it on screen
     for seed in var.seeds:
         # check if the seed is visible
         if seed.visible == True :
@@ -77,6 +79,13 @@ def main_harvest(running=True):
             db.execute_query(f"UPDATE seed SET visible = True WHERE id = {seed.id}")
             # show a pumpkin on screen
             Pygame_util.manage_image(window_game, seed.link, seed.x, seed.y)
+    
+    for player in var.players :
+        # if player.y != player.previousy:
+        # update the database with new attribut
+        db.execute_query(f"UPDATE userplayer SET y = {player.y} WHERE id = {player.id}")
+        # show the player on screen at the new position
+        Pygame_util.manage_image(window_game, player.link, player.x, player.y)
 
 
 

@@ -7,7 +7,6 @@ import pytmx
 from seed import Seed
 
 # additional code:
-# from touch_function import Touch_function
 import variables_harvest as var
 from database_utilities import Database
 from map_tiled import Map_tiled
@@ -89,13 +88,21 @@ class Pygame_util():
 
             if event.type == pygame.KEYDOWN:
                 var.pressed[event.key] = True
+            elif event.type == pygame.KEYUP:
                 # if space was pressed
                 if event.key == pygame.K_SPACE:
                     # ask the player the seed id
                     var.nb_seed = int(input("Numéro de la graine :"))
-                    # return the name of the key and the seed id
+                    # return the name of the key (to check in the dictionnary) and the seed id
                     return 'K_SPACE', var.nb_seed
-
+                # touch "z" was pressed
+                elif event.key == pygame.K_UP:
+                    print(f'\nUP was pressed ! \n')
+                    # return the name of the key (to check in the dictionnary)
+                    return 'K_UP', ""
+                
+                # Reset key bool to False
+                self.pressed[event.key] = False
             
 
                     # # seed is visible
