@@ -69,9 +69,9 @@ class Pygame_util():
                 print(f'pumpkin visible de la bdd avant remise à zéro : {pumpkin_visible}')
                 print()
                 # update the database with visible is False
-                db.execute_query("UPDATE seed SET visible = False WHERE id = 4")
+                db.execute_query("UPDATE seed SET visible = False")
                 # check if info "False" is back in DB
-                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
+                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed ", True)
                 print()
                 print(f'pumpkin visible de la bdd après remise à zéro : {pumpkin_visible}')
                 print()
@@ -97,6 +97,7 @@ class Pygame_util():
                     return 'K_SPACE', var.nb_seed
                 # touch "z" was pressed
                 elif event.key == pygame.K_UP:
+                    #! debug
                     print(f'\nUP was pressed ! \n')
                     # return the name of the key (to check in the dictionnary)
                     return 'K_UP', ""

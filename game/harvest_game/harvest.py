@@ -50,7 +50,7 @@ def main_harvest(running=True):
 
     ## show player image
     for player in var.players :
-        if player.visible:
+        if player.visible == True:
             Pygame_util.manage_image(window_game, player.link, player.x, player.y) 
 
     # ** get what the player wants to do
@@ -81,11 +81,12 @@ def main_harvest(running=True):
             Pygame_util.manage_image(window_game, seed.link, seed.x, seed.y)
     
     for player in var.players :
-        # if player.y != player.previousy:
-        # update the database with new attribut
-        db.execute_query(f"UPDATE userplayer SET y = {player.y} WHERE id = {player.id}")
-        # show the player on screen at the new position
-        Pygame_util.manage_image(window_game, player.link, player.x, player.y)
+        if player.visible == True :
+            # if player.y != player.previousy:
+            # update the database with new attribut
+            db.execute_query(f"UPDATE userplayer SET y = {player.y} WHERE id = {player.id}")
+            # show the player on screen at the new position
+            Pygame_util.manage_image(window_game, player.link, player.x, player.y)
 
 
 

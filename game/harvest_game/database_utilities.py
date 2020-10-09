@@ -13,10 +13,12 @@ class Database():
             constructor
         """
 
-        self.host = "localhost"
-        self.database = "p2"
-        self.user = "postgres"
-        self.password = "Formation2020-at"
+        self.host = "ale-pyt-2006-pjt-p2-db.pythonrover.wilders.dev"
+        self.database = "postgres"
+        self.dbname = "SavalFer"
+        self.user = "AP2006"
+        self.password = "AP2006p2"
+        self.port = "15002"
 
 
     def db_connect(self):
@@ -25,9 +27,10 @@ class Database():
         """
         self.connection = psycopg2.connect(
                         host=self.host,
-                        database=self.database,
+                        dbname = self.dbname,
                         user=self.user,
-                        password=self.password
+                        password=self.password,
+                        port = self.port
                         )
     
 
