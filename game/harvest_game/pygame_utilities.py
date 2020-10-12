@@ -105,18 +105,6 @@ class Pygame_util():
                 # Reset key bool to False
                 self.pressed[event.key] = False
             
-
-                    # # seed is visible
-                    # for seed in var.seeds:
-                    #     if seed.id == 4:
-                    #         seed.visible = True
-                    #         print(f'seed id :: {seed.id}')
-
-                    # exec(f'var.{current_vegetable} = True')
-
-                    # print()
-                    # print(f" après avoir appuyer sur espace :: {var.visible_pumpkin}")
-                    # print()
             return 
 
 

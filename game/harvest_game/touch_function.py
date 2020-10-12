@@ -25,6 +25,11 @@ class Touch_function():
                 seed.visible = True
                 #! print(f'seed name :: {seed.name} - visible :: {seed.visible}')
         
+
+
+
+
+        
         # ! à supprimer car circular import (pygame_util, touch_fn, var, pygame_util)
         # # update the database with what is visible now and show it on screen
         # for seed in var.seeds:
