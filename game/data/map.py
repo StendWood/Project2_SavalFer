@@ -169,6 +169,6 @@ class Map:
         game.maps["EdWorld"]["loading"] = pygame.image.load("assets/img/loading/EdWorld/Edworld.png")
         # GardenLand
         game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")
-        # HarvestLand
-        game.maps["HarvestLand"]["loading"] = pygame.image.load("assets/img/loading/HarvestLand.png")
+
+
         
