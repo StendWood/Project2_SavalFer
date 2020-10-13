@@ -43,12 +43,20 @@ ERROR_TEXT_POS = (260, 320)
 SAVE_USERNAME_POS = (275, 290)
 SAVE_USERNAME_TEXT = "Remember me"
 
-# DATABASE
+# DATABASE ALEX
 HOST="localhost"
-DATABASE="P2"
+DATABASE="p2"
 USER="postgres"
 # NEEDS TO BE SECURE
 PASSWORD="azerty1234"
+DB_PREFIX = "Projet_2"
+
+# DATABASE AURE
+HOST="localhost"
+DATABASE_2="p2test2"
+USER="postgres"
+# NEEDS TO BE SECURE
+PASSWORD_2="Formation2020-at"
 DB_PREFIX = "Projet_2"
 
 # Accounts

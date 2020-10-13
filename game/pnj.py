@@ -22,7 +22,7 @@ class Pnj(pygame.sprite.Sprite, Sprites):
                     "You can cut down a tree if you have the right tool.", "You can cut a log to craft tools."],
         "chicken" : ["Cot Cot Cot !"],
         "rooster" : ["Cocoricoooooooo !"],
-        "dog" : ["Woof Woof !", "*The do is asleep...*"],
+        "dog" : ["Woof Woof !", "*The dog is asleep...*"],
     }
 
     def __init__(self, name, can_move, rect, game):
