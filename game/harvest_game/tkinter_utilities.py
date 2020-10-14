@@ -3,6 +3,7 @@
 # import
 from tkinter import *
 from seed import Seed
+from inventory import Inventory
 import variables_harvest as var
 
 class Tkinter_util():
@@ -130,10 +131,10 @@ class Tkinter_util():
         tomato_canva.img = tomato_image
 
         # # add a first button, here for plant pumpkin seed
-        pumpkin_button = Button(self.frame_vegetable, text="Ramasser la citrouille", font=("helvetica",10), bg = "black", fg ="pink", command=Seed.get_visible(4))
+        pumpkin_button = Button(self.frame_vegetable, text="Ramasser la citrouille", font=("helvetica",10), bg = "black", fg ="pink", command=Inventory.add_item(4))
         pumpkin_button.grid(row=4, column=1, pady=10)
         # add a button to plant tomato seed
-        tomato_button = Button(self.frame_vegetable, text="Ramasser la tomate", font=("helvetica",10), bg = "black", fg ="pink", command=Seed.get_visible(5))
+        tomato_button = Button(self.frame_vegetable, text="Ramasser la tomate", font=("helvetica",10), bg = "black", fg ="pink", command=Inventory.add_item(5))
         tomato_button.grid(row=4, column=2, padx=20, pady=10)
 
 
@@ -144,10 +145,6 @@ class Tkinter_util():
         #! # show the main window
         # self.mainloop()
 
-
-    # @staticmethod
-    # def action_button():
-    #     print("\nLa graine est plantée !\n")
 
     def create_view_seed(self):
         """
@@ -223,6 +220,11 @@ class Tkinter_util():
 if __name__ == "__main__":
     var.tkinter = Tkinter_util()
     var.tkinter.launch_loop()
+
+
+    # @staticmethod
+    # def action_button():
+    #     print("\nLa graine est plantée !\n")
 
 
     # # create a frame to put the text

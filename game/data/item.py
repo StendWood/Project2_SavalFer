@@ -8,6 +8,7 @@ import pytmx
 # Additional codes
 
 
+
 class Item:
     """
         Create an item using DB data
@@ -37,3 +38,6 @@ class Item:
         """
 
         return f"\nName: {self.name}\nAttack power: {self.attack}\nType: {self.type}"
+
+
+
