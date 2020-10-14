@@ -80,7 +80,7 @@ def tkinter_util():
     menu_bar = Menu(window)
     # create a menu
     file_menu = Menu(menu_bar,tearoff=0)
-    file_menu.add_command(label="Nouveau", command=action_button)
+    file_menu.add_command(label="Ramasser", command=action_button)
     file_menu.add_command(label="Quitter", command=window.quit)
     menu_bar.add_cascade(label= "Fichier", menu=file_menu)
     # show this menu bar on window
