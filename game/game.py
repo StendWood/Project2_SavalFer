@@ -179,11 +179,8 @@ class Game:
                 self.pressed[event.key] = True
             # Manage key release
             elif event.type == pygame.KEYUP:
-                # Spacebar
-                if event.key == pygame.K_SPACE:
-                    self.player.jump()
                 # E
-                elif event.key == pygame.K_e:
+                if event.key == pygame.K_e:
                     # Check for any teleport to enter
                     for warper in self.warpers:
                         warper.show_teleport_prompt()
