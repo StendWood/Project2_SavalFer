@@ -12,8 +12,7 @@ import psycopg2
 from database_utilities import Database
 from pygame_utilities import Pygame_util
 import tkinter_utilities
-    # functions for player actions
-from touch_function import Touch_function
+from dict_data import Dict_data
     # classes from database
 from seed import Seed
 from player_harvest import User_player
@@ -41,6 +40,9 @@ def main_harvest(running=True):
     # save the datas in players collection
     var.players = [User_player(player) for player in players_db]
 
+    # ** initialize datas
+    # initialize the dictionnary touch_fonctions
+    Dict_data.put_function_in_dict_touch_functions()
 
     # ** launch the game user interface 
     ## generate the window of the game

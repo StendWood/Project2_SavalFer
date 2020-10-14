@@ -5,9 +5,6 @@
 # # from database_utilities import Database
 # from pygame_utilities import Pygame_util
 
-    # functions for player actions
-# from touch_function import Touch_function
-
     # global variables
 import variables_harvest as var
 

@@ -1,11 +1,5 @@
 #coding: utf-8
 
-# additional code
-from touch_function import Touch_function
-from player_harvest import User_player
-import tkinter_utilities
-# from pygame_utilities import Pygame_util
-# from seed import Seed
 
 # check if the game is finish (False if so)
 running = True
@@ -25,9 +19,8 @@ seeds = []
 # key → value = touch_pressed → functions/game actions
 touch_functions = {
     # if space key is touch, show the specified image on screen
-    "K_SPACE" : tkinter_utilities.tkinter_util,
-    "K_UP" : User_player.move_up,
-    "MOUSEBUTTONDOWN" : "Seed.choose_seed"
+    "K_SPACE" : "None",
+    "K_UP" : "None"
 }
 
 # which seed is planted (= seed.id)
