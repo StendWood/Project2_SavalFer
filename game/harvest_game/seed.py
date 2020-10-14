@@ -1,6 +1,15 @@
 # coding: utf-8
 
+# # additional code
+#     # utilities
+# # from database_utilities import Database
+# from pygame_utilities import Pygame_util
 
+    # functions for player actions
+# from touch_function import Touch_function
+
+    # global variables
+import variables_harvest as var
 
 class Seed():
     """
@@ -28,6 +37,8 @@ class Seed():
         self.x = properties_seed[8]
         # position y of the seed on screen
         self.y = properties_seed[9]
+        # position of seed rect
+        # self.position = self.get_rect()
     
 
     def __str__(self):
@@ -40,9 +51,48 @@ class Seed():
     # def to_grow(self):
     #     self.grown = True
 
+    @staticmethod
+    def get_visible(id_object):
+        """
+            put true to the attibut visible (for seed)
+        """
+        # print(id_object)
+        # seed is visible
+        for seed in var.seeds:
+            if seed.id == id_object:
+                seed.visible = True    
 
 
-# if __name__ == "__main__":
+
+        # # show the background of the interface
+        # Pygame_util.manage_image(var.window_game, "assets/img/inventory/bg.png", 20, 20)
+
+        # for seed in var.seeds:
+        #     if id == seed.id:
+        #         # show the seed the player has in his inventory
+        #         Pygame_util.manage_image(var.window_game, self.link, 100, 100)
+
+
+
+
+
+    #     # if the player presses on button left of the mouse
+    #     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:     # si clic sur la souris
+    #         # if the place where he pressed is in the surface of the username rectangle
+    #         if username_rect.collidepoint(event.pos):  
+    #             # the player could tape the username but not the password
+    #             username_status = True
+    #             password_status = False
+    #         # if the place where he pressed is in the surface of the password rectangle
+    #         elif password_rect.collidepoint(event.pos):
+    #             # the player could tape the password but not the username
+    #             password_status = True
+    #             username_status = False
+
+
+
+if __name__ == "__main__":
+    pumpkin.choose_seed(4)
 #     seeds=[]
 #     seed_1 = Seed(2, "berry", 3, 6)
 #     seeds.append(seed_1)

@@ -4,12 +4,12 @@
 import pygame
 import pytmx
 
-from seed import Seed
 
 # additional code:
 import variables_harvest as var
 from database_utilities import Database
 from map_tiled import Map_tiled
+import tkinter_utilities
 
 
 # FPS = 60    # to define how many frames we update per second
@@ -62,28 +62,6 @@ class Pygame_util():
         # check if the event is " close the window"
             if event.type == pygame.QUIT:
                 var.running = False
-                # ! remettre les données comme au début #############################
-                db = Database()
-                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
-                print()
-                print(f'pumpkin visible de la bdd avant remise à zéro : {pumpkin_visible}')
-                print()
-                # update the database with visible is False
-                db.execute_query("UPDATE seed SET visible = False")
-                # check if info "False" is back in DB
-                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed ", True)
-                print()
-                print(f'pumpkin visible de la bdd après remise à zéro : {pumpkin_visible}')
-                print()
-                # ! à supprimer ######################################################
-                pygame.quit()  
-                print("\nLa fenêtre est fermée !\n")
-                # check if info "False" is back in DB
-                pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
-                db.close()
-                print()
-                print(f'pumpkin visible de la bdd après quitter : {pumpkin_visible}')
-                print()
                 return 
 
             if event.type == pygame.KEYDOWN:
@@ -92,15 +70,24 @@ class Pygame_util():
                 # if space was pressed
                 if event.key == pygame.K_SPACE:
                     # ask the player the seed id
-                    var.nb_seed = int(input("Numéro de la graine :"))
+                    # var.nb_seed = int(input("Numéro de la graine :"))
                     # return the name of the key (to check in the dictionnary) and the seed id
-                    return 'K_SPACE', var.nb_seed
+                    # image_infos = (window_game, image_link, image_place_width = 0, image_place_height = 0, tiled = False)
+                    # return 'K_SPACE', image_infos
+                    # return info to print tkinter window
+                    return "K_SPACE", "T"
+
                 # touch "z" was pressed
                 elif event.key == pygame.K_UP:
                     #! debug
                     print(f'\nUP was pressed ! \n')
                     # return the name of the key (to check in the dictionnary)
                     return 'K_UP', ""
+                # if the player presses on button left of the mouse
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:     # si clic sur la souris
+                    # get rect of the mouse
+                    (mouse_x, mouse_y) = event.pos
+                    return 'MOUSEBUTTONDOWN', (mouse_x, mouse_y)
                 
                 # Reset key bool to False
                 self.pressed[event.key] = False
@@ -108,6 +95,17 @@ class Pygame_util():
             return 
 
 
+    @staticmethod
+    def check_collision(object_1, object_2):
+        """
+            checks if collision or not
+        """
+
+        object_1_rect = object_1.get_rect()
+        object_2_rect = object_2.get_rect()
+
+        if object_1_rect.collidepoint(object_2_rect):
+            return True
 
 # if __name__ == "__maim__":
 #     pass

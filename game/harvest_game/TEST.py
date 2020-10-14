@@ -1,4 +1,18 @@
+import pygame
+from pygame_utilities import Pygame_util
+import variables_harvest as var
+import pytmx
 
+while 1== 1 :
+    var.window_game = Pygame_util.generate_window("Name", var.window_game_choosen["width_x"], var.window_game_choosen["height_y"])
+    Pygame_util.manage_image(var.window_game,'assets/maps/HarvestLand/HarvestLand.tmx', tiled = True)
+
+    # show the background of the interface
+    Pygame_util.manage_image(var.window_game, 'assets/img/inventory/bg.png', 10, 10)
+
+
+    # show the seed the player has in his inventory
+    Pygame_util.manage_image(var.window_game, 'assets/items/vegetable/pumpkin_3.png', 100,  100)
 
 
 
@@ -30,8 +44,8 @@
 
 # import variables_harvest as var
 
-def change_letter(arg = "Par défaut"):
-    print(f"changement de H en {arg}")
+# def change_letter(arg = "Par défaut"):
+#     print(f"changement de H en {arg}")
 
 # for key in var.touch:
 #     if key == "espace":
