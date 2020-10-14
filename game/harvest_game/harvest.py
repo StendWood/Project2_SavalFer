@@ -11,6 +11,7 @@ import psycopg2
     # utilities
 from database_utilities import Database
 from pygame_utilities import Pygame_util
+import tkinter_utilities
     # functions for player actions
 from touch_function import Touch_function
     # classes from database
@@ -43,15 +44,15 @@ def main_harvest(running=True):
 
     # ** launch the game user interface 
     ## generate the window of the game
-    window_game = Pygame_util.generate_window("Name", var.window_game_choosen["width_x"], var.window_game_choosen["height_y"])
+    var.window_game = Pygame_util.generate_window(var.window_name, var.window_game_choosen["width_x"], var.window_game_choosen["height_y"])
 
     ## show tiled map 
-    Pygame_util.manage_image(window_game,'assets/maps/HarvestLand/HarvestLand.tmx', tiled = True)
+    Pygame_util.manage_image(var.window_game,'assets/maps/HarvestLand/HarvestLand.tmx', tiled = True)
 
     ## show player image
     for player in var.players :
         if player.visible == True:
-            Pygame_util.manage_image(window_game, player.link, player.x, player.y) 
+            Pygame_util.manage_image(var.window_game, player.link, player.x, player.y) 
 
     # ** get what the player wants to do
     # get which touch he pressed
@@ -60,7 +61,25 @@ def main_harvest(running=True):
     if var.touch_key != None :
         # if yes, do what the player want before checking if the second value of the tuple is empty
         if var.touch_key[1] != "":
-            {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
+            if var.touch_key[1] == "T":
+                {var.touch_functions[key]() for key in var.touch_functions if key == var.touch_key[0]}
+            else:
+                {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
+        # elif var.touch_key[1] != "seed":
+        #     # get which touch he has done
+        #     var.touch_key = Pygame_util.get_event()
+        #     # check if the player clic on mouse
+        #     if var.touch_key[1] != "" :
+        #         # get the position of the mouse
+        #         object_1 = var.touch_key[1]
+        #         # get the image position (rect)
+
+        #         # check if hte mouse in over an image of seed
+        #         Pygame_util.check_collision(object_1,)
+        #         # if yes, plant the seed
+        #                         #!seed.choose_seed(var.touch_key[1])
+        #                     #! OU {var.touch_functions[key](var.touch_key[1]) for key in var.touch_functions if key == var.touch_key[0]}
+
         else:
             {var.touch_functions[key](player, 1, player.y) for key in var.touch_functions if key == var.touch_key[0]}
 
@@ -78,7 +97,7 @@ def main_harvest(running=True):
             # update the database with new attribut
             db.execute_query(f"UPDATE seed SET visible = True WHERE id = {seed.id}")
             # show a pumpkin on screen
-            Pygame_util.manage_image(window_game, seed.link, seed.x, seed.y)
+            Pygame_util.manage_image(var.window_game, seed.link, seed.x, seed.y)
     
     for player in var.players :
         if player.visible == True :
@@ -86,14 +105,36 @@ def main_harvest(running=True):
             # update the database with new attribut
             db.execute_query(f"UPDATE userplayer SET y = {player.y} WHERE id = {player.id}")
             # show the player on screen at the new position
-            Pygame_util.manage_image(window_game, player.link, player.x, player.y)
+            Pygame_util.manage_image(var.window_game, player.link, player.x, player.y)
 
-
+    # tkinter_utilities.tkinter_util()
 
 if __name__ == "__main__":
 
     while var.running:
         main_harvest()
+    
+        # if the player decides to quit, update the database like at the beginning
+        # # ! remettre les données comme au début #############################
+        # pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
+        # print()
+        # print(f'pumpkin visible de la bdd avant remise à zéro : {pumpkin_visible}')
+        # print()
+        # # update the database with visible is False
+        # db.execute_query("UPDATE seed SET visible = False")
+        # # check if info "False" is back in DB
+        # pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed ", True)
+        # print()
+        # print(f'pumpkin visible de la bdd après remise à zéro : {pumpkin_visible}')
+        # print()
+        # pygame.quit()  
+        # print("\nLa fenêtre est fermée !\n")
+        # # check if info "False" is back in DB
+        # pumpkin_visible = db.execute_query(f"SELECT name, visible FROM seed WHERE id = 4", True)
+        # db.close()
+        # print()
+        # print(f'pumpkin visible de la bdd après quitter : {pumpkin_visible}')
+        # print()
 
 
 
