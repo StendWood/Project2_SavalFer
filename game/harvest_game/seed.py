@@ -5,9 +5,6 @@
 # # from database_utilities import Database
 # from pygame_utilities import Pygame_util
 
-    # functions for player actions
-# from touch_function import Touch_function
-
     # global variables
 import variables_harvest as var
 
@@ -91,8 +88,8 @@ class Seed():
 
 
 
-if __name__ == "__main__":
-    pumpkin.choose_seed(4)
+# if __name__ == "__main__":
+#     pumpkin.choose_seed(4)
 #     seeds=[]
 #     seed_1 = Seed(2, "berry", 3, 6)
 #     seeds.append(seed_1)
