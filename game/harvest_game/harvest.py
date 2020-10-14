@@ -11,7 +11,7 @@ import psycopg2
     # utilities
 from database_utilities import Database
 from pygame_utilities import Pygame_util
-import tkinter_utilities
+from tkinter_utilities import Tkinter_util
 from dict_data import Dict_data
     # classes from database
 from seed import Seed
@@ -43,7 +43,7 @@ def main_harvest(running=True):
     # ** initialize datas
     # initialize the dictionnary touch_fonctions
     Dict_data.put_function_in_dict_touch_functions()
-
+    
     # ** launch the game user interface 
     ## generate the window of the game
     var.window_game = Pygame_util.generate_window(var.window_name, var.window_game_choosen["width_x"], var.window_game_choosen["height_y"])

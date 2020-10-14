@@ -4,9 +4,8 @@
 import variables_harvest as var
 from player_harvest import User_player
 #     # utilities
-import tkinter_utilities
-# from database_utilities import Database
-# from pygame_utilities import Pygame_util
+from tkinter_utilities import Tkinter_util
+
 
 class Dict_data():
     """
@@ -19,8 +18,5 @@ class Dict_data():
             puts function as value in the dictionnary touch_function in variables_harvest
         """
 
-        for key in var.touch_functions:
-            if key == "K_SPACE":
-                var.touch_functions[key] = tkinter_utilities.tkinter_util
-            elif key == "K_UP":
-                var.touch_functions[key] = User_player.move_up
+        var.touch_functions["K_SPACE"] = Tkinter_util
+        var.touch_functions["K_UP"] = User_player.move_up

@@ -4,6 +4,7 @@
 # check if the game is finish (False if so)
 running = True
 
+# ** datas for Pygame
 # info about the window of the game
 # the name
 window_name = "Harvest Land"
@@ -11,6 +12,11 @@ window_name = "Harvest Land"
 window_game_choosen = {"width_x" : 800, "height_y" : 600}
 # the image
 window_game = ""
+
+# ** datas for Tkinter
+window_tk = ""
+tkinter = []
+create_tk = True
 
 # collections from the database
 players = []

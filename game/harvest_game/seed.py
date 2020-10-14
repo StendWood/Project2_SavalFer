@@ -88,8 +88,8 @@ class Seed():
 
 
 
-if __name__ == "__main__":
-    pumpkin.choose_seed(4)
+# if __name__ == "__main__":
+#     pumpkin.choose_seed(4)
 #     seeds=[]
 #     seed_1 = Seed(2, "berry", 3, 6)
 #     seeds.append(seed_1)
