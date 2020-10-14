@@ -6,7 +6,7 @@ import pygame
 import pytmx
 
 # Additional codes
-import variables_harvest as var
+
 
 
 class Item:
@@ -40,15 +40,4 @@ class Item:
         return f"\nName: {self.name}\nAttack power: {self.attack}\nType: {self.type}"
 
 
-    def add_item(self, id_item):
-        """
-            adds item in inventory
-        """
-
-        for seed in var.seeds:
-            if id_item == seed.id:
-                name = seed.name
-                image_path = seed.link
-
-        items.append(Item(name=name, attack =0, image_path=image_path))
 

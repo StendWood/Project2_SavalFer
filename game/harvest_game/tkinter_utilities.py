@@ -3,7 +3,7 @@
 # import
 from tkinter import *
 from seed import Seed
-from item import Item
+from inventory import Inventory
 import variables_harvest as var
 
 class Tkinter_util():
@@ -131,10 +131,10 @@ class Tkinter_util():
         tomato_canva.img = tomato_image
 
         # # add a first button, here for plant pumpkin seed
-        pumpkin_button = Button(self.frame_vegetable, text="Ramasser la citrouille", font=("helvetica",10), bg = "black", fg ="pink", command=Item.add_item(4))
+        pumpkin_button = Button(self.frame_vegetable, text="Ramasser la citrouille", font=("helvetica",10), bg = "black", fg ="pink", command=Inventory.add_item(4))
         pumpkin_button.grid(row=4, column=1, pady=10)
         # add a button to plant tomato seed
-        tomato_button = Button(self.frame_vegetable, text="Ramasser la tomate", font=("helvetica",10), bg = "black", fg ="pink", command=Item.add_item(5))
+        tomato_button = Button(self.frame_vegetable, text="Ramasser la tomate", font=("helvetica",10), bg = "black", fg ="pink", command=Inventory.add_item(5))
         tomato_button.grid(row=4, column=2, padx=20, pady=10)
 
 

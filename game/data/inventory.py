@@ -7,6 +7,7 @@ import pytmx
 
 # Additional codes
 from game.data.item import Item
+import game.harvest_game.variables_harvest as var
 
 
 class Inventory:
@@ -96,3 +97,15 @@ class Inventory:
             else:
                 # Clear the tooltip surface from any previous text
                 self.tooltip_surface.blit(self.tooltip_img, (0, 0))
+
+    def add_item(self, id_item):
+        """
+            adds item in inventory
+        """
+
+        for seed in var.seeds:
+            if id_item == seed.id:
+                name = seed.name
+                image_path = seed.link
+
+        self.items.append(Item(name=name, attack =0, image_path=image_path))
