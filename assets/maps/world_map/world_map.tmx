@@ -1060,8 +1060,8 @@
   <object id="144" name="wall" x="-6.66667" y="739.667" width="72.3333" height="28.6667"/>
   <object id="145" name="wall" x="163.333" y="704.333" width="126.333" height="35.6667"/>
   <object id="148" name="wall" x="289.333" y="579.333" width="37.3333" height="194"/>
-  <object id="150" name="flower_a" x="226.667" y="2625.33" width="28" height="52.6667"/>
-  <object id="152" name="flower_b" x="3006.5" y="1490" width="39.5" height="40.5"/>
-  <object id="153" name="flower_c" x="1343.67" y="1536.33" width="33.3333" height="31.3333"/>
+  <object id="150" name="flower_2" x="223.334" y="2625.33" width="31.3333" height="52.6667"/>
+  <object id="152" name="flower_1" x="3006.5" y="1490" width="39.5" height="40.5"/>
+  <object id="153" name="flower_3" x="1343.67" y="1536.33" width="33.3333" height="31.3333"/>
  </objectgroup>
 </map>

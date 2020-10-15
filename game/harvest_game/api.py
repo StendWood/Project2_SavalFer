@@ -6,7 +6,11 @@ import json
 from pprint import pprint
 
 # global variables
-import game.harvest_game.variables_harvest as var
+import variables_harvest as var
+
+# additional code
+from tkinter_utilities import Tkinter_util
+import iu_win_lost
 
 
 class Flower():
@@ -26,7 +30,7 @@ class Flower():
         self.files = [('images', (self.image_path, self.image_data))]
 
 
-    def request_api(self, api_endpoint):
+    def request_api(self):
         """
             connect to the API database
             get the response
@@ -34,7 +38,7 @@ class Flower():
             print the result
         """
 
-        req = requests.Request('POST', url=api_endpoint, files=self.files, data=self.data)  
+        req = requests.Request('POST', url=var.api_endpoint, files=self.files, data=self.data)  
         prepared = req.prepare()
 
         s = requests.Session()
@@ -46,33 +50,42 @@ class Flower():
         pourcentage = round(((json_result.get('results'))[0]).get('score')*100)
         print(f'\nIl y a {pourcentage} % de chance pour que cela soit {name_api}.')
         if name_api == "Etlingera elatior":
-            print("\nTu détiens l'Etlingera elatior, la fleur à mettre à l'abris sous l'océan !")
+            # var.good_flower = True
+            print("\nTu détiens l'Etlingera elatior ! Mets-la à l'abris sous l'océan !")
+            iu_win_lost.iu_winner()
+        else:
+            iu_win_lost.iu_looser()
 
 
-        @staticmethod
-        def _check_flower(name_check):
-            """
-                checks if the current flower is the good one
-            """
+        # @staticmethod
+        # def check_flower(name_key_tiled):
+        #     """
+        #         checks if the current flower is the good one
+        #     """
 
-            for flower in var.flowers_objects:
-                if name_check == flower.name:                    
-                    flower.request_api(var.api_endpoint)
+        #     for flower in var.flowers_objects:
+        #         if name_check == flower.name:                    
+        #             flower.request_api(var.api_endpoint)
 
 
-        @staticmethod
-        def show_flower_interface():
-            """
-                show the interface for check if the flower is the good one
-            """
 
-            name_check = ""
+    @staticmethod
+    def _show_flower_interface(name_key_tiled):
+        """
+            show the interface for check if the flower is the good one
+        """
 
-            Flower._check_flower(name_check)
+        Tkinter_util()
+
+        name_check = {var.flowers_dict[key]["name"] for key in var.flowers_dict if key == name_key_tiled}
+        for flower in var.flowers_objects:
+            if name_check == flower.name:                    
+                flower.request_api(var.api_endpoint)
 
 
 
 # if __name__ == "__main__":
+
 #     # for key in var.flowers_dict:
 #     #     name = var.flowers_dict[key]["name"]
 #     #     image_path = var.flowers_dict[key]["image_path"]

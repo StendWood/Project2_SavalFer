@@ -1,9 +1,9 @@
 # coding: utf-8
 
-# additional code:
+# additional code
 import variables_harvest as var
 from player_harvest import User_player
-#     # utilities
+# utilities
 from tkinter_utilities import Tkinter_util
 
 

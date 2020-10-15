@@ -54,6 +54,10 @@ flowers_dict = {
 
 flowers_objects = []
 
+frame_flower = None
+
+good_flower = False
+
 
 
 
