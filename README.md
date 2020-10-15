@@ -1,3 +1,4 @@
+
 # Project 2 : SavalFer
 
 This is our Projet 2 from "*Developpeur Web et Web mobile*" with ViaFormation
@@ -18,6 +19,7 @@ Modules used in the entire project.
 - [Psycopg2](https://pypi.org/project/psycopg2/)
 - [Hashlib](https://docs.python.org/3/library/hashlib.html)
 - [AsyncIO](https://docs.python.org/3/library/asyncio.html)
+- [Socket](https://docs.python.org/3/library/socket.html)
 
 
 ## Usage
@@ -311,6 +313,176 @@ Manage every non playable entity in the game. (vendor, peons, animals...)
     *__MapName_warper__*
 
 6. Build a decor around your warper
+
+***
+## Client/Server using Socket (Not finished)
+1. The **client** socket and the **server** socket exchange messages using a _Stream (TCP)_.
+	```python
+	#Server / client
+	socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	 ```
+2. Every new player connection is treated in a new **thread**.
+    ```python
+    # Start the threaded communication
+    start_new_thread(server.threaded_client, (conn, addr))
+    ```
+3. Every **send** / **receive** actions are managed inside the thread.
+
+4. Every messages (fstring) is created using and ID, a prefix, a separator (;) and an end of message symbol (|).
+    ```
+    ID:
+        Depending on the player ID received from the database on player log in.
+
+    Prefix:
+        - position
+        - server_message
+
+    Exemple:
+        ID ; prefix   ; pos_x ; pos_y ; status     ; flip
+         1 ; position ; 1337  ; 777   ; "run_side" ; True
+    ```
+5. A message is sent to every online player when someone log in or when someone disconnect.
+
+***
+## Files architecture
+**_Pathing is currently not dynamic._** (Please let us know if it becomes necessary to do that)
+
+```
+|Main folder|
+    main.py
+    readme.md
+    LICENCE
+    .gitignore
+    |assets|
+        |fonts|
+            .ttf fonts
+        |gui|
+            |health|
+                .png files
+            |hydration|
+                .png files
+            |satiety|
+                .png files
+        |img|
+            |avatar|
+                |1|
+                    .png file
+                    |idle_down|
+                        .png file
+                    |idle_side|
+                        .png file
+                    |idle_up|
+                        .png file
+                    |run_down|
+                        .png file
+                    |run_side|
+                        .png file
+                    |run_up|
+                        .png file
+                |alien|
+                    .png file
+            |inventory|
+                .png files
+            |loading|
+                .png files
+                |Edworld|
+                    .png file
+            |login|
+                . png files
+            |pnj|
+                |chick|
+                    |idle|
+                        .png file
+                    |run|
+                        .png file
+                |chicken|
+                    |idle|
+                        .png file
+                    |run|
+                        .png file
+                |rooster|
+                    |idle|
+                        .png file
+                    |run|
+                        .png file
+            |popup|
+                |actions|
+                    .png file
+                |pnj|
+                    .png file
+                |warper|
+                    .png file
+        |items|
+            |unique|
+                .png file
+            |vegetable|
+                .png file
+            |weapons|
+                .png file
+        |maps|
+            |EdWorld|
+                .tmx file
+            |GardenLand|
+                .tmx files
+            |HarvestLand|
+                .tmx file
+            |pick_food|
+                .tmx file
+            |world_map|
+                .tmx files
+        |sounds|
+            .ogg file
+        |tilesets|
+            |gardenland|
+                .png and .tsx files
+            |harvestland|
+                .png and .tsx files
+            |pickfood|
+                .png and .tsx files
+            |world_map|
+                .png and .tsx files
+                |ground|
+                    .png and .tsx files
+    |cfg|
+        .json file
+    |external|
+        .drawio file (Project flowcharts)
+    |game|
+        camera.py
+        config.py
+        game.py
+        login.py
+        obstacles.py
+        player.py
+        pnj.py
+        warper.py
+        water_source.py
+        |data|
+            database.py
+            inventory.py
+            item.py
+            map.py
+        |parents|
+            sprites.py
+        |views|
+            gui.py
+        |harvest_game|
+             api.py
+             class_utilities.py
+             database_utilities.py
+             harvest.py
+             map_tiled.py
+             player_harvest.py
+             pygame_utilities.py
+             seed.py
+             TEST.py
+             touch_function.py
+             variables_harvest.py
+            |img_api|
+                .jpg/jepg and .png files
+```
+
+
 
 ***
 ## License
