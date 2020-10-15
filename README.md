@@ -328,7 +328,7 @@ Manage every non playable entity in the game. (vendor, peons, animals...)
     ```
 3. Every **send** / **receive** actions are managed inside the thread.
 
-4. Every messages (fstring) is created using and ID, a prefix, a separator (;) and an end of message symbol (|).
+4. Every messages (fstring) is created using and ID, a prefix, data separators (;) and an end of message symbol (|).
     ```
     ID:
         Depending on the player ID received from the database on player log in.
@@ -338,8 +338,8 @@ Manage every non playable entity in the game. (vendor, peons, animals...)
         - server_message
 
     Exemple:
-        ID ; prefix   ; pos_x ; pos_y ; status     ; flip
-         1 ; position ; 1337  ; 777   ; "run_side" ; True
+        ID ; prefix   ; pos_x ; pos_y ; status     ; flip|
+         1 ; position ; 1337  ; 777   ; "run_side" ; True|
     ```
 5. A message is sent to every online player when someone log in or when someone disconnect.
 
