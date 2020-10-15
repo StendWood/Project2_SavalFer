@@ -49,10 +49,34 @@ class Flower():
             print("\nTu détiens l'Etlingera elatior, la fleur à mettre à l'abris sous l'océan !")
 
 
-if __name__ == "__main__":
-    for key in var.flowers_dict:
-        name = var.flowers_dict[key]["name"]
-        image_path = var.flowers_dict[key]["image_path"]
-        var.flowers_objects.append(Flower(name, image_path))
-    for flower in var.flowers_objects:
-        flower.request_api(var.api_endpoint)
+        @staticmethod
+        def _check_flower(name_check):
+            """
+                checks if the current flower is the good one
+            """
+
+            for flower in var.flowers_objects:
+                if name_check == flower.name:                    
+                    flower.request_api(var.api_endpoint)
+
+
+        @staticmethod
+        def show_flower_interface():
+            """
+                show the interface for check if the flower is the good one
+            """
+
+            name_check = ""
+
+            Flower._check_flower(name_check)
+
+
+
+# if __name__ == "__main__":
+#     # for key in var.flowers_dict:
+#     #     name = var.flowers_dict[key]["name"]
+#     #     image_path = var.flowers_dict[key]["image_path"]
+#     #     var.flowers_objects.append(Flower(name, image_path))
+#     for flower in var.flowers_objects:
+
+#         flower.request_api(var.api_endpoint)
