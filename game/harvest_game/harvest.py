@@ -9,15 +9,15 @@ import psycopg2
 
 # # additional code
     # utilities
-from database_utilities import Database
-from pygame_utilities import Pygame_util
-from tkinter_utilities import Tkinter_util
-from dict_data import Dict_data
+from game.harvest_game.database_utilities import Database
+from game.harvest_game.pygame_utilities import Pygame_util
+from game.harvest_game.tkinter_utilities import Tkinter_util
+from game.harvest_game.dict_data import Dict_data
     # classes from database
-from seed import Seed
-from player_harvest import User_player
+from game.harvest_game.seed import Seed
+from game.harvest_game.player_harvest import User_player
     # global variables
-import variables_harvest as var
+import game.harvest_game.variables_harvest as var
 
 
 def main_harvest(running=True):

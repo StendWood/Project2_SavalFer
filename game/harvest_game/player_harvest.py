@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # additional code
-import variables_harvest as var
+import game.harvest_game.variables_harvest as var
 
 class User_player():
     """

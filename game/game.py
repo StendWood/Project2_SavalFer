@@ -19,6 +19,7 @@ from game.obstacles import Wall
 from game.warper import Warper
 from game.views.gui import Gui
 from game.harvest_game.api import Flower
+from game.harvest_game.harvest import main_harvest
 
 # global variables
 import game.harvest_game.variables_harvest as var
@@ -338,19 +339,22 @@ class Game:
                             self.player.save_pos()
                         # Change the current map var
                         self.player.current_map = self.current_warper
-                        # Reset the current warper
-                        self.current_warper = None
-                        # Set the warper popup to False
-                        self.warper_popup_flag = False
-                        # Load the new map objects
-                        self.maps[self.player.current_map]["map"].transition(self.player.current_map)
-                        # Change the camera
-                        if self.camera.width != self.maps[self.player.current_map]["map"].width:
-                            self.camera.width = self.maps[self.player.current_map]["map"].width
-                        if self.camera.height != self.maps[self.player.current_map]["map"].height:
-                            self.camera.height = self.maps[self.player.current_map]["map"].height
-                        # Wait
-                        time.sleep(1)
+                        if self.player.current_map == "HarvestLand":
+                            main_harvest()
+                        else:
+                            # Reset the current warper
+                            self.current_warper = None
+                            # Set the warper popup to False
+                            self.warper_popup_flag = False
+                            # Load the new map objects
+                            self.maps[self.player.current_map]["map"].transition(self.player.current_map)
+                            # Change the camera
+                            if self.camera.width != self.maps[self.player.current_map]["map"].width:
+                                self.camera.width = self.maps[self.player.current_map]["map"].width
+                            if self.camera.height != self.maps[self.player.current_map]["map"].height:
+                                self.camera.height = self.maps[self.player.current_map]["map"].height
+                            # Wait
+                                time.sleep(1)
                     elif self.water_popup_flag:
                         self.show_messages_queue.append(Water_source.refill(self))
                         self.water_popup_flag = False
