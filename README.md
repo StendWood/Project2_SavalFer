@@ -17,6 +17,8 @@ Modules used in the entire project.
 - [Pytmx](https://pytmx.readthedocs.io/en/latest/)
 - [Psycopg2](https://pypi.org/project/psycopg2/)
 - [Hashlib](https://docs.python.org/3/library/hashlib.html)
+- [AsyncIO](https://docs.python.org/3/library/asyncio.html)
+
 
 ## Usage
 
