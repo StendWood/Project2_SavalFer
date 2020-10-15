@@ -328,7 +328,7 @@ Manage every non playable entity in the game. (vendor, peons, animals...)
     ```
 3. Every **send** / **receive** actions are managed inside the thread.
 
-4. Every messages (fstring) is created using and ID, a prefix, data separators (;) and an end of message symbol (|).
+4. Every messages (fstring) is created using an ID, a prefix, data separators (;) and an end of message symbol (|).
     ```
     ID:
         Depending on the player ID received from the database on player log in.
