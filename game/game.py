@@ -18,6 +18,10 @@ from game.data.map import Map
 from game.obstacles import Wall
 from game.warper import Warper
 from game.views.gui import Gui
+from game.api import Flower
+
+# global variables
+import game.harvest_game.variables_harvest as var
 
 
 class Game:
@@ -497,3 +501,9 @@ class Game:
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
         self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"]["rect"].height)
+
+        # initialize the Flower class which is used for API
+        for key in var.flowers_dict:
+            name = var.flowers_dict[key]["name"]
+            image_path = var.flowers_dict[key]["image_path"]
+            var.flowers_objects.append(Flower(name, image_path))
