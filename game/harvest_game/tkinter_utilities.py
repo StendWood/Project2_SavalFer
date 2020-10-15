@@ -2,9 +2,9 @@
 
 # import
 from tkinter import *
-from seed import Seed
-from inventory import Inventory
-import variables_harvest as var
+from game.harvest_game.seed import Seed
+from game.data.inventory import Inventory
+import game.harvest_game.variables_harvest as var
 
 class Tkinter_util():
     """

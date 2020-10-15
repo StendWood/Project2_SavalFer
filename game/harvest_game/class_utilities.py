@@ -7,9 +7,9 @@
 
 
 # additional code
-from database_utilities import Database
-from seed import Seed
-import variables_harvest as var
+from game.harvest_game.database_utilities import Database
+from game.harvest_game.seed import Seed
+import game.harvest_game.variables_harvest as var
 
 class Class_util():
     """

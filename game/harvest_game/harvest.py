@@ -111,10 +111,10 @@ def main_harvest(running=True):
 
     # tkinter_utilities.tkinter_util()
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    while var.running:
-        main_harvest()
+#     while var.running:
+#         main_harvest()
     
         # if the player decides to quit, update the database like at the beginning
         # # ! remettre les données comme au début #############################

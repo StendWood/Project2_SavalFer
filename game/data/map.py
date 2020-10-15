@@ -11,6 +11,8 @@ from game.obstacles import Wall
 from game.warper import Warper
 from game.pnj import Pnj
 from game.water_source import Water_source
+# global variables
+import game.harvest_game.variables_harvest as var
 
 
 class Map:
@@ -100,6 +102,14 @@ class Map:
             if "water" in tile_object.name:
                 rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
                 self.game.water_sources.add(Water_source(rect, self.game))
+            if "flower" in tile_object.name:
+                # Create a rect
+                object_rect = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                # Get the id from the object name split
+                flower_id = tile_object.name.split("_")[1]
+                # Set the rect attribute
+                setattr(var.flowers_objects[int(flower_id)], "rect", object_rect)
+
 
     def transition(self, map_name):
         """
@@ -171,6 +181,3 @@ class Map:
         game.maps["GardenLand"]["loading"] = pygame.image.load("assets/img/loading/GardenLand.png")
         # HarvestLand
         game.maps["HarvestLand"]["loading"] = pygame.image.load("assets/img/loading/HarvestLand.png")
-
-
-        

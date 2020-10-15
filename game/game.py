@@ -18,7 +18,7 @@ from game.data.map import Map
 from game.obstacles import Wall
 from game.warper import Warper
 from game.views.gui import Gui
-from game.api import Flower
+from game.harvest_game.api import Flower
 
 # global variables
 import game.harvest_game.variables_harvest as var
@@ -197,6 +197,9 @@ class Game:
                             self.water_popup_flag = True
                             # Player drink
                             self.show_messages_queue.append(Water_source.drink(self))
+                    for flower in var.flowers_objects:
+                        if flower.rect.colliderect(self.player.rect):
+                            flower.show_flower_interface()
                 # I
                 elif event.key == pygame.K_i:
                     if self.inventory_flag:
@@ -477,6 +480,11 @@ class Game:
             Launch a new game | Create the map, the camera, the player
         """
 
+        # initialize the Flower class which is used for API
+        for key in var.flowers_dict:
+            name = var.flowers_dict[key]["name"]
+            image_path = var.flowers_dict[key]["image_path"]
+            var.flowers_objects.append(Flower(name, image_path))
         # Load the Maps
         Map.loader(self)
         # Manage the sprites
@@ -501,9 +509,3 @@ class Game:
         # Create the camera
         # NEEDS TO BE DELETED AND RECREATED AFTER EACH MAP to NEWMAP TELEPORT
         self.camera = Camera(self.maps["worldmap"]["rect"].width, self.maps["worldmap"]["rect"].height)
-
-        # initialize the Flower class which is used for API
-        for key in var.flowers_dict:
-            name = var.flowers_dict[key]["name"]
-            image_path = var.flowers_dict[key]["image_path"]
-            var.flowers_objects.append(Flower(name, image_path))

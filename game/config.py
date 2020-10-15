@@ -44,20 +44,22 @@ SAVE_USERNAME_POS = (275, 290)
 SAVE_USERNAME_TEXT = "Remember me"
 
 # DATABASE ALEX
-HOST="localhost"
-DATABASE="p2"
-USER="postgres"
+HOST="alencon-python-2020-p2-db.pythonrover.wilders.dev"
+PORT="15003"
+DATABASE="SavalFer"
+USER="PG2006"
 # NEEDS TO BE SECURE
-PASSWORD="azerty1234"
-DB_PREFIX = "Projet_2"
+PASSWORD="PG2006p2"
+DB_PREFIX = "Game_server"
+
 
 # DATABASE AURE
-HOST="localhost"
-DATABASE_2="p2test2"
-USER="postgres"
-# NEEDS TO BE SECURE
-PASSWORD_2="Formation2020-at"
-DB_PREFIX = "Projet_2"
+# HOST="localhost"
+# DATABASE_2="p2test2"
+# USER="postgres"
+# # NEEDS TO BE SECURE
+# PASSWORD_2="Formation2020-at"
+# DB_PREFIX = "Projet_2"
 
 # Accounts
 # 1
@@ -76,7 +78,6 @@ WARPER_FONT = "assets/fonts/CompassPro.ttf"
 SHOW_ACTIONS_FONT = "assets/fonts/EquipmentPro.ttf"
 
 # DECAY TIMER
-# 60000
-HYDRATION_DECAY_TIMER = 1000
-SATIETY_DECAY_TIMER = 2000
-ENERGY_DECAY_TIMER = 3000
+HYDRATION_DECAY_TIMER = 180000  # 3 min
+SATIETY_DECAY_TIMER = 300000    # 5 min
+ENERGY_DECAY_TIMER = 120000     # 2 min

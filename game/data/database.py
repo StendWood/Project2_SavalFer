@@ -17,31 +17,33 @@ class Database:
 
     def __init__(self, login=None):
         self.host = HOST
+        self.port = PORT
         self.database = DATABASE
         self.user = USER
         self.password = PASSWORD
         self.login = login
-        self.database_2 = DATABASE_2
-        self.password_2 = PASSWORD_2
+        # self.database_2 = DATABASE_2
+        # self.password_2 = PASSWORD_2
 
     def connection(self):
         """
             Create a connection to the database
         """
-        try:
-            self.conn = psycopg2.connect(
-                            host=self.host,
-                            database=self.database,
-                            user=self.user,
-                            password=self.password
-                            )
-        except:
-            self.conn = psycopg2.connect(
-                            host=self.host,
-                            database=self.database_2,
-                            user=self.user,
-                            password=self.password_2
-                            )
+        # try:
+        self.conn = psycopg2.connect(
+                        host=self.host,
+                        port=self.port,
+                        database=self.database,
+                        user=self.user,
+                        password=self.password
+                        )
+        # except:
+        #     self.conn = psycopg2.connect(
+        #                     host=self.host,
+        #                     database=self.database_2,
+        #                     user=self.user,
+        #                     password=self.password_2
+        #                     )
 
 
     def manage_cursor(self, flag=0):

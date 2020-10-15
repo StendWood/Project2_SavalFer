@@ -1,10 +1,10 @@
 # coding: utf-8
 
 # additional code
-import variables_harvest as var
-from player_harvest import User_player
+import game.harvest_game.variables_harvest as var
+from game.harvest_game.player_harvest import User_player
 # utilities
-from tkinter_utilities import Tkinter_util
+from game.harvest_game.tkinter_utilities import Tkinter_util
 
 
 class Dict_data():

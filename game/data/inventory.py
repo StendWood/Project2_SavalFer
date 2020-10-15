@@ -41,9 +41,9 @@ class Inventory:
         # Ask the DB
         items_list = self.game.db.global_query(
             f"""
-                SELECT o.name, o.attack, o.type, o.image_path FROM "Projet_2".user u
-                INNER JOIN "Projet_2".user_object uo ON u.user_id = uo.fk_user_id
-                INNER JOIN "Projet_2".object o ON o.object_id = uo.fk_object_id
+                SELECT o.name, o.attack, o.type, o.image_path FROM "Game_server".user u
+                INNER JOIN "Game_server".user_object uo ON u.user_id = uo.fk_user_id
+                INNER JOIN "Game_server".object o ON o.object_id = uo.fk_object_id
                 WHERE u.user_id = {self.player_id};
             """,
         )

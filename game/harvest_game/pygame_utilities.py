@@ -6,10 +6,10 @@ import pytmx
 
 
 # additional code:
-import variables_harvest as var
-from database_utilities import Database
-from map_tiled import Map_tiled
-import tkinter_utilities
+import game.harvest_game.variables_harvest as var
+from game.harvest_game.database_utilities import Database
+from game.harvest_game.map_tiled import Map_tiled
+import game.harvest_game.tkinter_utilities
 
 
 # FPS = 60    # to define how many frames we update per second

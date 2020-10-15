@@ -6,7 +6,7 @@
 # from pygame_utilities import Pygame_util
 
     # global variables
-import variables_harvest as var
+import game.harvest_game.variables_harvest as var
 
 class Seed():
     """

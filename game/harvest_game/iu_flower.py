@@ -2,10 +2,8 @@
 
 # import
 from tkinter import *
-from seed import Seed
-import variables_harvest as var
-
-from api import Flower
+from game.harvest_game.seed import Seed
+import game.harvest_game.variables_harvest as var
 
 
 class Iu_flower():
@@ -91,14 +89,14 @@ class Iu_flower():
         self.window.mainloop()
 
 
-if __name__ == "__main__":
-    for key in var.flowers_dict:
-        name = var.flowers_dict[key]["name"]
-        image_path = var.flowers_dict[key]["image_path"]
-        var.flowers_objects.append(Flower(name, image_path))
+# if __name__ == "__main__":
+#     for key in var.flowers_dict:
+#         name = var.flowers_dict[key]["name"]
+#         image_path = var.flowers_dict[key]["image_path"]
+#         var.flowers_objects.append(Flower(name, image_path))
 
-    var.tkinter = Iu_flower(link ="assets/img/api/99-Etlingera-elatior.png")
-    var.tkinter.launch_loop()
+#     var.tkinter = Iu_flower(link ="assets/img/api/99-Etlingera-elatior.png")
+#     var.tkinter.launch_loop()
 
 
 

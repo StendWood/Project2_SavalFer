@@ -3,14 +3,16 @@
 # modules
 import requests
 import json
+import pygame
 from pprint import pprint
 
 # global variables
-import variables_harvest as var
+import game.harvest_game.variables_harvest as var
 
 # additional code
-from tkinter_utilities import Tkinter_util
-import iu_win_lost
+from game.harvest_game.tkinter_utilities import Tkinter_util
+import game.harvest_game.iu_win_lost
+from game.harvest_game.iu_flower import Iu_flower
 
 
 class Flower():
@@ -26,7 +28,6 @@ class Flower():
         self.image_path = image_path
         self.image_data = open(self.image_path, 'rb')
         self.data = {'organs': ['flower']}
-
         self.files = [('images', (self.image_path, self.image_data))]
 
 
@@ -52,9 +53,9 @@ class Flower():
         if name_api == "Etlingera elatior":
             # var.good_flower = True
             print("\nTu détiens l'Etlingera elatior ! Mets-la à l'abris sous l'océan !")
-            iu_win_lost.iu_winner()
+            game.harvest_game.iu_win_lost.iu_winner()
         else:
-            iu_win_lost.iu_looser()
+            game.harvest_game.iu_win_lost.iu_looser()
 
 
         # @staticmethod
@@ -69,18 +70,13 @@ class Flower():
 
 
 
-    @staticmethod
-    def _show_flower_interface(name_key_tiled):
+    def show_flower_interface(self):
         """
             show the interface for check if the flower is the good one
         """
 
-        Tkinter_util()
-
-        name_check = {var.flowers_dict[key]["name"] for key in var.flowers_dict if key == name_key_tiled}
-        for flower in var.flowers_objects:
-            if name_check == flower.name:                    
-                flower.request_api(var.api_endpoint)
+        var.tkinter = Iu_flower(link=self.image_path)
+        var.tkinter.launch_loop()
 
 
 
